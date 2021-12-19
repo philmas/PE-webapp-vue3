@@ -63,7 +63,7 @@ const signOut = (e: Event) => {
   padding: var(--padding-ver) var(--padding-hor);
   top: 0;
   left: 0;
-  background: #ffffffab;
+  background: var(--navigation-background);
   display: flex;
   justify-content: space-between;
   align-items: center;

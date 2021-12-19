@@ -1,12 +1,17 @@
 <template>
   <Modal>
-    <template #header>Login</template>
-    <form @submit.prevent="login">
-      <Input size="large" label="email" v-model="email" />
-      <Input size="large" label="password" type="password" v-model="password" />
-      <Button size="large" :loading="loading" @click="login">Login</Button>
-      <div v-if="error" class="error">{{ error }}</div>
-    </form>
+    <template #header></template>
+    <div class="login-form">
+      <form @submit.prevent="login">
+        <Input size="medium" label="Email" v-model="email" />
+        <Input size="medium" label="Wachtwoord" type="password" v-model="password"/>
+        <div class="buttons">
+          <Button state="link" size="tiny">Reset wachtwoord</Button>
+          <Button state="primary" size="small" :loading="loading" @click="login">Login</Button>
+        </div>
+        <div v-if="error" class="error">{{ error }}</div>
+      </form>
+    </div>
   </Modal>
 </template>
 
@@ -39,4 +44,22 @@ const login = async (e: Event) => {
   margin-top: var(--margin-tiny);
   text-align: right;
 }
+
+.login-form {
+  display: flex;
+  justify-content: center;
+    .buttons {
+      margin-top: var(--margin-huge);
+      display:flex;
+      justify-content: space-between;
+    }
+    button {
+      width: 110px;
+    }
+    form {
+      min-width: var(--login-width);
+    }
+}
+
+
 </style>

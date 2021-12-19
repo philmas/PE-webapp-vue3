@@ -1,5 +1,5 @@
 <template>
-  <div class="input" :class="classes">
+  <div class="input-box" :class="classes">
     <label :for="id">
       <div v-if="inputTitle" class="label">{{ inputTitle }}</div>
       <input
@@ -110,78 +110,131 @@ const emitIconClick = () => {
 </script>
 
 <style scoped lang="scss">
-::placeholder {
-  color: transparent;
-}
-.input {
-  margin: var(--margin-large) 0;
-  width: 20rem;
-  max-width: var(--max-width);
 
-  & ~ .input {
-    margin-top: var(--margin-huge);
-  }
-
-  &.size-large {
+  .input-box {
+    margin: var(--margin-large) 0;
     width: 100%;
+    
+    & label {
+      position: relative;
+      // background: var(--grey-color-100);
+      border-radius: var(--inner-corner-radius);
+      display: flex;
+      align-items: center;
+      // padding: 0 var(--padding-small);
+      outline: 1px solid var(--grey-color-400);
+
+      & .label {
+        position: absolute;
+        left: 0.75rem;
+        top: -11px;
+        background: var(--white-color);
+        padding: 2px;
+        // transform: translateY(-50%);
+        // transition: 0.2s;
+        color: var(--grey-color-700);
+        font-size: var(--tiny);
+      }
+      
+      & input {
+        width: var(--width-full);
+        padding: var(--padding-input);
+        outline: none !important;
+        border: none;
+        background: var(--transparent-color);
+        border-radius: var(--inner-corner-radius);
+        // outline: 1px solid var(--grey-color-400);
+      }
+    }
+
+    &.focus {
+      & label {
+        outline: 1px solid var(--primary-color, #0058a9);
+        
+      }
+      & .label {
+        color: var(--primary-color, #0058a9)
+      }
+    }
   }
 
-  & label {
-    position: relative;
-    background: var(--grey-color-200);
-    border-radius: var(--inner-corner-radius);
-    display: flex;
-    align-items: center;
-    padding: 0 var(--padding-small);
-    & .label {
-      position: absolute;
-      left: 0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      transition: 0.2s;
-      color: var(--grey-color-700);
-      font-size: var(--small);
-    }
-    & input {
-      width: var(--width-full);
-      padding: var(--padding-input);
-      outline: none !important;
-      border: none;
-      background: var(--transparent-color);
-    }
-    & .icon {
-      cursor: pointer;
-      --color: var(--grey-color-800);
-    }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active{
+      -webkit-box-shadow: 0 0 0 30px white inset !important;
   }
-  &.focus {
-    & label {
-      outline: 1px solid var(--primary-color, #0058a9);
-    }
-    & ::placeholder {
-      color: var(--grey-color-500);
-    }
+
+    // & ~ .input {
+    //   margin-top: var(--margin-huge);
+    // }
+
+
+    // max-width: var(--max-width);
+    // &.size-large {
+    //   width: 100%;
+    // }
+
+    // & label {
+    //   position: relative;
+    //   background: var(--grey-color-100);
+    //   border-radius: var(--inner-corner-radius);
+    //   display: flex;
+    //   align-items: center;
+    //   padding: 0 var(--padding-small);
+    //   & .label {
+    //     position: absolute;
+    //     left: 0.75rem;
+    //     // top: 50%;
+    //     // transform: translateY(-50%);
+    //     // transition: 0.2s;
+    //     color: var(--grey-color-700);
+    //     font-size: var(--small);
+    //   }
+    //   & input {
+    //     width: var(--width-full);
+    //     padding: var(--padding-input);
+    //     outline: none !important;
+    //     border: none;
+    //     background: var(--transparent-color);
+    //   }
+    //   & .icon {
+    //     cursor: pointer;
+    //     --color: var(--grey-color-800);
+    //   }
+    // }
+    // &.focus {
+    //   & label {
+    //     outline: 1px solid var(--primary-color, #0058a9);
+    //   }
+    //   & ::placeholder {
+    //     color: var(--grey-color-500);
+    //   }
+    // }
+    // &.focusIn {
+    //   & .label {
+    //     // left: 0rem;
+    //     // top: -1.1rem;
+    //     // transform: translateY(0);
+    //   }
+    // }
+    // &.disabled {
+    //   & input {
+    //     color: var(--grey-color-500);
+    //   }
+    //   & .icon {
+    //     --color: var(--grey-color-500);
+    //   }
+    // }
+    // & .error {
+    //   color: var(--error-color, #ff0000);
+    //   font-size: var(--small);
+    //   display: flex;
+    //   justify-content: flex-end;
+    // }
+
+  ::placeholder {
+    color: transparent;
   }
-  &.focusIn {
-    & .label {
-      left: 0rem;
-      top: -1.1rem;
-      transform: translateY(0);
-    }
-  }
-  &.disabled {
-    & input {
-      color: var(--grey-color-500);
-    }
-    & .icon {
-      --color: var(--grey-color-500);
-    }
-  }
-  & .error {
-    color: var(--error-color, #ff0000);
-    font-size: var(--small);
-    display: flex;
-    justify-content: flex-end;
-  }
-}
+
 </style>

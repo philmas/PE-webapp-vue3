@@ -50,25 +50,20 @@
   --destructive-color-100: hsl(10.2, 70%, 85.7%);
 
   /* SPECIAL COLORS | TODO: revision, colors are now chosen arbirary */
-
+  --transparent-color: transparent;
   --success-color: hsl(120, 100%, 50%);
 
   /* CORNER RADIUS */
   --corner-radius-large: 1rem;
   --corner-radius: 0.5rem;
   --corner-radius-small: 0.25rem;
-  --inner-corner-radius: var(--corner-radius-small);
-
-  /* BACKGROUND */
-  --background: var(--white-color);
-  --body-color: var(--primary-color-100);
-  --transparent-color: transparent;
+  --inner-corner-radius: 10px;
 
   /* WIDTH */
   --width-full: 100%;
   --width-huge: 768px;
-  --width-large: 40rem;
-  --width-medium: 384px;
+  --width-large: 640px;
+  --width-medium: 512px;
   --width-small: 256px;
   --width-tiny: 128px;
 
@@ -80,7 +75,7 @@
   --subtitle: 24px;
   --header: 20px;
   --subheader: 18px;
-  --small: 14px;
+  --small: 16px;
   --tiny: 12px;
 
   /* BORDER */
@@ -95,12 +90,53 @@
   --padding-input: var(--padding-medium) var(--padding-small);
 
   /* MARGIN */
-  --margin-huge: 24px;
-  --margin-large: 16px;
+  --margin-huge: 40px;
+  --margin-large: 32px;
   --margin-medium: 12px;
   --margin-small: 8px;
   --margin-tiny: 4px;
   --margin-input: var(--padding-medium) var(--padding-small);
+
+  /* ELEMENT SPECIFICATIONS */
+  --background-color: var(--grey-color-100);
+  --color: var(--grey-color-900);
+
+  --modal-background: var(--white-color);
+  --navigation-background: var(--white-color);
+
+  --button-radius: 24px;
+  --login-width: 288px;
+
+  /* BLOG POST CSS */
+  --blog-width: var(--width-large);
+  --blog-background: var(--white-color);
+  --blog-padding: 16px;
+  
+  --blog-header-bottom-margin: 16px;
+
+  --blog-title-font-size: 24px;
+  --blog-title-font-weight: bold;
+
+  
+  --blog-date-font-size: 16px;
+  --blog-date-font-weight: lighter;
+  --blog-date-font-color: var(--grey-color-800);
+
+  --blog-content-font-size: 18px;
+  --blog-content-font-weight: normal;
+  --blog-content-font-color: var(--grey-color-800);
+  --blog-content-line-height: 28px;
+
+  --blog-comment-background: var(--white-color);
+
+  /* PILL CSS */
+  --pill-padding-horizontal: 8px;
+  --pill-padding-vertical: 2px;
+  --pill-background: var(--white-color);
+  --pill-border-radius: 32px;
+  --pill-font-size: 16px;
+  --pill-font-color: var(--grey-color-800);
+  --pill-outline: 1px solid var(--grey-color-600);
 }
 
 html {
@@ -110,10 +146,10 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background: var(--grey-color-200);
-  color: var(--grey-color-900);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
+  background: var(--background-color);
+  color: var(--color);
 }
 
 * {
@@ -122,7 +158,7 @@ body {
 }
 
 a {
-  color: var(--primary-color-900);
+  color: var(--color);
   text-decoration: none;
 }
 

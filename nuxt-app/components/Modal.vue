@@ -26,7 +26,7 @@ const props = defineProps({
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: var(--background-color);
   z-index: 100;
   backdrop-filter: blur(3px);
   cursor: pointer;
@@ -39,9 +39,9 @@ const props = defineProps({
     width: var(--width, var(--width-medium));
     min-height: 15rem;
     max-width: 90vw;
-    background-color: var(--white-color);
+    background-color: var(--modal-background);
     border-radius: var(--corner-radius-large);
-    box-shadow: 0 0 3rem 0 var(--grey-color-400);
+    // box-shadow: 0 0 3rem 0 var(--grey-color-400);
     cursor: default;
     padding: var(--padding-large);
 

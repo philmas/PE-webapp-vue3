@@ -4,10 +4,8 @@
       <Button
         size="small"
         state="primary"
-        icon="edit"
-        @click="$router.push('/cards/nieuweblog')"
-        >Nieuwe blog schrijven</Button
-      >
+        icon="add"
+        @click="$router.push('/cards/nieuweblog')">Nieuw bericht</Button>
     </ActionButtons>
     <InfiniteList @fetch="fetchItems" :autoLoad="true">
       <template #default="post">
@@ -86,6 +84,6 @@ onMounted(async () => {
   padding-top: 4rem;
   top: 0;
   left: 0;
-  background: var(--grey-color-200);
+  background: var(--background-color);
 }
 </style>
