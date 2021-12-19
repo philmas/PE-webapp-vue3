@@ -5,9 +5,9 @@
         size="small"
         state="primary"
         icon="arrow_back"
-        @click="$emit('clickBackToNews')"
+        click="$emit('clickBackToNews')"
       >
-        Terug naar nieuwsfeed
+        Nieuwsfeed
       </Button>
       <Button
         v-if="User.isOwner(blog?.poster.userId)"
@@ -15,7 +15,7 @@
         icon="edit"
         @click="$emit('clickEdit')"
       >
-        Aanpassen
+        Bewerken
       </Button>
     </section>
 
@@ -25,22 +25,25 @@
       :style="'background: url(' + blog?.getPhotoUrl() + ')'"
     />
 
-    <section class="content">
-      <div class="titles">
-        <div>
-          <div class="header">{{ blog?.title }}</div>
-          <div class="date">{{ blog?.datePosted }}</div>
+    <section class="blogCard">
+      <div class="header">
+        <div class="titles">
+          <div class="title">{{ blog?.title }}</div>
+          <div class="datePosted">{{ blog?.datePosted }}</div>
         </div>
         <Avatar
           :src="blog?.poster.getPhotoUrl()"
           :name="blog?.poster.fullName"
         />
       </div>
-      {{ blog?.content }}
+      <!-- </div> -->
+      <div class="content">
+        {{ blog?.content }}
+      </div>
     </section>
 
     <section class="comments">
-      <div class="commentTitle">Reageersels</div>
+      <div class="commentTitle">Opmerking plaatsen</div>
       <div class="comment" v-for="comment in blog?.comments || []">
         <div>
           {{ comment.comment }}
@@ -92,14 +95,14 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed } from 'vue';
-import { NuxtApp } from '../../models/nuxtApp';
-import { User } from './../../models/user';
-import { Blog } from './../../models/posts/blogs';
+import { PropType, computed } from "vue";
+import { NuxtApp } from "../../models/nuxtApp";
+import { User } from "./../../models/user";
+import { Blog } from "./../../models/posts/blogs";
 
-import Avatar from './../Avatar.vue';
-import Button from './../Button.vue';
-import Textarea from './../inputs/Textarea.vue';
+import Avatar from "./../Avatar.vue";
+import Button from "./../Button.vue";
+import Textarea from "./../inputs/Textarea.vue";
 
 const props = defineProps({
   blog: {
@@ -109,7 +112,7 @@ const props = defineProps({
 });
 
 const nuxtApp = useNuxtApp() as unknown as NuxtApp;
-const newComment = ref('');
+const newComment = ref("");
 const textAreaRef = ref();
 
 const comment = async () => {
@@ -121,22 +124,22 @@ const likedState = computed(() => {
   const likedBy = Array.from(props.blog?.likedBy || []);
   const { $user } = useNuxtApp() as unknown as NuxtApp;
 
-  if (!$user?.value) return 'default';
-  if (!likedBy.includes($user.value.userId)) return 'default';
-  return 'primary';
+  if (!$user?.value) return "default";
+  if (!likedBy.includes($user.value.userId)) return "default";
+  return "primary";
 });
 
 const likes = computed(() => {
-  if (!props.blog) return 'like';
+  if (!props.blog) return "like";
   if (props.blog.likedBy.length == 1)
-    return props.blog.likedBy.length + ' kudo';
-  return props.blog.likedBy.length + ' kudos';
+    return props.blog.likedBy.length + " kudo";
+  return props.blog.likedBy.length + " kudos";
 });
 </script>
 
 <style lang="scss" scoped>
 .BlogOpenWrapper {
-  width: 40rem;
+  width: var(--blog-width);
   max-width: 90vw;
   margin: 5rem auto;
   display: flex;
@@ -153,6 +156,31 @@ const likes = computed(() => {
   }
 }
 
+.blogCard {
+  background-color: var(--blog-background);
+
+  & .header {
+    margin: var(--blog-header-margin);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  & .title {
+    grid-area: title;
+    font-size: var(--blog-title-font-size);
+    font-weight: var(--blog-title-font-weight);
+    margin-bottom: 4px;
+  }
+
+  & .datePosted {
+    grid-area: datePosted;
+    color: var(--blog-date-font-color);
+    font-size: var(--blog-date-font-size);
+    font-weight: var(--blog-date-font-weight);
+  }
+}
+
 .image {
   width: 100%;
   height: 15rem;
@@ -165,6 +193,11 @@ const likes = computed(() => {
   background: var(--white-color);
   padding: var(--padding-medium);
   border-radius: var(--corner-radius);
+
+  font-size: var(--blog-content-font-size);
+  font-weight: var(--blog-content-font-weight);
+  line-height: var(--blog-content-line-height);
+  color: var(--blog-content-font-color);
 
   & .titles {
     display: flex;

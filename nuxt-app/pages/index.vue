@@ -84,6 +84,6 @@ onMounted(async () => {
   padding-top: 4rem;
   top: 0;
   left: 0;
-  background: var(--grey-color-200);
+  background: var(--background-color);
 }
 </style>

@@ -6,7 +6,7 @@
         <Input size="medium" label="Email" v-model="email" />
         <Input size="medium" label="Wachtwoord" type="password" v-model="password"/>
         <div class="buttons">
-          <Button state="link" size="small">Reset wachtwoord</Button>
+          <Button state="link" size="tiny">Reset wachtwoord</Button>
           <Button state="primary" size="small" :loading="loading" @click="login">Login</Button>
         </div>
         <div v-if="error" class="error">{{ error }}</div>
@@ -55,6 +55,9 @@ const login = async (e: Event) => {
     }
     button {
       width: 110px;
+    }
+    form {
+      min-width: var(--login-width);
     }
 }
 

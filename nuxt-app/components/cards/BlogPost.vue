@@ -4,7 +4,7 @@
     :class="{ loading: !blog, noImage: !blog?.photoMetaData?.ORIGINAL }"
     @click="$emit('click')"
   >
-    <div class="header">{{ blog?.title }}</div>
+    <div class="title">{{ blog?.title }}</div>
     <div class="datePosted">{{ blog?.datePosted }}</div>
     <div class="content" :class="{ loadingContent: !blog?.content }">
       {{ blog?.content }}
@@ -27,9 +27,9 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed } from 'vue';
-import { Blog } from './../../models/posts/blogs';
-import Avatar from '../Avatar.vue';
+import { PropType, computed } from "vue";
+import { Blog } from "./../../models/posts/blogs";
+import Avatar from "../Avatar.vue";
 
 const props = defineProps({
   blog: {
@@ -39,7 +39,7 @@ const props = defineProps({
 });
 
 const imageStyles = computed(() => {
-  if (!props.blog) return { background: 'var(--grey-color-200)' };
+  if (!props.blog) return { background: "var(--grey-color-200)" };
   if (!props.blog.photoMetaData) return;
 
   return { background: `url(${props.blog.getPhotoUrl()})` };
@@ -61,11 +61,12 @@ const categoryList = computed(() => {
   display: grid;
   gap: var(--margin-tiny) var(--vertical-gap);
   grid-template-columns: var(--grid-columns) var(--grid-columns);
-  grid-template-areas: 'header header' 'datePosted image' 'content image' 'footer footer';
+  grid-template-areas: "title title" "datePosted image" "content image" "footer footer";
 
-  & .header {
-    grid-area: header;
-    font-size: var(--header);
+  & .title {
+    grid-area: title;
+    font-size: var(--blog-title-font-size);
+    font-weight: var(--blog-title-font-weight);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -73,7 +74,9 @@ const categoryList = computed(() => {
 
   & .datePosted {
     grid-area: datePosted;
-    color: var(--grey-color-500);
+    color: var(--blog-date-font-color);
+    font-size: var(--blog-date-font-size);
+    font-weight: var(--blog-date-font-weight);
   }
 
   & .content {
@@ -86,6 +89,11 @@ const categoryList = computed(() => {
     -webkit-line-clamp: var(--max-lines);
     -webkit-box-orient: vertical;
     min-height: 9rem;
+
+    font-size: var(--blog-content-font-size);
+    font-weight: var(--blog-content-font-weight);
+    line-height: var(--blog-content-line-height);
+    color: var(--blog-content-font-color);
 
     &.loadingContent {
       border-radius: var(--corner-radius);
@@ -109,11 +117,12 @@ const categoryList = computed(() => {
     gap: var(--margin-small);
 
     & .category {
-      color: var(--grey-color-600);
-      background: var(--grey-color-200);
-      padding: var(--padding-tiny) var(--padding-small);
-      border-radius: var(--corner-radius);
-      font-size: var(--small);
+      color: var(--pill-font-color);
+      background: var(--pill-background);
+      border-radius: var(--pill-border-radius);
+      font-size: var(--pill-font-size);
+      outline: var(--pill-outline);
+      padding: var(--pill-padding-vertical) var(--pill-padding-horizontal);
       cursor: pointer;
       white-space: nowrap;
     }
@@ -132,7 +141,7 @@ const categoryList = computed(() => {
   }
 
   &.noImage {
-    grid-template-areas: 'header header' 'datePosted datePosted' 'content content' 'footer footer';
+    grid-template-areas: "title title" "datePosted datePosted" "content content" "footer footer";
 
     & .image {
       display: none;
@@ -146,7 +155,7 @@ const categoryList = computed(() => {
 
 @media screen and (max-width: 40rem) {
   .blogCard {
-    grid-template-areas: 'header header' 'datePosted datePosted' 'image image' 'content content' 'footer footer' !important;
+    grid-template-areas: "title title" "datePosted datePosted" "image image" "content content" "footer footer" !important;
 
     & .image {
       min-height: 15rem;

@@ -133,7 +133,7 @@ button {
     height: 40px;
     min-width: max-content;
     padding: 0 var(--padding-small);
-    // font-size: 0.8rem;
+    font-size: 0.8rem !important;
     font-size: var(--small);
   }
   &.size-small {
