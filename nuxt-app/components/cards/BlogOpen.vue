@@ -143,7 +143,7 @@ const likes = computed(() => {
 .BlogOpenWrapper {
   width: var(--blog-width);
   max-width: 90vw;
-  margin: 5rem auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: var(--margin-medium);

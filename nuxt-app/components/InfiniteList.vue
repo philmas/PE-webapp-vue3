@@ -17,15 +17,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, watch, onMounted } from 'vue';
-import { Post } from '../models/posts/post';
+import { ref, Ref, watch, onMounted } from "vue";
+import { Post } from "../models/posts/post";
 
-import Button from './Button.vue';
+import Button from "./Button.vue";
 
 const props = defineProps({
   title: {
     type: String,
-    default: '',
+    default: "",
   },
   initCount: {
     type: Number,
@@ -44,7 +44,7 @@ const props = defineProps({
     default: 400,
   },
 });
-const emit = defineEmits(['fetch']);
+const emit = defineEmits(["fetch"]);
 const list: Ref<Post[]> = ref([]);
 const loading = ref(props.initCount);
 
@@ -54,14 +54,14 @@ watch(list, () => {
 
 const loadMore = () => {
   loading.value = props.pageCount;
-  emit('fetch', list, props.pageCount);
+  emit("fetch", list, props.pageCount);
 };
 
 onMounted(async () => {
-  emit('fetch', list, props.initCount);
+  emit("fetch", list, props.initCount);
 
   if (props.autoLoad) {
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
       if (!!loading.value) return;
       const scrollTop = window.innerHeight + window.scrollY;
       const height = document.body.offsetHeight;

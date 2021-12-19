@@ -20,10 +20,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import Avatar from './Avatar.vue';
-import Modal from './/Modal.vue';
+import Avatar from "./Avatar.vue";
+import Modal from ".//Modal.vue";
 
 const nuxtApp = useNuxtApp();
 const menu = ref(false);
@@ -76,7 +76,7 @@ const signOut = (e: Event) => {
     & .logo {
       height: 3rem;
       width: 100%;
-      background: url(/logo.png);
+      background: url(/logo.svg);
       background-size: contain;
       background-position: left;
       background-repeat: no-repeat;

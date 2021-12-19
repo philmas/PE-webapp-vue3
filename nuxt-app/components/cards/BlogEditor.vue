@@ -85,7 +85,7 @@ const log = (log: string) => console.log(log);
 <style scoped lang="scss">
 .actionButtons {
   width: var(--width-large);
-  margin: 1rem auto 0;
+  margin: 0 auto;
   max-width: 90vw;
   display: flex;
   flex-wrap: wrap;
