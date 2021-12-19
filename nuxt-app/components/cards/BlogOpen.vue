@@ -5,7 +5,7 @@
         size="small"
         state="primary"
         icon="arrow_back"
-        click="$emit('clickBackToNews')"
+        @click="$emit('clickBackToNews')"
       >
         Nieuwsfeed
       </Button>

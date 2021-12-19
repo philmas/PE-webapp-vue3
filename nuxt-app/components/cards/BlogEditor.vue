@@ -59,9 +59,9 @@
 </template>
 
 <script setup lang="ts">
-import { Blog } from './../../models/posts/blogs';
-import { PropType } from 'vue';
-import Texteditor from './../inputs/Texteditor.vue';
+import { Blog } from "./../../models/posts/blogs";
+import { PropType } from "vue";
+import Texteditor from "./../inputs/Texteditor.vue";
 
 const props = defineProps({
   blog: {
@@ -72,9 +72,9 @@ const props = defineProps({
 
 // Make typescript aware of the emits
 defineEmits<{
-  (e: 'back'): void;
-  (e: 'delete'): void;
-  (e: 'publish'): void;
+  (e: "back"): void;
+  (e: "delete"): void;
+  (e: "publish"): void;
 }>();
 
 const rawText = ref(props.blog.getRawData());

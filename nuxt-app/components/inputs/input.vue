@@ -24,29 +24,29 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, computed } from 'vue';
-import { randomId } from '../util/random';
+import { PropType, ref, computed } from "vue";
+import { randomId } from "../util/random";
 
 type InputTypes =
-  | 'text'
-  | 'password'
-  | 'email'
-  | 'number'
-  | 'tel'
-  | 'url'
-  | 'search'
-  | 'date'
-  | 'time'
-  | 'month'
-  | 'week'
-  | 'color'
-  | 'file'
-  | 'range'
-  | 'checkbox'
-  | 'radio'
-  | 'hidden';
+  | "text"
+  | "password"
+  | "email"
+  | "number"
+  | "tel"
+  | "url"
+  | "search"
+  | "date"
+  | "time"
+  | "month"
+  | "week"
+  | "color"
+  | "file"
+  | "range"
+  | "checkbox"
+  | "radio"
+  | "hidden";
 
-type InputSize = 'small' | 'medium' | 'large';
+type InputSize = "small" | "medium" | "large";
 
 const props = defineProps({
   type: String as PropType<InputTypes>,
@@ -60,16 +60,16 @@ const props = defineProps({
   disabled: Boolean,
   required: Boolean,
 });
-const emit = defineEmits(['update:modelValue', 'iconClick']);
+const emit = defineEmits(["update:modelValue", "iconClick"]);
 
 // random string
-const id = randomId('input');
+const id = randomId("input");
 
 const focus = ref(false);
 
 const focusIn = computed(() => {
   if (focus.value || !!props.modelValue) return true;
-  if (props.type == 'date' || props.type == 'time' || props.type == 'color')
+  if (props.type == "date" || props.type == "time" || props.type == "color")
     return true;
 
   return false;
@@ -77,7 +77,7 @@ const focusIn = computed(() => {
 
 const inputTitle = computed(() => {
   let title = props.label || props.placeholder || props.type;
-  if (props.required) title += '*';
+  if (props.required) title += "*";
 
   return title;
 });
@@ -88,7 +88,7 @@ const input = computed({
     return props.modelValue as string;
   },
   set(value: string) {
-    emit('update:modelValue', value);
+    emit("update:modelValue", value);
   },
 });
 
@@ -97,7 +97,7 @@ const classes = computed(() => {
   const classes: { [key: string]: boolean } = {};
   classes.focusIn = focusIn.value;
   classes.focus = focus.value;
-  classes['size-' + props.size] = !!props.size;
+  classes["size-" + props.size] = !!props.size;
   classes.disabled = !!props.disabled;
   return classes;
 });
@@ -105,136 +105,132 @@ const classes = computed(() => {
 // Emit icon click
 const emitIconClick = () => {
   if (props.disabled) return;
-  emit('iconClick');
+  emit("iconClick");
 };
 </script>
 
 <style scoped lang="scss">
+.input-box {
+  margin: var(--margin-large) 0;
+  width: 100%;
 
-  .input-box {
-    margin: var(--margin-large) 0;
-    width: 100%;
-    
-    & label {
-      position: relative;
-      // background: var(--grey-color-100);
+  & label {
+    position: relative;
+    // background: var(--grey-color-100);
+    border-radius: var(--inner-corner-radius);
+    display: flex;
+    align-items: center;
+    // padding: 0 var(--padding-small);
+    outline: 1px solid var(--grey-color-400);
+
+    & .label {
+      position: absolute;
+      left: 0.75rem;
+      top: -11px;
+      background: var(--white-color);
+      padding: 2px;
+      // transform: translateY(-50%);
+      // transition: 0.2s;
+      color: var(--grey-color-700);
+      font-size: var(--tiny);
+    }
+
+    & input {
+      width: var(--width-full);
+      padding: var(--padding-input);
+      outline: none !important;
+      border: none;
+      background: var(--transparent-color);
       border-radius: var(--inner-corner-radius);
-      display: flex;
-      align-items: center;
-      // padding: 0 var(--padding-small);
-      outline: 1px solid var(--grey-color-400);
-
-      & .label {
-        position: absolute;
-        left: 0.75rem;
-        top: -11px;
-        background: var(--white-color);
-        padding: 2px;
-        // transform: translateY(-50%);
-        // transition: 0.2s;
-        color: var(--grey-color-700);
-        font-size: var(--tiny);
-      }
-      
-      & input {
-        width: var(--width-full);
-        padding: var(--padding-input);
-        outline: none !important;
-        border: none;
-        background: var(--transparent-color);
-        border-radius: var(--inner-corner-radius);
-        // outline: 1px solid var(--grey-color-400);
-      }
-    }
-
-    &.focus {
-      & label {
-        outline: 1px solid var(--primary-color, #0058a9);
-        
-      }
-      & .label {
-        color: var(--primary-color, #0058a9)
-      }
+      // outline: 1px solid var(--grey-color-400);
     }
   }
 
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover, 
-  input:-webkit-autofill:focus, 
-  input:-webkit-autofill:active{
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
+  &.focus {
+    & label {
+      outline: 1px solid var(--primary-color, #0058a9);
+    }
+    & .label {
+      color: var(--primary-color, #0058a9);
+    }
   }
+}
 
-    // & ~ .input {
-    //   margin-top: var(--margin-huge);
-    // }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
 
+// & ~ .input {
+//   margin-top: var(--margin-huge);
+// }
 
-    // max-width: var(--max-width);
-    // &.size-large {
-    //   width: 100%;
-    // }
+// max-width: var(--max-width);
+// &.size-large {
+//   width: 100%;
+// }
 
-    // & label {
-    //   position: relative;
-    //   background: var(--grey-color-100);
-    //   border-radius: var(--inner-corner-radius);
-    //   display: flex;
-    //   align-items: center;
-    //   padding: 0 var(--padding-small);
-    //   & .label {
-    //     position: absolute;
-    //     left: 0.75rem;
-    //     // top: 50%;
-    //     // transform: translateY(-50%);
-    //     // transition: 0.2s;
-    //     color: var(--grey-color-700);
-    //     font-size: var(--small);
-    //   }
-    //   & input {
-    //     width: var(--width-full);
-    //     padding: var(--padding-input);
-    //     outline: none !important;
-    //     border: none;
-    //     background: var(--transparent-color);
-    //   }
-    //   & .icon {
-    //     cursor: pointer;
-    //     --color: var(--grey-color-800);
-    //   }
-    // }
-    // &.focus {
-    //   & label {
-    //     outline: 1px solid var(--primary-color, #0058a9);
-    //   }
-    //   & ::placeholder {
-    //     color: var(--grey-color-500);
-    //   }
-    // }
-    // &.focusIn {
-    //   & .label {
-    //     // left: 0rem;
-    //     // top: -1.1rem;
-    //     // transform: translateY(0);
-    //   }
-    // }
-    // &.disabled {
-    //   & input {
-    //     color: var(--grey-color-500);
-    //   }
-    //   & .icon {
-    //     --color: var(--grey-color-500);
-    //   }
-    // }
-    // & .error {
-    //   color: var(--error-color, #ff0000);
-    //   font-size: var(--small);
-    //   display: flex;
-    //   justify-content: flex-end;
-    // }
+// & label {
+//   position: relative;
+//   background: var(--grey-color-100);
+//   border-radius: var(--inner-corner-radius);
+//   display: flex;
+//   align-items: center;
+//   padding: 0 var(--padding-small);
+//   & .label {
+//     position: absolute;
+//     left: 0.75rem;
+//     // top: 50%;
+//     // transform: translateY(-50%);
+//     // transition: 0.2s;
+//     color: var(--grey-color-700);
+//     font-size: var(--small);
+//   }
+//   & input {
+//     width: var(--width-full);
+//     padding: var(--padding-input);
+//     outline: none !important;
+//     border: none;
+//     background: var(--transparent-color);
+//   }
+//   & .icon {
+//     cursor: pointer;
+//     --color: var(--grey-color-800);
+//   }
+// }
+// &.focus {
+//   & label {
+//     outline: 1px solid var(--primary-color, #0058a9);
+//   }
+//   & ::placeholder {
+//     color: var(--grey-color-500);
+//   }
+// }
+// &.focusIn {
+//   & .label {
+//     // left: 0rem;
+//     // top: -1.1rem;
+//     // transform: translateY(0);
+//   }
+// }
+// &.disabled {
+//   & input {
+//     color: var(--grey-color-500);
+//   }
+//   & .icon {
+//     --color: var(--grey-color-500);
+//   }
+// }
+// & .error {
+//   color: var(--error-color, #ff0000);
+//   font-size: var(--small);
+//   display: flex;
+//   justify-content: flex-end;
+// }
 
-  ::placeholder {
-    color: transparent;
-  }
-
+::placeholder {
+  color: transparent;
+}
 </style>
