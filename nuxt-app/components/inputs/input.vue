@@ -116,11 +116,9 @@ const emitIconClick = () => {
 
   & label {
     position: relative;
-    // background: var(--grey-color-100);
     border-radius: var(--inner-corner-radius);
     display: flex;
     align-items: center;
-    // padding: 0 var(--padding-small);
     outline: 1px solid var(--grey-color-400);
 
     & .label {
@@ -129,8 +127,6 @@ const emitIconClick = () => {
       top: -11px;
       background: var(--white-color);
       padding: 2px;
-      // transform: translateY(-50%);
-      // transition: 0.2s;
       color: var(--grey-color-700);
       font-size: var(--tiny);
     }
@@ -142,7 +138,6 @@ const emitIconClick = () => {
       border: none;
       background: var(--transparent-color);
       border-radius: var(--inner-corner-radius);
-      // outline: 1px solid var(--grey-color-400);
     }
   }
 
