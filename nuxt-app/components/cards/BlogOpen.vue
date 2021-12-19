@@ -36,24 +36,26 @@
           :name="blog?.poster.fullName"
         />
       </div>
-      <!-- </div> -->
       <div class="content">
         {{ blog?.content }}
       </div>
     </section>
 
     <section class="comments">
-      <div class="commentTitle">Opmerking plaatsen</div>
+      <div class="commentTitle">Opmerkingen</div>
       <div class="comment" v-for="comment in blog?.comments || []">
-        <div>
+        <div class="avatar"></div>
+        <div class="text-wrapper">
+          <div>
+            <a class="name">{{ comment.poster.fullName }}</a>
+          </div>
           {{ comment.comment }}
-          <div class="author">{{ comment.poster.fullName }}</div>
         </div>
         <div class="actions">
           <Button
             v-if="User.isOwner(comment.poster.userId)"
             size="tiny"
-            icon="delete"
+            icon="clear"
             state="destructive"
             @click="blog?.deleteComment(nuxtApp, comment.id)"
           />
@@ -84,7 +86,7 @@
       <Button
         size="small"
         :state="likedState"
-        icon="celebration"
+        icon="favorite_border"
         @click="blog?.toggleLike(nuxtApp)"
       >
         {{ likes }}
@@ -158,9 +160,10 @@ const likes = computed(() => {
 
 .blogCard {
   background-color: var(--blog-background);
+  padding: var(--blog-padding);
 
   & .header {
-    margin: var(--blog-header-margin);
+    margin-bottom: var(--blog-header-bottom-margin);
     display: flex;
     align-items: baseline;
     justify-content: space-between;
@@ -191,9 +194,7 @@ const likes = computed(() => {
 
 .content {
   background: var(--white-color);
-  padding: var(--padding-medium);
-  border-radius: var(--corner-radius);
-
+  text-align: left;
   font-size: var(--blog-content-font-size);
   font-weight: var(--blog-content-font-weight);
   line-height: var(--blog-content-line-height);
@@ -224,20 +225,37 @@ const likes = computed(() => {
 
   & .comment {
     margin-top: var(--margin-small);
-    background: var(--grey-color-400);
-    border-radius: var(--corner-radius-small);
+    background: var(--blog-comment-background);
+    // border-radius: var(--corner-radius-small);
     padding: var(--padding-small);
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-    & .author {
-      font-size: var(--small);
-      color: var(--grey-color-800);
+    .avatar {
+      height: 32px;
+      min-width: 32px;
+      background-color: blue;
+      border-radius: 32px;
+    }
+
+    .text-wrapper {
+      display: flex;
+      flex-direction: column;
+      padding: 0 16px;
+
+      .name {
+        font-size: var(--small);
+        font-weight: 600;
+        color: var(--grey-color-900);
+        cursor: pointer;
+      }
     }
 
     & .actions {
-      display: flex;
-      gap: var(--margin-small);
+      // display: flex;
+      margin-left: auto;
+      // gap: var(--margin-small);
 
       & button:not(.active) {
         --bg: var(--grey-color-500);
@@ -247,7 +265,7 @@ const likes = computed(() => {
   }
 
   & .newComment {
-    --bg: var(--grey-color-500);
+    // --bg: var(--grey-color-500);
     margin-top: 0.5rem;
   }
 }
