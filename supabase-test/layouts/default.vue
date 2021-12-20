@@ -6,14 +6,14 @@
 
     <Login v-if="!user" />
     <slot v-else></slot>
-  </div>
 
-  <!-- <div class="confirmationMessages" v-if="$confirmMessages">
-    <ConfirmMessage
-      v-for="message in $confirmMessages.value"
-      :message="message"
-    />
-  </div> -->
+    <div class="confirmationMessages" v-if="$confirmMessages">
+      <ConfirmMessage
+        v-for="message in $confirmMessages.value"
+        :message="message"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,6 +23,8 @@ export default {
 </script>
 
 <script setup lang="ts">
+import NavigationBar from '@/components/NavigationBar.vue';
+
 const user = useUser();
 </script>
 

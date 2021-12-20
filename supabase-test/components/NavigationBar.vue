@@ -50,7 +50,6 @@ const logOut = async (e: Event) => {
   --spacing-ver: var(--spacing-medium);
   --spacing-hor: min(--spacing-huge, 5vw);
   --navigationbar-height: 5rem;
-  --navigation-background: rgba(255, 255, 255, 0.9);
 
   position: relative;
   height: var(--navigationbar-height);
