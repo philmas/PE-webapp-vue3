@@ -95,7 +95,7 @@ label {
   &.filled {
     background: var(--grey-color-200);
     border-radius: var(--inner-corner-radius);
-    padding: var(--padding-input);
+    padding: var(--spacing-input);
   }
 
   &.disabled {

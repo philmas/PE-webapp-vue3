@@ -81,21 +81,13 @@
   /* BORDER */
   --border: 1px solid var(--grey-color-700);
 
-  /* PADDING */
-  --padding-huge: 24px;
-  --padding-large: 16px;
-  --padding-medium: 12px;
-  --padding-small: 8px;
-  --padding-tiny: 4px;
-  --padding-input: var(--padding-medium) var(--padding-small);
-
-  /* MARGIN */
-  --margin-huge: 40px;
-  --margin-large: 32px;
-  --margin-medium: 12px;
-  --margin-small: 8px;
-  --margin-tiny: 4px;
-  --margin-input: var(--padding-medium) var(--padding-small);
+  /* SPACING */
+  --spacing-huge: 2rem;
+  --spacing-large: 1.5rem;
+  --spacing-medium: 1rem;
+  --spacing-small: 0.5rem;
+  --spacing-tiny: 0.25rem;
+  --spacing-input: var(--spacing-medium) var(--spacing-small);
 }
 
 html {

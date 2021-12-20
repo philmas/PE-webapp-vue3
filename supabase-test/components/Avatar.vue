@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar" :class="classes" @click="emitClick">
+  <div class="avatar" :class="classes" @click="$emit('click')">
     <slot>{{ firstName }}</slot>
     <img :src="src" :alt="alt" @error="replaceByDefault" />
   </div>
@@ -34,7 +34,7 @@ const props = defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['click']);
+defineEmits(['click']);
 
 const firstName = computed(() => {
   const name = props.name.split(' ');
@@ -51,24 +51,24 @@ const classes = computed(() => {
 const replaceByDefault = (e: Event) =>
   ((e.target as HTMLImageElement).src =
     'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg');
-
-const emitClick = () => emit('click');
 </script>
 
 <style scoped lang="scss">
 .avatar {
-  --size: 3rem;
+  --avatar-size: 3rem;
+  --avatar-margin: 0;
+
   position: relative;
   display: flex;
   align-items: center;
   gap: 0 0.25rem;
-  width: var(--width, fit-content);
-  margin: var(--spacing, 0);
+  width: fit-content;
+  margin: var(--avatar-margin);
   cursor: pointer;
 
   & img {
-    height: var(--size);
-    width: var(--size);
+    height: var(--avatar-size);
+    width: var(--avatar-size);
     cursor: pointer;
     border-radius: 50%;
     border: 1px solid var(--grey-color-200);
@@ -77,16 +77,16 @@ const emitClick = () => emit('click');
   // IMAGE SIZE
   &.size- {
     &huge > img {
-      --size: 15rem;
+      --avatar-size: 15rem;
     }
 
     &large > img {
-      --size: 4rem;
+      --avatar-size: 4rem;
     }
 
     &small {
       font-size: 0.8rem;
-      --size: 2rem;
+      --avatar-size: 2rem;
     }
   }
 

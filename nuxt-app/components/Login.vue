@@ -4,10 +4,17 @@
     <div class="login-form">
       <form @submit.prevent="login">
         <Input size="medium" label="Email" v-model="email" />
-        <Input size="medium" label="Wachtwoord" type="password" v-model="password"/>
+        <Input
+          size="medium"
+          label="Wachtwoord"
+          type="password"
+          v-model="password"
+        />
         <div class="buttons">
           <Button state="link" size="tiny">Reset wachtwoord</Button>
-          <Button state="primary" size="small" :loading="loading" @click="login">Login</Button>
+          <Button state="primary" size="small" :loading="loading" @click="login"
+            >Login</Button
+          >
         </div>
         <div v-if="error" class="error">{{ error }}</div>
       </form>
@@ -41,25 +48,23 @@ const login = async (e: Event) => {
 .error {
   color: var(--error-color);
   font-size: var(--small);
-  margin-top: var(--margin-tiny);
+  margin-top: var(--spacing-tiny);
   text-align: right;
 }
 
 .login-form {
   display: flex;
   justify-content: center;
-    .buttons {
-      margin-top: var(--margin-huge);
-      display:flex;
-      justify-content: space-between;
-    }
-    button {
-      width: 110px;
-    }
-    form {
-      min-width: var(--login-width);
-    }
+  .buttons {
+    margin-top: var(--spacing-huge);
+    display: flex;
+    justify-content: space-between;
+  }
+  button {
+    width: 110px;
+  }
+  form {
+    min-width: var(--login-width);
+  }
 }
-
-
 </style>

@@ -259,7 +259,7 @@ const actionButtonsFiltered = computed(() =>
 
 <style lang="scss">
 .ProseMirror {
-  padding: var(--padding-small);
+  padding: var(--spacing-small);
   outline: none;
 
   & h1 {
@@ -269,7 +269,7 @@ const actionButtonsFiltered = computed(() =>
   & blockquote {
     margin: 0;
     border-left: 2px solid var(--grey-color-900);
-    padding: var(--padding-small);
+    padding: var(--spacing-small);
 
     & p {
       margin: 0;

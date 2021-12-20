@@ -46,7 +46,7 @@ defineEmits(['close']);
     background-color: var(--modal-background);
     border-radius: var(--corner-radius-large);
     cursor: default;
-    padding: var(--padding-large);
+    padding: var(--spacing-large);
 
     & .header {
       display: flex;

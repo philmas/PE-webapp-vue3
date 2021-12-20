@@ -17,28 +17,28 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from "vue";
+import { computed, PropType } from 'vue';
 
 type ButtonState =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "disabled"
-  | "destructive"
-  | "link";
+  | 'default'
+  | 'primary'
+  | 'secondary'
+  | 'disabled'
+  | 'destructive'
+  | 'link';
 
 const props = defineProps({
   icon: {
     type: String,
-    default: "",
+    default: '',
   },
   state: {
     type: String as PropType<ButtonState>,
-    default: "default",
+    default: 'default',
   },
   size: {
-    type: String as PropType<"tiny" | "small" | "medium" | "large">,
-    default: "medium",
+    type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
+    default: 'medium',
   },
   loading: {
     type: Boolean as PropType<boolean>,
@@ -53,10 +53,10 @@ const props = defineProps({
 
 const classes = computed(() => {
   const classObj: { [key: string]: boolean } = {};
-  classObj["disabled"] = !!props.disabled || !!props.loading;
-  classObj["size-" + props.size] = !!props.size;
-  classObj["state-" + props.state] = !!props.state;
-  classObj["hasTooltip"] = !!props.tooltip;
+  classObj['disabled'] = !!props.disabled || !!props.loading;
+  classObj['size-' + props.size] = !!props.size;
+  classObj['state-' + props.state] = !!props.state;
+  classObj['hasTooltip'] = !!props.tooltip;
   return classObj;
 });
 </script>
@@ -82,7 +82,7 @@ button {
     display: flex;
     justify-content: center;
     // align-items: center;
-    gap: var(--margin-small);
+    gap: var(--spacing-small);
   }
 
   // STATES
@@ -120,7 +120,7 @@ button {
       left: 50%;
       transform: translateX(-50%);
       opacity: 0;
-      padding: var(--padding-tiny);
+      padding: var(--spacing-tiny);
     }
 
     &:not(.disabled):hover::after {
@@ -132,14 +132,14 @@ button {
   &.size-tiny {
     // height: 32px;
     min-width: max-content;
-    padding: var(--padding-tiny);
+    padding: var(--spacing-tiny);
     font-size: 0.8rem !important;
     font-size: var(--small);
   }
   &.size-small {
     // height: 40px;
     min-width: max-content;
-    padding: var(--padding-medium);
+    padding: var(--spacing-medium);
     font-size: var(--small);
     // font-size: 0.8rem;
   }

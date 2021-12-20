@@ -154,6 +154,7 @@
   --destructive-color-100: hsl(10.2, 70%, 85.7%);
 
   /* SPECIAL COLORS | TODO: revision, colors are now chosen arbirary */
+  --background-color: var(--grey-color-100);
   --transparent-color: transparent;
   --success-color: hsl(120, 100%, 50%);
 
@@ -165,11 +166,11 @@
 
   /* WIDTH */
   --width-full: 100%;
-  --width-huge: 768px;
-  --width-large: 640px;
-  --width-medium: 512px;
-  --width-small: 256px;
-  --width-tiny: 128px;
+  --width-huge: 50rem;
+  --width-large: 40rem;
+  --width-medium: 32rem;
+  --width-small: 16rem;
+  --width-tiny: 8rem;
 
   --max-width: 90vw;
   --text-max-width: 24rem;
@@ -185,31 +186,15 @@
   /* BORDER */
   --border: 1px solid var(--grey-color-700);
 
-  /* PADDING */
-  --padding-huge: 24px;
-  --padding-large: 16px;
-  --padding-medium: 12px;
-  --padding-small: 8px;
-  --padding-tiny: 4px;
-  --padding-input: var(--padding-medium) var(--padding-small);
-
-  /* MARGIN */
-  --margin-huge: 40px;
-  --margin-large: 32px;
-  --margin-medium: 12px;
-  --margin-small: 8px;
-  --margin-tiny: 4px;
-  --margin-input: var(--padding-medium) var(--padding-small);
+  /* SPACING */
+  --spacing-huge: 2rem;
+  --spacing-large: 1.5rem;
+  --spacing-medium: 1rem;
+  --spacing-small: 0.5rem;
+  --spacing-tiny: 0.25rem;
+  --spacing-input: var(--spacing-medium) var(--spacing-small);
 
   /* ELEMENT SPECIFICATIONS */
-  --background-color: var(--grey-color-100);
-  --color: var(--grey-color-900);
-
-  --modal-background: var(--white-color);
-  --navigation-background: var(--white-color);
-
-  --button-radius: 24px;
-  --login-width: 288px;
 
   /* BLOG POST CSS */
   --blog-width: var(--width-large);

@@ -10,7 +10,7 @@
   max-width: 90vw;
   background: var(--grey-color-000);
   border-radius: var(--corner-radius);
-  margin: var(--margin, 1rem auto);
-  padding: var(--padding, var(--padding-small));
+  margin: var(--spacing, 1rem auto);
+  padding: var(--spacing, var(--spacing-small));
 }
 </style>

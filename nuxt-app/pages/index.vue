@@ -5,7 +5,9 @@
         size="small"
         state="primary"
         icon="add"
-        @click="$router.push('/cards/nieuweblog')">Nieuw bericht</Button>
+        @click="$router.push('/cards/nieuweblog')"
+        >Nieuw bericht</Button
+      >
     </ActionButtons>
     <InfiniteList @fetch="fetchItems" :autoLoad="true">
       <template #default="post">
@@ -73,7 +75,7 @@ onMounted(async () => {
 
 <style lang="scss" scoped>
 .posts {
-  margin: var(--margin-huge) 0;
+  margin: var(--spacing-huge) 0;
 }
 
 .openCardWrapper {

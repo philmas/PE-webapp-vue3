@@ -38,12 +38,12 @@ defineProps<{ message: Message }>();
 
 <style scoped lang="scss">
 .confirmMessage {
-  padding: var(--padding-large);
+  padding: var(--spacing-large);
   background: #ffffffab;
   backdrop-filter: blur(7px) saturate(2);
   width: 100%;
   border-radius: var(--corner-radius);
-  margin-top: var(--margin-large);
+  margin-top: var(--spacing-large);
 
   & .confirmTitle {
     font-size: var(--subtitle);
@@ -59,9 +59,9 @@ defineProps<{ message: Message }>();
   & .confirmButtons {
     width: 100%;
     display: flex;
-    margin-top: var(--margin-tiny);
+    margin-top: var(--spacing-tiny);
     justify-content: flex-end;
-    gap: var(--margin-large);
+    gap: var(--spacing-large);
   }
 }
 </style>

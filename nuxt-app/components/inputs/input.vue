@@ -24,29 +24,29 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, computed } from "vue";
-import { randomId } from "../util/random";
+import { PropType, ref, computed } from 'vue';
+import { randomId } from '../util/random';
 
 type InputTypes =
-  | "text"
-  | "password"
-  | "email"
-  | "number"
-  | "tel"
-  | "url"
-  | "search"
-  | "date"
-  | "time"
-  | "month"
-  | "week"
-  | "color"
-  | "file"
-  | "range"
-  | "checkbox"
-  | "radio"
-  | "hidden";
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'number'
+  | 'tel'
+  | 'url'
+  | 'search'
+  | 'date'
+  | 'time'
+  | 'month'
+  | 'week'
+  | 'color'
+  | 'file'
+  | 'range'
+  | 'checkbox'
+  | 'radio'
+  | 'hidden';
 
-type InputSize = "small" | "medium" | "large";
+type InputSize = 'small' | 'medium' | 'large';
 
 const props = defineProps({
   type: String as PropType<InputTypes>,
@@ -60,16 +60,16 @@ const props = defineProps({
   disabled: Boolean,
   required: Boolean,
 });
-const emit = defineEmits(["update:modelValue", "iconClick"]);
+const emit = defineEmits(['update:modelValue', 'iconClick']);
 
 // random string
-const id = randomId("input");
+const id = randomId('input');
 
 const focus = ref(false);
 
 const focusIn = computed(() => {
   if (focus.value || !!props.modelValue) return true;
-  if (props.type == "date" || props.type == "time" || props.type == "color")
+  if (props.type == 'date' || props.type == 'time' || props.type == 'color')
     return true;
 
   return false;
@@ -77,7 +77,7 @@ const focusIn = computed(() => {
 
 const inputTitle = computed(() => {
   let title = props.label || props.placeholder || props.type;
-  if (props.required) title += "*";
+  if (props.required) title += '*';
 
   return title;
 });
@@ -88,7 +88,7 @@ const input = computed({
     return props.modelValue as string;
   },
   set(value: string) {
-    emit("update:modelValue", value);
+    emit('update:modelValue', value);
   },
 });
 
@@ -97,7 +97,7 @@ const classes = computed(() => {
   const classes: { [key: string]: boolean } = {};
   classes.focusIn = focusIn.value;
   classes.focus = focus.value;
-  classes["size-" + props.size] = !!props.size;
+  classes['size-' + props.size] = !!props.size;
   classes.disabled = !!props.disabled;
   return classes;
 });
@@ -105,13 +105,13 @@ const classes = computed(() => {
 // Emit icon click
 const emitIconClick = () => {
   if (props.disabled) return;
-  emit("iconClick");
+  emit('iconClick');
 };
 </script>
 
 <style scoped lang="scss">
 .input-box {
-  margin: var(--margin-large) 0;
+  margin: var(--spacing-large) 0;
   width: 100%;
 
   & label {
@@ -133,7 +133,7 @@ const emitIconClick = () => {
 
     & input {
       width: var(--width-full);
-      padding: var(--padding-input);
+      padding: var(--spacing-input);
       outline: none !important;
       border: none;
       background: var(--transparent-color);
@@ -159,7 +159,7 @@ input:-webkit-autofill:active {
 }
 
 // & ~ .input {
-//   margin-top: var(--margin-huge);
+//   margin-top: var(--spacing-huge);
 // }
 
 // max-width: var(--max-width);
@@ -173,7 +173,7 @@ input:-webkit-autofill:active {
 //   border-radius: var(--inner-corner-radius);
 //   display: flex;
 //   align-items: center;
-//   padding: 0 var(--padding-small);
+//   padding: 0 var(--spacing-small);
 //   & .label {
 //     position: absolute;
 //     left: 0.75rem;
@@ -185,7 +185,7 @@ input:-webkit-autofill:active {
 //   }
 //   & input {
 //     width: var(--width-full);
-//     padding: var(--padding-input);
+//     padding: var(--spacing-input);
 //     outline: none !important;
 //     border: none;
 //     background: var(--transparent-color);

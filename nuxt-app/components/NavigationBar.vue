@@ -20,10 +20,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
-import Avatar from "./Avatar.vue";
-import Modal from ".//Modal.vue";
+import Avatar from './Avatar.vue';
+import Modal from './/Modal.vue';
 
 const nuxtApp = useNuxtApp();
 const menu = ref(false);
@@ -48,8 +48,8 @@ const signOut = (e: Event) => {
 
 <style scoped lang="scss">
 .wrapper {
-  --padding-ver: 1rem;
-  --padding-hor: min(2rem, 5vw);
+  --spacing-ver: 1rem;
+  --spacing-hor: min(2rem, 5vw);
   --height: 5rem;
 
   position: relative;
@@ -60,7 +60,7 @@ const signOut = (e: Event) => {
   position: fixed;
   height: var(--height);
   width: 100vw;
-  padding: var(--padding-ver) var(--padding-hor);
+  padding: var(--spacing-ver) var(--spacing-hor);
   top: 0;
   left: 0;
   background: var(--navigation-background);

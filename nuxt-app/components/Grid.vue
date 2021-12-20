@@ -28,6 +28,6 @@ const props = defineProps({
 .grid .content {
   display: grid;
   grid-template-columns: repeat(var(--columns, 2), 1fr);
-  grid-gap: var(--margin-small) var(--margin-large);
+  grid-gap: var(--spacing-small) var(--spacing-large);
 }
 </style>

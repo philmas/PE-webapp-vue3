@@ -27,7 +27,7 @@ defineProps({
   max-width: 90vw;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--margin-small);
+  gap: var(--spacing-small);
 
   &.alignActionsRight {
     justify-content: end;

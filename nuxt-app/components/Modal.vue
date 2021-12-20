@@ -39,11 +39,11 @@ const props = defineProps({
     width: var(--width, var(--width-medium));
     min-height: 15rem;
     max-width: 90vw;
-    background-color: var(--modal-background);
+    background-color: var(--modal-background, --white-color);
     border-radius: var(--corner-radius-large);
     // box-shadow: 0 0 3rem 0 var(--grey-color-400);
     cursor: default;
-    padding: var(--padding-large);
+    padding: var(--spacing-large);
 
     & .header {
       display: flex;

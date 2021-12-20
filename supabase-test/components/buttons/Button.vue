@@ -80,7 +80,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: var(--margin-small);
+    gap: var(--spacing-small);
   }
 
   // STATES
@@ -118,7 +118,7 @@ button {
       left: 50%;
       transform: translateX(-50%);
       opacity: 0;
-      padding: var(--padding-tiny);
+      padding: var(--spacing-tiny);
     }
 
     &:not(.disabled):hover::after {
@@ -129,13 +129,13 @@ button {
   /* SIZE */
   &.size-tiny {
     min-width: max-content;
-    padding: var(--padding-tiny);
+    padding: var(--spacing-tiny);
     font-size: 0.8rem !important;
     font-size: var(--small);
   }
   &.size-small {
     min-width: max-content;
-    padding: var(--padding-medium);
+    padding: var(--spacing-medium);
     font-size: var(--small);
   }
   &.size-large {

@@ -1,11 +1,12 @@
 <template>
   <div>
+    <NavigationBar>
+      <template #menu> </template>
+    </NavigationBar>
+
     <Login v-if="!user" />
     <slot v-else></slot>
   </div>
-  <!-- <NavigationBar>
-    <template #menu> </template>
-  </NavigationBar> -->
 
   <!-- <div class="confirmationMessages" v-if="$confirmMessages">
     <ConfirmMessage

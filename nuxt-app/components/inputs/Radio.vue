@@ -65,7 +65,7 @@ const input = computed({
     width: var(--width, 20rem);
     border-radius: var(--inner-corner-radius);
     background: var(--grey-color-200);
-    padding: var(--padding-input);
+    padding: var(--spacing-input);
     font-size: var(--small);
 
     & label {
@@ -118,7 +118,7 @@ const input = computed({
     flex-direction: column;
     align-items: flex-start;
     justify-content: start;
-    gap: var(--margin-small);
+    gap: var(--spacing-small);
   }
 
   &.disabled {

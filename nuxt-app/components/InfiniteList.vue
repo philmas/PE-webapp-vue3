@@ -17,15 +17,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, watch, onMounted } from "vue";
-import { Post } from "../models/posts/post";
+import { ref, Ref, watch, onMounted } from 'vue';
+import { Post } from '../models/posts/post';
 
-import Button from "./Button.vue";
+import Button from './Button.vue';
 
 const props = defineProps({
   title: {
     type: String,
-    default: "",
+    default: '',
   },
   initCount: {
     type: Number,
@@ -44,7 +44,7 @@ const props = defineProps({
     default: 400,
   },
 });
-const emit = defineEmits(["fetch"]);
+const emit = defineEmits(['fetch']);
 const list: Ref<Post[]> = ref([]);
 const loading = ref(props.initCount);
 
@@ -54,14 +54,14 @@ watch(list, () => {
 
 const loadMore = () => {
   loading.value = props.pageCount;
-  emit("fetch", list, props.pageCount);
+  emit('fetch', list, props.pageCount);
 };
 
 onMounted(async () => {
-  emit("fetch", list, props.initCount);
+  emit('fetch', list, props.initCount);
 
   if (props.autoLoad) {
-    window.addEventListener("scroll", () => {
+    window.addEventListener('scroll', () => {
       if (!!loading.value) return;
       const scrollTop = window.innerHeight + window.scrollY;
       const height = document.body.offsetHeight;
@@ -78,10 +78,10 @@ onMounted(async () => {
 .list {
   --width: var(--width-large, 35rem);
   width: var(--width);
-  margin: var(--margin-large) auto;
+  margin: var(--spacing-large) auto;
   display: flex;
   flex-direction: column;
-  gap: var(--margin-large);
+  gap: var(--spacing-large);
 }
 .list .title {
   font-size: var(--header);
@@ -89,10 +89,10 @@ onMounted(async () => {
 .list .loading {
   display: flex;
   flex-direction: column;
-  gap: var(--margin-large);
+  gap: var(--spacing-large);
 }
 .list .card {
-  padding: var(--padding-large);
+  padding: var(--spacing-large);
   background: var(--white-color);
   border-radius: var(--corner-radius);
 }
@@ -100,7 +100,7 @@ onMounted(async () => {
 .loadMore {
   display: flex;
   justify-content: center;
-  margin-top: var(--margin-large);
+  margin-top: var(--spacing-large);
 }
 
 /* MEDIA QUERIES */
@@ -113,7 +113,7 @@ onMounted(async () => {
     gap: 0;
   }
   .list .card {
-    padding: var(--padding-huge);
+    padding: var(--spacing-huge);
     border-radius: 0;
   }
   .list .card:first-of-type {

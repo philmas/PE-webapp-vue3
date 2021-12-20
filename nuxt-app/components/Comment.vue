@@ -28,7 +28,7 @@ const props = defineProps<{
   margin-bottom: 1rem;
   background: var(--grey-color-200);
   border-radius: var(--corner-radius);
-  padding: var(--padding-large);
+  padding: var(--spacing-large);
   color: var(--grey-color-900);
   display: flex;
   align-items: center;

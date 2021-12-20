@@ -101,7 +101,7 @@ const emitIconClick = () => {
 
 <style scoped lang="scss">
 .input-box {
-  margin: var(--margin-large) 0;
+  margin: var(--spacing-large) 0;
   width: 100%;
 
   & label {
@@ -123,7 +123,7 @@ const emitIconClick = () => {
 
     & input {
       width: var(--width-full);
-      padding: var(--padding-input);
+      padding: var(--spacing-input);
       outline: none !important;
       border: none;
       background: var(--transparent-color);

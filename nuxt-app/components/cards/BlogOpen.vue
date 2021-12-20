@@ -97,14 +97,14 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed } from "vue";
-import { NuxtApp } from "../../models/nuxtApp";
-import { User } from "./../../models/user";
-import { Blog } from "./../../models/posts/blogs";
+import { PropType, computed } from 'vue';
+import { NuxtApp } from '../../models/nuxtApp';
+import { User } from './../../models/user';
+import { Blog } from './../../models/posts/blogs';
 
-import Avatar from "./../Avatar.vue";
-import Button from "./../Button.vue";
-import Textarea from "./../inputs/Textarea.vue";
+import Avatar from './../Avatar.vue';
+import Button from './../Button.vue';
+import Textarea from './../inputs/Textarea.vue';
 
 const props = defineProps({
   blog: {
@@ -114,7 +114,7 @@ const props = defineProps({
 });
 
 const nuxtApp = useNuxtApp() as unknown as NuxtApp;
-const newComment = ref("");
+const newComment = ref('');
 const textAreaRef = ref();
 
 const comment = async () => {
@@ -126,16 +126,16 @@ const likedState = computed(() => {
   const likedBy = Array.from(props.blog?.likedBy || []);
   const { $user } = useNuxtApp() as unknown as NuxtApp;
 
-  if (!$user?.value) return "default";
-  if (!likedBy.includes($user.value.userId)) return "default";
-  return "primary";
+  if (!$user?.value) return 'default';
+  if (!likedBy.includes($user.value.userId)) return 'default';
+  return 'primary';
 });
 
 const likes = computed(() => {
-  if (!props.blog) return "like";
+  if (!props.blog) return 'like';
   if (props.blog.likedBy.length == 1)
-    return props.blog.likedBy.length + " kudo";
-  return props.blog.likedBy.length + " kudos";
+    return props.blog.likedBy.length + ' kudo';
+  return props.blog.likedBy.length + ' kudos';
 });
 </script>
 
@@ -146,12 +146,12 @@ const likes = computed(() => {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--margin-medium);
+  gap: var(--spacing-medium);
 }
 
 .actionButtons {
   display: flex;
-  gap: var(--margin-small);
+  gap: var(--spacing-small);
 
   &.bottomActions {
     justify-content: end;
@@ -224,10 +224,10 @@ const likes = computed(() => {
   }
 
   & .comment {
-    margin-top: var(--margin-small);
+    margin-top: var(--spacing-small);
     background: var(--blog-comment-background);
     // border-radius: var(--corner-radius-small);
-    padding: var(--padding-small);
+    padding: var(--spacing-small);
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -255,7 +255,7 @@ const likes = computed(() => {
     & .actions {
       // display: flex;
       margin-left: auto;
-      // gap: var(--margin-small);
+      // gap: var(--spacing-small);
 
       & button:not(.active) {
         --bg: var(--grey-color-500);
