@@ -21,6 +21,8 @@ const props = defineProps({
 
 <style scoped lang="scss">
 .background {
+  --backdrop-color: hsl(207deg 30% 93% / 90%);
+
   position: fixed;
   top: 0;
   left: 0;
@@ -41,7 +43,7 @@ const props = defineProps({
     max-width: 90vw;
     background-color: var(--modal-background, --white-color);
     border-radius: var(--corner-radius-large);
-    // box-shadow: 0 0 3rem 0 var(--grey-color-400);
+    box-shadow: 0 0 3rem 0 var(--grey-color-400);
     cursor: default;
     padding: var(--spacing-large);
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar" :class="classes" @click="$emit('click')">
+  <div class="avatar" :class="classes" @click.self="$emit('click')">
     <slot>{{ firstName }}</slot>
     <img :src="src" :alt="alt" @error="replaceByDefault" />
   </div>
@@ -85,7 +85,7 @@ const replaceByDefault = (e: Event) =>
     }
 
     &small {
-      font-size: 0.8rem;
+      font-size: var(--small);
       --avatar-size: 2rem;
     }
   }
