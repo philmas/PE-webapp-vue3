@@ -1,12 +1,17 @@
 <template>
   <div class="posts">
-    <ActionButtons rightAlign>
-      <Button
-        size="small"
-        state="primary"
-        icon="add"
-        @click="$router.push('/cards/nieuweblog')">Nieuw bericht</Button>
-    </ActionButtons>
+    <div class="actions">
+      <FilterButtons> </FilterButtons>
+      <ActionButtons rightAlign>
+        <Button
+          size="small"
+          state="primary"
+          icon="add"
+          @click="$router.push('/cards/nieuweblog')"
+          >Nieuw bericht</Button
+        >
+      </ActionButtons>
+    </div>
     <InfiniteList @fetch="fetchItems" :autoLoad="true">
       <template #default="post">
         <!-- {{ post.canShare() }} -->
@@ -25,13 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import InfiniteList from '@/components/InfiniteList.vue';
-import BlogOpen from '@/components/cards/BlogOpen.vue';
-import BlogPost from '@/components/cards/BlogPost.vue';
+import InfiniteList from "@/components/InfiniteList.vue";
+import BlogOpen from "@/components/cards/BlogOpen.vue";
+import BlogPost from "@/components/cards/BlogPost.vue";
 
-import { Ref, onMounted, onBeforeMount } from 'vue';
-import { Post } from '../models/posts/post';
-import { Blog, Blogs } from './../models/posts/blogs';
+import { Ref, onMounted, onBeforeMount } from "vue";
+import { Post } from "../models/posts/post";
+import { Blog, Blogs } from "./../models/posts/blogs";
 
 const nuxtApp = useNuxtApp();
 const openedPost = ref<Post>();
@@ -52,7 +57,7 @@ const openPost = (post: Post) => {
 
 const backToNewsfeed = () => {
   openedPost.value = undefined;
-  nuxtApp.$router.push('/');
+  nuxtApp.$router.push("/");
 };
 
 onBeforeMount(async () => {
@@ -63,8 +68,8 @@ onBeforeMount(async () => {
 });
 
 onMounted(async () => {
-  window.addEventListener('popstate', (e: PopStateEvent) => {
-    if (e.state.current == '/') {
+  window.addEventListener("popstate", (e: PopStateEvent) => {
+    if (e.state.current == "/") {
       openedPost.value = undefined;
     }
   });
@@ -74,6 +79,12 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .posts {
   margin: var(--margin-huge) 0;
+}
+
+.actions {
+  display: flex;
+  width: var(--width-large);
+  margin: 0 auto;
 }
 
 .openCardWrapper {

@@ -13,10 +13,13 @@
     <div class="image" :style="imageStyles"></div>
 
     <div class="footer">
-      <div class="category" v-for="category in categoryList" :key="category.id">
-        {{ category.name }}
-      </div>
-
+      <Filter
+        class="category"
+        v-for="category in categoryList"
+        :key="category.id"
+      >
+        #{{ category.name }}
+      </Filter>
       <Avatar
         v-if="blog?.poster && blog.posterType == 'user'"
         :src="blog?.poster.getPhotoUrl()"
@@ -30,6 +33,7 @@
 import { PropType, computed } from "vue";
 import { Blog } from "./../../models/posts/blogs";
 import Avatar from "../Avatar.vue";
+import Filter from "./../inputs/Filter.vue";
 
 const props = defineProps({
   blog: {
@@ -117,12 +121,12 @@ const categoryList = computed(() => {
     gap: var(--margin-small);
 
     & .category {
-      color: var(--pill-font-color);
-      background: var(--pill-background);
-      border-radius: var(--pill-border-radius);
-      font-size: var(--pill-font-size);
+      // color: var(--pill-font-color);
+      // background: var(--pill-background);
+      // border-radius: var(--pill-border-radius);
+      // font-size: var(--pill-font-size);
       outline: var(--pill-outline);
-      padding: var(--pill-padding-vertical) var(--pill-padding-horizontal);
+      // padding: var(--pill-padding-vertical) var(--pill-padding-horizontal);
       cursor: pointer;
       white-space: nowrap;
     }

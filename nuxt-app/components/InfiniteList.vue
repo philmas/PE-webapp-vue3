@@ -92,9 +92,11 @@ onMounted(async () => {
   gap: var(--margin-large);
 }
 .list .card {
-  padding: var(--padding-large);
+  padding: var(--padding-large) var(--padding-large) var(--padding-small)
+    var(--padding-large);
   background: var(--white-color);
   border-radius: var(--corner-radius);
+  outline: 2px solid var(--grey-color-400);
 }
 
 .loadMore {

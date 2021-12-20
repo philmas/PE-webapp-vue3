@@ -22,8 +22,9 @@ defineProps({
 
 <style scoped lang="scss">
 .actionButtons {
-  width: var(--width-large);
-  margin: 1rem auto 0;
+  // width: var(--width-large);
+  // margin: 1rem auto 0;
+  margin-left: auto;
   max-width: 90vw;
   display: flex;
   flex-wrap: wrap;

@@ -55,7 +55,7 @@
           <Button
             v-if="User.isOwner(comment.poster.userId)"
             size="tiny"
-            icon="clear"
+            icon="delete"
             state="destructive"
             @click="blog?.deleteComment(nuxtApp, comment.id)"
           />
@@ -143,7 +143,7 @@ const likes = computed(() => {
 .BlogOpenWrapper {
   width: var(--blog-width);
   max-width: 90vw;
-  margin: 0 auto;
+  margin: 32px auto;
   display: flex;
   flex-direction: column;
   gap: var(--margin-medium);

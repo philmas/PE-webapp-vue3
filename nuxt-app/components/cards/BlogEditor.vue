@@ -7,12 +7,12 @@
         icon="arrow_back"
         @click="$emit('back')"
       >
-        Terug naar blogs
+        Nieuwsfeed
       </Button>
 
       <!--TODO: add this capibility -->
       <Button
-        v-if="false"
+        v-if="true"
         size="small"
         icon="edit"
         @click="log('open popup toegang aanpassen')"
@@ -27,7 +27,7 @@
         icon="file_upload"
         @click="log('upload new image')"
       >
-        Andere afbeelding...
+        Afbeelding
       </Button>
     </div>
 
@@ -44,7 +44,7 @@
       </Button>
 
       <Button
-        v-if="false"
+        v-if="true"
         size="small"
         icon="cloud_upload"
         @click="log('opslaan')"
