@@ -1,8 +1,8 @@
 <template>
   <div class="avatar" :class="classes" @click.self="$emit('click')">
-    <slot>{{ userData?.name_first }}</slot>
+    <slot>{{ displayName }}</slot>
 
-    <img :alt="userData?.name_first + '\'s profielfoto'" :src="src" />
+    <img :alt="displayName + '\'s profielfoto'" :src="src" />
   </div>
 </template>
 
@@ -27,9 +27,9 @@ const props = defineProps({
     type: String as PropType<AvatarAlign>,
     default: 'left',
   },
-  name: {
-    type: String,
-    default: '',
+  fullName: {
+    type: Boolean,
+    default: false,
   },
 });
 defineEmits(['click']);
@@ -38,6 +38,18 @@ const src = ref(
   'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
 );
 const userData = ref<UserData>();
+const displayName = computed(() => {
+  if (!userData.value) return '';
+
+  let name = userData.value.name_first;
+  if (!props.fullName) return name;
+
+  name += userData.value.name_insertion
+    ? ' ' + userData.value.name_insertion
+    : '';
+  name += ' ' + userData.value.name_last;
+  return name;
+});
 
 onMounted(async () => {
   const { data } = await supabase

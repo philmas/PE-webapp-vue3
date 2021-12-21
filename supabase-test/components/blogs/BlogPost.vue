@@ -1,5 +1,9 @@
 <template>
-  <div class="blogCard" :class="{ loading: true, noImage: !blog?.banner_id }">
+  <div
+    class="blogCard"
+    :class="{ loading: true, noImage: !blog?.banner_id }"
+    @click="$emit('click')"
+  >
     <div class="title">{{ blog?.title }}</div>
     <div class="datePosted">{{ blog?.created_at }}</div>
 
@@ -17,7 +21,11 @@
         {{ category.name }}
       </div>
 
-      <Avatar v-if="blog?.user_author" :userId="blog.user_author.id" />
+      <Avatar
+        v-if="blog?.user_author"
+        :fullName="true"
+        :userId="blog.user_author.id"
+      />
     </div>
   </div>
 </template>
@@ -37,6 +45,7 @@ const props = defineProps({
     required: false,
   },
 });
+defineEmits(['click']);
 
 const imageUrl = ref('none');
 
