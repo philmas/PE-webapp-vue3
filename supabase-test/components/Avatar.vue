@@ -1,8 +1,8 @@
 <template>
   <div class="avatar" :class="classes" @click.self="$emit('click')">
-    <slot>{{ user?.name_first }}</slot>
+    <slot>{{ userData?.name_first }}</slot>
 
-    <img :alt="user?.name_first + '\'s profile'" :src="src" />
+    <img :alt="userData?.name_first + '\'s profielfoto'" :src="src" />
   </div>
 </template>
 
@@ -14,9 +14,10 @@ type AvatarSize = 'small' | 'medium' | 'large' | 'huge';
 type AvatarAlign = 'left' | 'right' | 'top' | 'bottom';
 
 const storage = useStorage();
+const supabase = useSupabase();
 const props = defineProps({
-  user: {
-    type: Object as PropType<UserData>,
+  userId: {
+    type: String,
   },
   size: {
     type: String as PropType<AvatarSize>,
@@ -36,15 +37,24 @@ defineEmits(['click']);
 const src = ref(
   'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
 );
+const user = ref<UserData>();
 
-const { signedURL, error } = await storage
-  .from('profile')
-  .createSignedUrl('gebruikers/' + props.user.id + '/profile.jpg', 60);
+const { data: userData } = await supabase
+  .from<UserData>('User')
+  .select('*')
+  .eq('id', props.userId)
+  .single();
 
-if (error) {
-  console.error(error);
-} else {
-  src.value = signedURL;
+if (userData) {
+  const { signedURL, error } = await storage
+    .from('profile')
+    .createSignedUrl('gebruikers/' + userData.id + '/' + userData.photo_id, 60);
+
+  if (signedURL) {
+    src.value = signedURL;
+  } else {
+    console.error(error);
+  }
 }
 
 const classes = computed(() => {

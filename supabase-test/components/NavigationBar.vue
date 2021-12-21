@@ -3,7 +3,7 @@
     <div class="navigationBar">
       <div class="logo"></div>
       <div @click="toggleMenu">
-        <Avatar v-if="user" :user="userData" />
+        <Avatar v-if="user" :userId="user.id" />
       </div>
     </div>
 
@@ -23,7 +23,6 @@ import Avatar from './Avatar.vue';
 import Modal from './/Modal.vue';
 
 const user = useUser();
-const userData = user.value?.user_metadata as UserData;
 const menu = ref(false);
 
 const { signOut } = useAuth();
