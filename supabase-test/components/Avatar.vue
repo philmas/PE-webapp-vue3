@@ -1,6 +1,8 @@
 <template>
   <div class="avatar" :class="classes" @click.self="$emit('click')">
-    <slot>{{ displayName }}</slot>
+    <div>
+      <slot>{{ displayName }}</slot>
+    </div>
 
     <img :alt="displayName + '\'s profielfoto'" :src="src" />
   </div>
@@ -8,7 +10,7 @@
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
-import { UserData } from '@/models/userData';
+import { UserData } from '~~/models/userData';
 
 type AvatarSize = 'small' | 'medium' | 'large' | 'huge';
 type AvatarAlign = 'left' | 'right' | 'top' | 'bottom';
@@ -84,16 +86,14 @@ const classes = computed(() => {
 <style scoped lang="scss">
 .avatar {
   --avatar-size: 3rem;
-  --avatar-margin: 0;
 
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0 var(--spacing-tiny);
+  gap: 0 var(--spacing-small);
   width: fit-content;
-  margin: var(--avatar-margin);
   color: var(--grey-color-800);
-  font-size: var(--tiny);
+  font-size: var(--small);
   cursor: pointer;
 
   & img {
@@ -122,15 +122,15 @@ const classes = computed(() => {
 
   // IMAGE ALIGN
   &.align- {
-    &-right {
+    &right {
       flex-direction: row-reverse;
     }
 
-    &-top {
+    &top {
       flex-direction: column;
     }
 
-    &-bottom {
+    &bottom {
       flex-direction: column-reverse;
     }
   }

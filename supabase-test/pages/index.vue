@@ -13,7 +13,7 @@
 
     <InfiniteList>
       <template #default="post">
-        <BlogPost :blog="post" @click="openPost(post)" />
+        <BlogPost :blog="new Post(post)" @click="openPost(post)" />
       </template>
 
       <template #loading> loading </template>
@@ -29,7 +29,7 @@
 import Button from '@/components/buttons/Button.vue';
 import BlogPost from '@/components/blogs/BlogPost.vue';
 import BlogOpen from '@/components/blogs/BlogOpen.vue';
-import { Post } from '../models/post';
+import { Post, PostInterface } from '../models/post';
 
 const { $router } = useNuxtApp();
 
@@ -48,7 +48,8 @@ watch(cardId, (newId, oldId) => {
 });
 
 // HANDLE OPEN / CLOSE BLOG POST
-const openPost = (post: Post) => {
+const openPost = async (postInterface: PostInterface) => {
+  const post = new Post(postInterface);
   openedPost.value = post;
   $router.push(`?id=${post.id}`);
 };

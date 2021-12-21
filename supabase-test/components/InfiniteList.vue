@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <!-- Loaded items in list -->
-    <section v-for="(post, index) in list" :key="index" class="card">
+    <section v-for="post in list" class="card">
       <slot v-bind="post"> {{ post }}</slot>
     </section>
 

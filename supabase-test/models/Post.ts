@@ -1,7 +1,8 @@
-import { UserData } from './UserData';
-
 import { generateHTML } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
+
+import { Comment, CommentInterface } from './comment';
+import { UserData, UserDataInterface } from './userData';
 
 export interface PostInterface {
   id: number;
@@ -16,7 +17,7 @@ export interface PostInterface {
 
   author_is_user: boolean;
   author_is_ope: boolean;
-  user_author?: UserData;
+  user_author?: UserDataInterface;
   group_author?: Object;
 
   kudos: string[];
@@ -57,7 +58,7 @@ export class Post implements PostInterface {
     this.publish_data = post.publish_data;
     this.author_is_user = post.author_is_user;
     this.author_is_ope = post.author_is_ope;
-    this.user_author = post.user_author;
+    this.user_author = new UserData(post.user_author);
     this.group_author = post.group_author;
     this.kudos = post.kudos;
     this.comments_allowed = post.comments_allowed;
@@ -84,6 +85,25 @@ export class Post implements PostInterface {
 
     const dateObj = new Date(date);
     return dateObj.toDateString();
+  }
+
+  isOwner(): boolean {
+    const user = useUser();
+    if (!user?.value) return false;
+    return user.value.id === this.user_author.id;
+  }
+
+  // Get all comments from this post
+  async fetchComments(): Promise<Comment[]> {
+    const supabase = useSupabase();
+    const { data } = await supabase
+      .from<CommentInterface>('News_comments')
+      .select('*, author (*), news_item (*)')
+      .eq('news_item', this.id)
+      .order('created_at', { ascending: false });
+
+    if (!data) return null;
+    return data.map((comment) => new Comment(comment));
   }
 
   static async fetch(id: number): Promise<Post> {

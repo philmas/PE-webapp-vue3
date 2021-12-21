@@ -46,18 +46,10 @@ defineEmits(['click']);
 const imageUrl = ref('none');
 
 onMounted(async () => {
-  const storage = useStorage();
-  if (!props.blog?.banner_id) {
-    imageUrl.value = 'none';
-    return;
-  }
+  const bannerUrl = await props.blog.bannerUrl();
 
-  const { signedURL, error } = await storage
-    .from('blogs')
-    .createSignedUrl(+props.blog.id + '/' + props.blog.banner_id, 60);
-
-  if (error) return;
-  imageUrl.value = `url(${signedURL})`;
+  if (!bannerUrl) return;
+  imageUrl.value = `url(${bannerUrl})`;
 });
 </script>
 

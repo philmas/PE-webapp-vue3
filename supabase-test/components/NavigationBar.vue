@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import type { UserData } from './../models/userData';
 import { ref } from 'vue';
 
 import Button from './buttons/Button.vue';

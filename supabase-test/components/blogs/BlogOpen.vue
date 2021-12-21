@@ -34,21 +34,42 @@
       </div>
       <div v-html="blog?.htmlContent"></div>
     </section>
-    <ActionButtons rightAlign bottom>
-      <Button
-        v-if="blog.comments_allowed"
-        size="small"
-        :state="likedState"
-        icon="celebration"
-      >
+
+    <section v-if="blog.comments_allowed" class="comments">
+      <div class="commentTitle">Opmerkingen</div>
+      <div class="comment" v-for="comment in comments">
+        <Avatar :align="'right'" :userId="comment.author.id">
+          <div class="avatarUserName">{{ comment.author.fullName }}</div>
+          <div class="avatarComment">{{ comment.content }}</div>
+        </Avatar>
+        <div class="actions">
+          <Button
+            v-if="true"
+            size="tiny"
+            icon="clear"
+            state="destructive"
+          ></Button>
+        </div>
+      </div>
+    </section>
+
+    <ActionButtons v-if="blog.comments_allowed" rightAlign bottom>
+      <Button size="small" :state="likedState" icon="celebration">
         {{ likes }}
       </Button>
-      <Button size="small" icon="reply" @click="comment">Reageer</Button>
+      <Button
+        size="small"
+        :state="newComment ? 'default' : 'disabled'"
+        icon="reply"
+        @click="comment"
+        >Reageer
+      </Button>
     </ActionButtons>
   </div>
 </template>
 <script setup lang="ts">
 import { Post } from './../../models/post';
+import { Comment } from '@/models/comment';
 import { PropType, computed } from 'vue';
 import Avatar from './../Avatar.vue';
 import Button from './../buttons/Button.vue';
@@ -64,6 +85,8 @@ const props = defineProps({
 
 const textAreaRef = ref();
 const imageUrl = ref('none');
+const comments = ref<Comment[]>([]);
+const newComment = ref('');
 
 const comment = async () => {
   // TODO: added comment to blog
@@ -83,18 +106,13 @@ const likes = computed(() => {
 });
 
 onMounted(async () => {
-  const storage = useStorage();
-  if (!props.blog?.banner_id) {
-    imageUrl.value = 'none';
-    return;
-  }
+  if (!props.blog) return;
+  const fetchedComments = await props.blog.fetchComments();
+  comments.value = fetchedComments;
 
-  const { signedURL, error } = await storage
-    .from('blogs')
-    .createSignedUrl(+props.blog.id + '/' + props.blog.banner_id, 60);
-
-  if (error) return;
-  imageUrl.value = `url(${signedURL})`;
+  const bannerUrl = await props.blog.bannerUrl();
+  if (!bannerUrl) return;
+  imageUrl.value = `url(${bannerUrl})`;
 });
 </script>
 
@@ -132,6 +150,49 @@ onMounted(async () => {
       font-size: var(--small);
       color: var(--grey-color-800);
     }
+  }
+}
+
+.comments {
+  margin-top: var(--spacing-large);
+  & .commentTitle {
+    font-size: var(--subheader);
+    font-weight: bold;
+  }
+
+  & .comment {
+    margin-top: var(--spacing-small);
+    background: var(--white-color);
+    border-radius: var(--corner-radius);
+    padding: var(--spacing-small);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .avatarUserName:hover {
+      text-decoration: underline;
+    }
+
+    .avatarComment {
+      font-weight: bold;
+      font-size: var(--normal);
+    }
+
+    & .actions {
+      display: flex;
+      margin-left: auto;
+      gap: var(--spacing-small);
+
+      & button:not(.active) {
+        --bg: var(--grey-color-500);
+        --color: var(--grey-color-800);
+      }
+    }
+  }
+
+  & .newComment {
+    // --bg: var(--grey-color-500);
+    margin-top: 0.5rem;
   }
 }
 </style>
