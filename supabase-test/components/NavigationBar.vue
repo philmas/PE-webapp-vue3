@@ -3,7 +3,7 @@
     <div class="navigationBar">
       <div class="logo"></div>
       <div @click="toggleMenu">
-        <Avatar v-if="user" :name="user.id" />
+        <Avatar v-if="user" :user="userData" />
       </div>
     </div>
 
@@ -15,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import type { UserData } from './../models/userData';
 import { ref } from 'vue';
 
 import Button from './buttons/Button.vue';
@@ -22,6 +23,7 @@ import Avatar from './Avatar.vue';
 import Modal from './/Modal.vue';
 
 const user = useUser();
+const userData = user.value?.user_metadata as UserData;
 const menu = ref(false);
 
 const { signOut } = useAuth();
@@ -48,7 +50,7 @@ const logOut = async (e: Event) => {
 <style scoped lang="scss">
 .wrapper {
   --spacing-ver: var(--spacing-medium);
-  --spacing-hor: min(--spacing-huge, 5vw);
+  --spacing-hor: min(1rem, 5vw);
   --navigationbar-height: 5rem;
 
   position: relative;
