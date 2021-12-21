@@ -76,7 +76,7 @@
   --subtitle: 24px;
   --header: 20px;
   --subheader: 18px;
-  --small: 16px;
+  --small: 14px;
   --tiny: 12px;
 
   /* BORDER */
@@ -100,7 +100,7 @@ body {
   padding: 0;
   font-family: 'HelveticaNeue', sans-serif;
   background: var(--background-color);
-  color: var(--color);
+  color: var(--grey-color-900);
 }
 
 * {

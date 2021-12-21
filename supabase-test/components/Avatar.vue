@@ -37,25 +37,29 @@ defineEmits(['click']);
 const src = ref(
   'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
 );
-const user = ref<UserData>();
+const userData = ref<UserData>();
 
-const { data: userData } = await supabase
-  .from<UserData>('User')
-  .select('*')
-  .eq('id', props.userId)
-  .single();
+onMounted(async () => {
+  const { data } = await supabase
+    .from<UserData>('User')
+    .select('*')
+    .eq('id', props.userId)
+    .single();
 
-if (userData) {
-  const { signedURL, error } = await storage
-    .from('profile')
-    .createSignedUrl('gebruikers/' + userData.id + '/' + userData.photo_id, 60);
+  userData.value = data;
 
-  if (signedURL) {
-    src.value = signedURL;
-  } else {
-    console.error(error);
+  if (data) {
+    const { signedURL, error } = await storage
+      .from('profile')
+      .createSignedUrl('gebruikers/' + data.id + '/' + data.photo_id, 60);
+
+    if (signedURL) {
+      src.value = signedURL;
+    } else {
+      console.error(error);
+    }
   }
-}
+});
 
 const classes = computed(() => {
   const classObject: { [key: string]: boolean } = {};
