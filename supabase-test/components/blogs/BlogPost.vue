@@ -5,9 +5,9 @@
     @click="$emit('click')"
   >
     <div class="title">{{ blog?.title }}</div>
-    <div class="datePosted">{{ blog?.created_at }}</div>
+    <div class="datePosted">{{ Post.formatDate(blog.created_at) }}</div>
 
-    <div v-if="blog?.content" class="content" v-html="content"></div>
+    <div v-if="blog?.content" class="content" v-html="blog.htmlContent"></div>
     <div v-else class="content loadingContent"></div>
 
     <div
@@ -32,13 +32,9 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue';
-import type { Post } from '@/models/post';
+import { Post } from './../../models/post';
 import Avatar from './../Avatar.vue';
 
-import { generateHTML } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
-
-const storage = useStorage();
 const props = defineProps({
   blog: {
     type: Object as PropType<Post>,
@@ -49,14 +45,8 @@ defineEmits(['click']);
 
 const imageUrl = ref('none');
 
-const content = computed(() => {
-  if (!props.blog) return;
-  if (!props.blog.content) return;
-
-  return generateHTML(props.blog.content, [StarterKit]);
-});
-
 onMounted(async () => {
+  const storage = useStorage();
   if (!props.blog?.banner_id) {
     imageUrl.value = 'none';
     return;

@@ -18,6 +18,7 @@
         Aanpassen
       </Button>
     </ActionButtons>
+
     <section
       class="image"
       v-if="blog?.banner_id"
@@ -27,11 +28,11 @@
       <div class="titles">
         <div>
           <div class="header">{{ blog?.title }}</div>
-          <div class="date">{{ blog?.created_at }}</div>
+          <div class="date">{{ Post.formatDate(blog?.created_at) }}</div>
         </div>
         <Avatar :userId="blog?.user_author?.id" fullName />
       </div>
-      <div v-html="content"></div>
+      <div v-html="blog?.htmlContent"></div>
     </section>
     <ActionButtons rightAlign bottom>
       <Button
@@ -47,13 +48,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Post } from '@/models/post';
+import { Post } from './../../models/post';
 import { PropType, computed } from 'vue';
 import Avatar from './../Avatar.vue';
 import Button from './../buttons/Button.vue';
-
-import { generateHTML } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
 
 const user = useUser();
 
@@ -63,16 +61,9 @@ const props = defineProps({
     required: false,
   },
 });
-const storage = useStorage();
 
 const textAreaRef = ref();
 const imageUrl = ref('none');
-const content = computed(() => {
-  if (!props.blog) return;
-  if (!props.blog.content) return;
-
-  return generateHTML(props.blog.content, [StarterKit]);
-});
 
 const comment = async () => {
   // TODO: added comment to blog
@@ -92,6 +83,7 @@ const likes = computed(() => {
 });
 
 onMounted(async () => {
+  const storage = useStorage();
   if (!props.blog?.banner_id) {
     imageUrl.value = 'none';
     return;
@@ -122,7 +114,7 @@ onMounted(async () => {
   border-radius: var(--corner-radius);
   background-size: cover !important;
   background-position: center center !important;
-  margin: var(--spacing-large) 0;
+  margin-bottom: var(--spacing-large);
 }
 .content {
   background: var(--white-color);

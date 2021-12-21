@@ -14,17 +14,18 @@
         v-if="!reachedBottom"
         @click="loadMore"
         :loading="itemsToLoad != 0"
+        size="small"
         >Meer laden</Button
       >
-      <Button v-else :disabled="true"
-        >Er zijn geen nieuwe niews items meer</Button
+      <Button v-else size="small" :disabled="true"
+        >Er zijn geen nieuwe nieuws items meer</Button
       >
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Post } from '@/models/Post';
+import { Post } from '~~/models/post';
 import Button from './buttons/Button.vue';
 
 const list = ref<Post[]>([]);
@@ -40,18 +41,11 @@ const loadMore = () => {
 };
 
 onMounted(async () => {
-  const supabase = useSupabase();
+  const posts = await Post.fetchNext(10, 0);
 
-  const { data } = await supabase
-    .from<Post>('News_items')
-    .select('*, user_author (*)')
-    .order('created_at', { ascending: false })
-    .limit(10);
-
-  if (data) {
-    list.value = [...list.value, ...data];
-
-    reachedBottom.value = data.length < 10;
+  if (posts) {
+    list.value = [...list.value, ...posts];
+    reachedBottom.value = posts.length < 10;
   }
 
   itemsToLoad.value = 0;

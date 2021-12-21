@@ -28,6 +28,7 @@ defineProps({
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-small);
+  margin-bottom: var(--spacing-large);
 
   &.alignActionsRight {
     justify-content: end;

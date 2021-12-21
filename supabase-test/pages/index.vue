@@ -13,6 +13,7 @@
 
     <InfiniteList>
       <template #default="post">
+        Banner: {{ post.getBannerURL }}
         <BlogPost :blog="post" @click="openPost(post)" />
       </template>
 
@@ -29,9 +30,8 @@
 import Button from '@/components/buttons/Button.vue';
 import BlogPost from '@/components/blogs/BlogPost.vue';
 import BlogOpen from '@/components/blogs/BlogOpen.vue';
-import type { Post } from '@/models/post';
+import { Post } from '../models/post';
 
-const supabase = useSupabase();
 const { $router } = useNuxtApp();
 
 const openedPost = ref<Post>();
@@ -53,22 +53,14 @@ const openPost = (post: Post) => {
   openedPost.value = post;
   $router.push(`?id=${post.id}`);
 };
-const backToNewsfeed = () => $router.push('/');
-const editOpenedBlog = () =>
-  $router.push('/cards/aanpassenblog?id=' + openedPost.value.id);
 
 onBeforeMount(async () => {
   const cardId = $router.currentRoute.value.query?.id;
   if (!cardId) return;
 
-  // Set card to open if url has an Id of a blog post
-  const { data } = await supabase
-    .from('News_items')
-    .select('*, user_author (*)')
-    .eq('id', cardId)
-    .single();
+  const post = await Post.fetch(cardId);
 
-  if (data) openedPost.value = data;
+  if (post) openedPost.value = post;
   // todo: else display error in (confirm) message
 });
 onMounted(async () => {
