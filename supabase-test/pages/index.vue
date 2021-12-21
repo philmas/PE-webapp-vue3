@@ -13,7 +13,6 @@
 
     <InfiniteList>
       <template #default="post">
-        Banner: {{ post.getBannerURL }}
         <BlogPost :blog="post" @click="openPost(post)" />
       </template>
 
