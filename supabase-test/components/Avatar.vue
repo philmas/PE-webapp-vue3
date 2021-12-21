@@ -1,7 +1,8 @@
 <template>
   <div class="avatar" :class="classes" @click.self="$emit('click')">
     <div>
-      <slot>{{ displayName }}</slot>
+      {{ displayName }}
+      <slot></slot>
     </div>
 
     <img :alt="displayName + '\'s profielfoto'" :src="src" />

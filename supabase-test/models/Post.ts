@@ -98,7 +98,7 @@ export class Post implements PostInterface {
     const supabase = useSupabase();
     const { data } = await supabase
       .from<CommentInterface>('News_comments')
-      .select('*, author (*), news_item (*)')
+      .select('*')
       .eq('news_item', this.id)
       .order('created_at', { ascending: false });
 

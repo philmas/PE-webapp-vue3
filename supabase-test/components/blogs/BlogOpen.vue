@@ -37,9 +37,8 @@
 
     <section v-if="blog.comments_allowed" class="comments">
       <div class="commentTitle">Opmerkingen</div>
-      <div class="comment" v-for="comment in comments">
-        <Avatar :align="'right'" :userId="comment.author.id">
-          <div class="avatarUserName">{{ comment.author.fullName }}</div>
+      <div class="comment" v-for="comment in comments" :key="comment.id">
+        <Avatar :align="'right'" fullName :userId="comment.author">
           <div class="avatarComment">{{ comment.content }}</div>
         </Avatar>
         <div class="actions">
@@ -52,6 +51,16 @@
         </div>
       </div>
     </section>
+
+    <div class="newComment">
+      <Textarea
+        size="large"
+        placeholder="Schrijf een nieuwe reactie"
+        :minRows="2"
+        ref="textAreaRef"
+        v-model="newComment"
+      ></Textarea>
+    </div>
 
     <ActionButtons v-if="blog.comments_allowed" rightAlign bottom>
       <Button size="small" :state="likedState" icon="celebration">
@@ -71,8 +80,10 @@
 import { Post } from './../../models/post';
 import { Comment } from '@/models/comment';
 import { PropType, computed } from 'vue';
-import Avatar from './../Avatar.vue';
-import Button from './../buttons/Button.vue';
+
+import Avatar from '@/components/Avatar.vue';
+import Button from '@/components/buttons/Button.vue';
+import Textarea from '@/components/inputs/Textarea.vue';
 
 const user = useUser();
 
@@ -89,8 +100,10 @@ const comments = ref<Comment[]>([]);
 const newComment = ref('');
 
 const comment = async () => {
-  // TODO: added comment to blog
-  console.log('comment');
+  if (!newComment.value) return;
+
+  const comment = await Comment.insert(props.blog.id, newComment.value);
+  comments.value.push(comment);
   textAreaRef.value?.clearTextarea();
 };
 const likedState = computed(() => {
@@ -189,10 +202,9 @@ onMounted(async () => {
       }
     }
   }
+}
 
-  & .newComment {
-    // --bg: var(--grey-color-500);
-    margin-top: 0.5rem;
-  }
+.newComment {
+  margin-top: var(--spacing-small);
 }
 </style>
