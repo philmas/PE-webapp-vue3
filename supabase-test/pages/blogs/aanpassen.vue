@@ -32,7 +32,7 @@
         size="small"
         state="destructive"
         icon="delete"
-        @click="$emit('delete')"
+        @click="deletePost"
       >
         Verwijderen
       </Button>
@@ -46,6 +46,7 @@
 import Button from '@/components/buttons/Button.vue';
 import ActionButtons from '@/components/buttons/ActionButtons.vue';
 import Texteditor from '@/components/inputs/Texteditor.vue';
+import { Message } from '~~/models/confirmMessage';
 
 import { Post } from '@/models/post';
 
@@ -64,7 +65,34 @@ const save = async () => {
       content: post.content,
     })
     .eq('id', post.id);
-  console.log(data, error);
+};
+
+const deletePost = () => {
+  if (!openedPost?.value) return;
+  const supabase = useSupabase();
+
+  const { $router, $removeConfirmMessage, $addConfirmMessage } = useNuxtApp();
+
+  const confirmMessage: Message = {
+    title: 'Heel zeker?',
+    content: 'Weet je zeker dat je deze blog wilt verwijderen?',
+    hasCancelButton: true,
+    cancelButtonText: 'Niet verwijderen',
+    acceptButton: {
+      text: 'Ja heel zeker!',
+      action: async () => {
+        const { error } = await supabase
+          .from('News_items')
+          .delete()
+          .eq('id', openedPost.value.id);
+
+        if (!error) $router.push('/mijnposts');
+        $removeConfirmMessage(confirmMessage);
+      },
+    },
+  };
+
+  $addConfirmMessage(confirmMessage);
 };
 
 onMounted(async () => {
