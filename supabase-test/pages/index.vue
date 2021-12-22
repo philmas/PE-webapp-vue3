@@ -5,13 +5,13 @@
         size="small"
         state="primary"
         icon="add"
-        @click="$router.push('/cards/nieuweblog')"
+        @click="$router.push('/mijnposts')"
       >
-        Nieuw bericht
+        Mijn berichten
       </Button>
     </ActionButtons>
 
-    <InfiniteList>
+    <InfiniteList :where="where">
       <template #default="post">
         <BlogPost :blog="new Post(post)" @click="openPost(post)" />
       </template>
@@ -29,7 +29,8 @@
 import Button from '@/components/buttons/Button.vue';
 import BlogPost from '@/components/blogs/BlogPost.vue';
 import BlogOpen from '@/components/blogs/BlogOpen.vue';
-import { Post, PostInterface } from '../models/post';
+import { Filter, Query, Post, PostInterface } from '../models/post';
+import { nowDateString } from '~~/util/nowDateString';
 
 const { $router } = useNuxtApp();
 
@@ -37,6 +38,7 @@ const openedPost = ref<Post>();
 
 const cardId = computed(() => {
   const id = $router.currentRoute.value.query?.id;
+  if (!id) return -1;
   return parseInt(id) || -1;
 });
 watch(cardId, (newId, oldId) => {
@@ -46,6 +48,10 @@ watch(cardId, (newId, oldId) => {
     return;
   }
 });
+
+// WHERE -> published = true
+const where: Query = (query: Filter) =>
+  query.lte('publish_date', nowDateString());
 
 // HANDLE OPEN / CLOSE BLOG POST
 const openPost = async (postInterface: PostInterface) => {

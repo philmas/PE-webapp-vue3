@@ -1,5 +1,7 @@
 <template>
   <div class="list">
+    <div v-if="title" class="title">{{ title }}</div>
+
     <!-- Loaded items in list -->
     <section v-for="post in list" class="card">
       <slot v-bind="post"> {{ post }}</slot>
@@ -15,24 +17,43 @@
         @click="loadMore"
         :loading="itemsToLoad != 0"
         size="small"
-        >Meer laden</Button
       >
-      <Button v-else size="small" :disabled="true"
-        >Er zijn geen nieuwe nieuws items meer</Button
-      >
+        Meer laden
+      </Button>
+
+      <Button v-else-if="!hideNoNewItems" size="small" :disabled="true">
+        Er zijn geen nieuwe nieuws items meer
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Post } from '~~/models/post';
-import Button from './buttons/Button.vue';
+import { PropType } from 'vue';
+import { Post, Query } from '@/models/post';
+import Button from '@/components/buttons/Button.vue';
+
+const props = defineProps({
+  title: {
+    type: String as PropType<string>,
+    required: false,
+  },
+  where: {
+    type: Function as PropType<Query>,
+    default: null,
+  },
+  hideNoNewItems: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+});
 
 const list = ref<Post[]>([]);
 const itemsToLoad = ref(10);
 const reachedBottom = ref(false);
 
 const loadMore = () => {
+  console.log('Todo: load more');
   itemsToLoad.value = 10;
 
   setTimeout(() => {
@@ -41,7 +62,7 @@ const loadMore = () => {
 };
 
 onMounted(async () => {
-  const posts = await Post.fetchNext(10, 0);
+  const posts = await Post.fetchNext(10, 0, props.where);
 
   if (posts) {
     list.value = [...list.value, ...posts];
@@ -62,7 +83,11 @@ onMounted(async () => {
   flex-direction: column;
   gap: var(--spacing-large);
 
-  & .card {
+  .title {
+    font-size: var(--header);
+  }
+
+  .card {
     padding: var(--spacing-large);
     background: var(--white-color);
     border-radius: var(--corner-radius);

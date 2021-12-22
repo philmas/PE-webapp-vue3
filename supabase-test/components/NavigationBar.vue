@@ -28,7 +28,6 @@ const { signOut } = useAuth();
 
 const toggleMenu = (e: Event) => {
   if (!e) return;
-  console.log(menu.value);
 
   menu.value = !menu.value;
 };

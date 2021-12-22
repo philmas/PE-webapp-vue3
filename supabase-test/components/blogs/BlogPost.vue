@@ -5,7 +5,7 @@
     @click="$emit('click')"
   >
     <div class="title">{{ blog?.title }}</div>
-    <div class="datePosted">{{ Post.formatDate(blog.created_at) }}</div>
+    <div class="datePosted">{{ Post.formatDate(blog.publish_date) }}</div>
 
     <div v-if="blog?.content" class="content" v-html="blog.htmlContent"></div>
     <div v-else class="content loadingContent"></div>

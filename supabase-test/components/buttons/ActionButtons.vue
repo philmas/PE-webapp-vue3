@@ -1,5 +1,3 @@
-<!-- DEPRECATED -> moved to buttons/ActionButtons.vue -->
-
 <template>
   <section
     class="actionButtons"

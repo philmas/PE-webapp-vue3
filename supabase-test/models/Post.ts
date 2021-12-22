@@ -4,6 +4,11 @@ import StarterKit from '@tiptap/starter-kit';
 import { Comment, CommentInterface } from './comment';
 import { UserData, UserDataInterface } from './userData';
 
+import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
+
+export type Filter = PostgrestFilterBuilder<PostInterface>;
+export type Query = (query: Filter) => Filter;
+
 export interface PostInterface {
   id: number;
   title: string;
@@ -13,7 +18,7 @@ export interface PostInterface {
 
   created_at: string;
   updated_at: string;
-  publish_data?: string;
+  publish_date?: string;
 
   author_is_user: boolean;
   author_is_ope: boolean;
@@ -34,7 +39,7 @@ export class Post implements PostInterface {
 
   created_at: string;
   updated_at: string;
-  publish_data?: string;
+  publish_date?: string;
 
   author_is_user: boolean;
   author_is_ope: boolean;
@@ -55,7 +60,7 @@ export class Post implements PostInterface {
     this.banner_id = post.banner_id;
     this.created_at = post.created_at;
     this.updated_at = post.updated_at;
-    this.publish_data = post.publish_data;
+    this.publish_date = post.publish_date;
     this.author_is_user = post.author_is_user;
     this.author_is_ope = post.author_is_ope;
     this.user_author = new UserData(post.user_author);
@@ -81,10 +86,14 @@ export class Post implements PostInterface {
 
   // TODO: @philmas wilde hier nog mooie formating maken
   static formatDate(date: string): string {
-    if (!date) return '';
+    if (!date || !new Date(date)) return 'Nog niet gepubliceerd';
 
+    const now = new Date();
     const dateObj = new Date(date);
-    return dateObj.toDateString();
+    const toString = dateObj.toDateString();
+
+    if (dateObj > now) return 'Wordt gepubliceerd op ' + toString;
+    return toString;
   }
 
   isOwner(): boolean {
@@ -119,28 +128,45 @@ export class Post implements PostInterface {
     return new Post(data);
   }
 
-  static async fetchAll(): Promise<Post[]> {
+  // Fetch all posts AND IF where is defined => [where] is true
+  static async fetchAll(where: Query = null): Promise<Post[]> {
     const supabase = useSupabase();
 
-    const { data } = await supabase
+    let query = supabase
       .from<PostInterface>('News_items')
       .select('*, user_author (*)')
       .order('created_at', { ascending: false });
+
+    // modify query with where
+    if (where) query = where(query);
+
+    const { data } = await query;
 
     if (!data) return null;
     return data.map((post) => new Post(post));
   }
 
-  // Fetch the next [amount] of posts where id > [from]
-  static async fetchNext(amount: number, from: number): Promise<Post[]> {
+  // Fetch the next [amount] of posts where id > [from] IF where is defined => [where] is true
+  static async fetchNext(
+    amount: number,
+    from: number,
+    where: Query = null
+  ): Promise<Post[]> {
     const supabase = useSupabase();
 
-    const { data } = await supabase
+    let query = supabase
       .from<PostInterface>('News_items')
       .select('*, user_author (*)')
       .order('created_at', { ascending: false })
-      .gte('id', from)
-      .limit(amount);
+      .gte('id', from);
+
+    // modify query with where
+    if (where) query = where(query);
+
+    // limit amount of responses to [amount]
+    query = query.limit(amount);
+
+    const { data } = await query;
 
     if (!data) return null;
     return data.map((post) => new Post(post));

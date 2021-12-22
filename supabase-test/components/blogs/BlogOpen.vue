@@ -28,7 +28,7 @@
       <div class="titles">
         <div>
           <div class="header">{{ blog?.title }}</div>
-          <div class="date">{{ Post.formatDate(blog?.created_at) }}</div>
+          <div class="date">{{ Post.formatDate(blog?.publish_date) }}</div>
         </div>
         <Avatar :userId="blog?.user_author?.id" fullName />
       </div>
