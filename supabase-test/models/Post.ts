@@ -5,6 +5,8 @@ import { Comment, CommentInterface } from './comment';
 import { UserData, UserDataInterface } from './userData';
 
 import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
+import { JSONContent } from '@tiptap/core';
+import { SupabaseQueryBuilder } from '@supabase/supabase-js/dist/main/lib/SupabaseQueryBuilder';
 
 export type Filter = PostgrestFilterBuilder<PostInterface>;
 export type Query = (query: Filter) => Filter;
@@ -12,7 +14,7 @@ export type Query = (query: Filter) => Filter;
 export interface PostInterface {
   id: number;
   title: string;
-  content: Object;
+  content: JSONContent;
   news_type: 'blog'; // todo: add enum of types
   banner_id: string;
 
@@ -33,7 +35,7 @@ export interface PostInterface {
 export class Post implements PostInterface {
   id: number;
   title: string;
-  content: Object;
+  content: JSONContent;
   news_type: 'blog'; // todo: add enum of types
   banner_id: string;
 
@@ -71,7 +73,11 @@ export class Post implements PostInterface {
     this.htmlContent = generateHTML(post.content, [StarterKit]);
   }
 
-  // TODO: is not actualy working
+  static getEndpoint(): SupabaseQueryBuilder<PostInterface> {
+    const supabase = useSupabase();
+    return supabase.from<PostInterface>('News_items');
+  }
+
   async bannerUrl(): Promise<string> {
     if (!this.banner_id) return;
 
@@ -115,14 +121,18 @@ export class Post implements PostInterface {
     return data.map((comment) => new Comment(comment));
   }
 
-  static async fetch(id: number): Promise<Post> {
+  static async fetch(id: number, where: Query = null): Promise<Post> {
     const supabase = useSupabase();
-    const { data } = await supabase
+
+    let query = supabase
       .from<PostInterface>('News_items')
       .select('*, user_author (*)')
-      .eq('id', id)
-      .single();
+      .eq('id', id);
 
+    // modify query with where
+    if (where) query = where(query);
+
+    const { data } = await query.single();
     if (!data) return null;
 
     return new Post(data);
@@ -163,10 +173,7 @@ export class Post implements PostInterface {
     // modify query with where
     if (where) query = where(query);
 
-    // limit amount of responses to [amount]
-    query = query.limit(amount);
-
-    const { data } = await query;
+    const { data } = await query.limit(amount);
 
     if (!data) return null;
     return data.map((post) => new Post(post));

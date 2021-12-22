@@ -114,7 +114,7 @@ onMounted(async () => {
     & .category {
       color: var(--grey-color-600);
       background: var(--grey-color-200);
-      padding: var(--padding-tiny) var(--padding-small);
+      padding: var(--spacing-tiny) var(--spacing-small);
       border-radius: var(--corner-radius);
       border: var(--border);
       font-size: var(--small);

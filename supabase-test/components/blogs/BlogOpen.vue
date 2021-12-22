@@ -136,7 +136,7 @@ onMounted(async () => {
   margin: 5rem auto;
   display: flex;
   flex-direction: column;
-  gap: var(--margin-medium);
+  gap: var(--spacing-medium);
 }
 
 .image {

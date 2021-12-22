@@ -11,7 +11,7 @@
     </div>
     <div v-else>
       <i v-if="icon" class="material-icons-outlined">{{ icon }}</i>
-      <slot></slot>
+      <slot />
     </div>
   </button>
 </template>
@@ -24,8 +24,7 @@ type ButtonState =
   | 'primary'
   | 'secondary'
   | 'disabled'
-  | 'destructive'
-  | 'link';
+  | 'destructive';
 
 const props = defineProps({
   icon: {
@@ -53,6 +52,7 @@ const props = defineProps({
 
 const classes = computed(() => {
   const classObj: { [key: string]: boolean } = {};
+  classObj['button'] = true;
   classObj['disabled'] = !!props.disabled || !!props.loading;
   classObj['size-' + props.size] = !!props.size;
   classObj['state-' + props.state] = !!props.state;
@@ -61,17 +61,20 @@ const classes = computed(() => {
 });
 </script>
 
-<style scoped lang="scss">
-button {
-  --button-color: var(--white-color);
-  --button-background: var(--grey-color-900);
-  --button-radius: var(--corner-radius);
+<style lang="scss">
+.button {
+  --color: var(--grey-color-200);
+  --bg: var(--grey-color-900);
 
-  position: relative;
   all: unset;
-  color: var(--button-color);
-  background: var(--button-background);
-  border-radius: var(--button-radius);
+  display: block;
+  position: relative;
+  min-width: 20rem;
+  max-width: 90vw;
+  height: 3em;
+  color: var(--color);
+  background: var(--bg);
+  border-radius: var(--corner-radius);
   cursor: pointer;
   transform: scale(1);
   transition: transform 0.2s, opacity 0.2s;
@@ -85,23 +88,17 @@ button {
 
   // STATES
   &.state-primary {
-    --button-background: var(--primary-color-400);
+    --bg: var(--primary-color);
   }
-
   &.state-success {
-    --button-background: var(--secondary-color);
-    --button-color: var(--grey-color-900);
+    --bg: var(--secondary-color);
+    --color: var(--grey-color-900);
   }
 
   &.state-destructive {
-    --button-background: var(--destructive-color-200) !important;
-    --button-color: var(--destructive-color-900) !important;
+    --bg: var(--destructive-color-200) !important;
+    --color: var(--destructive-color-900) !important;
     opacity: 0.6;
-  }
-
-  &.state-link {
-    --button-background: var(--transparent-color);
-    --button-color: var(--grey-color-900);
   }
 
   // TOOLTIPS
@@ -128,15 +125,16 @@ button {
 
   /* SIZE */
   &.size-tiny {
+    height: 2.5rem;
     min-width: max-content;
-    padding: var(--spacing-tiny);
-    font-size: 0.8rem !important;
-    font-size: var(--small);
+    padding: 0 var(--spacing-small);
+    font-size: 0.8rem;
   }
   &.size-small {
+    height: 2.5rem;
     min-width: max-content;
-    padding: var(--spacing-medium);
-    font-size: var(--small);
+    padding: 0 var(--spacing-medium);
+    font-size: 0.8rem;
   }
   &.size-large {
     height: 3rem;
@@ -157,8 +155,8 @@ button {
 /* DISABLED */
 button.state-disabled,
 button.disabled {
-  --button-background: var(--grey-color-200);
-  --button-color: var(--grey-color-500);
+  --bg: var(--grey-color-200);
+  --color: var(--grey-color-500);
   cursor: not-allowed !important;
 }
 </style>

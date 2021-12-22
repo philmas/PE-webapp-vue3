@@ -19,7 +19,7 @@
       <template #default="post">
         <BlogPost
           :blog="new Post(post)"
-          @click="$router.push(`/blogs/nieweblog`)"
+          @click="$router.push(`/blogs/aanpassen?id=${post.id}`)"
         />
       </template>
 
@@ -34,7 +34,7 @@
       <template #default="post">
         <BlogPost
           :blog="new Post(post)"
-          @click="$router.push(`/blogs/nieweblog`)"
+          @click="$router.push(`/blogs/aanpassen?id=${post.id}`)"
         />
       </template>
 
