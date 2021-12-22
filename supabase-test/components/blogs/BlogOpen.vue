@@ -13,7 +13,7 @@
         v-if="user.id == blog.user_author?.id"
         size="small"
         icon="edit"
-        @click="$emit('clickEdit')"
+        @click="$router.push('/blogs/aanpassen?id=' + blog.id)"
       >
         Aanpassen
       </Button>

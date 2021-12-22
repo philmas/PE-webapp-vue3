@@ -11,7 +11,11 @@
       </Button>
     </ActionButtons>
 
-    <div class="image" :style="'background: red'">
+    <div
+      v-if="openedPost?.banner_id"
+      class="image"
+      :style="{ background: imageUrl }"
+    >
       <Button class="uploadButton" size="small" icon="file_upload">
         Andere afbeelding...
       </Button>
@@ -52,13 +56,14 @@ import { Post } from '@/models/post';
 
 const nuxtApp = useNuxtApp();
 const openedPost = ref<Post>();
+const imageUrl = ref<string>('none');
 
 const save = async () => {
   if (!openedPost?.value) return;
   const post = openedPost.value;
   const supabase = useSupabase();
 
-  const { data, error } = await supabase
+  await supabase
     .from('News_items')
     .update({
       title: post.title,
@@ -108,6 +113,10 @@ onMounted(async () => {
     openedPost.value = await Post.fetch(parseInt(cardId), (query) =>
       query.eq('user_author', user.value.id)
     );
+
+    const bannerUrl = await openedPost.value.bannerUrl();
+    if (!bannerUrl) return;
+    imageUrl.value = `url(${bannerUrl})`;
   } catch (error) {
     console.log(error);
   }
