@@ -5,21 +5,14 @@
         size="small"
         state="primary"
         icon="arrow_back"
-        @click="$router.push('/mijnposts')"
+        :loading="backToMyPostsLoading"
+        @click="backToMyPosts"
       >
         Terug naar blogs
       </Button>
     </ActionButtons>
 
-    <div
-      v-if="openedPost?.banner_id"
-      class="image"
-      :style="{ background: imageUrl }"
-    >
-      <Button class="uploadButton" size="small" icon="file_upload">
-        Andere afbeelding...
-      </Button>
-    </div>
+    <Image v-if="openedPost" :blog="openedPost" />
 
     <input
       v-if="openedPost"
@@ -41,35 +34,75 @@
         Verwijderen
       </Button>
       <Button size="small" icon="cloud_upload" @click="save"> Opslaan </Button>
-      <Button size="small" state="primary" icon="edit"> Publiceren </Button>
+      <Button
+        size="small"
+        state="primary"
+        icon="edit"
+        @click="publishModal = true"
+      >
+        Publiceren
+      </Button>
     </ActionButtons>
+
+    <Modal v-if="publishModal" @close="publishModal = false">
+      <template #header>Publiceren</template>
+
+      {{ publishDateTime }}
+
+      <Button size="small" state="primary" icon="edit"> Publiceren </Button>
+    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import Button from '@/components/buttons/Button.vue';
 import ActionButtons from '@/components/buttons/ActionButtons.vue';
+import Button from '@/components/buttons/Button.vue';
+import Image from '@/components/inputs/Image.vue';
+
 import Texteditor from '@/components/inputs/Texteditor.vue';
 import { Message } from '~~/models/confirmMessage';
 
-import { Post } from '@/models/post';
+import { Post } from '~~/models/post';
 
 const nuxtApp = useNuxtApp();
 const openedPost = ref<Post>();
 const imageUrl = ref<string>('none');
+const backToMyPostsLoading = ref(false);
+const publishModal = ref(false);
+const publishDateTime = ref<string>();
+
+const backToMyPosts = async () => {
+  backToMyPostsLoading.value = true;
+  await save();
+  nuxtApp.$router.push('/mijnposts');
+  backToMyPostsLoading.value = false;
+};
 
 const save = async () => {
   if (!openedPost?.value) return;
   const post = openedPost.value;
   const supabase = useSupabase();
 
-  await supabase
-    .from('News_items')
-    .update({
-      title: post.title,
-      content: post.content,
-    })
-    .eq('id', post.id);
+  const updatedPost: any = {
+    title: post.title,
+    content: post.content,
+  };
+
+  if (publishDateTime.value)
+    updatedPost.publish_date = new Date(publishDateTime.value);
+
+  await supabase.from('News_items').update(updatedPost).eq('id', post.id);
+};
+
+const publishPost = async () => {
+  const { $router } = useNuxtApp();
+
+  const dateTime = new Date(publishDateTime.value);
+  const now = new Date();
+
+  // If dateTime published is larger than now => post will be published in the future
+  if (dateTime > now) $router.push('/mijnposts');
+  else $router.push('/');
 };
 
 const deletePost = () => {
@@ -114,12 +147,19 @@ onMounted(async () => {
       query.eq('user_author', user.value.id)
     );
 
+    publishDateTime.value = openedPost.value.publish_date;
+
     const bannerUrl = await openedPost.value.bannerUrl();
     if (!bannerUrl) return;
     imageUrl.value = `url(${bannerUrl})`;
   } catch (error) {
     console.log(error);
   }
+});
+
+onUnmounted(async () => {
+  console.log('save');
+  await save();
 });
 </script>
 

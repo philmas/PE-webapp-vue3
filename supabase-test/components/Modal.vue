@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   title: {
     type: String,
   },
@@ -24,7 +24,7 @@ defineEmits(['close']);
 .background {
   --modal-width: var(--width-medium);
   --modal-background: white;
-  --modal-backdrop: var(--grey-color-200);
+  --modal-backdrop: hsl(207deg 30% 93% / 90%);
 
   position: fixed;
   top: 0;

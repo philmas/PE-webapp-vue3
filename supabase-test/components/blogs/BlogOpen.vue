@@ -10,7 +10,7 @@
         Terug naar nieuwsfeed
       </Button>
       <Button
-        v-if="user.id == blog.user_author?.id"
+        v-if="blog.isOwner()"
         size="small"
         icon="edit"
         @click="$router.push('/blogs/aanpassen?id=' + blog.id)"
@@ -21,7 +21,7 @@
 
     <section
       class="image"
-      v-if="blog?.banner_id"
+      v-if="blog?.has_banner"
       :style="'background:' + imageUrl"
     ></section>
     <section class="content">
@@ -30,7 +30,7 @@
           <div class="header">{{ blog?.title }}</div>
           <div class="date">{{ Post.formatDate(blog?.publish_date) }}</div>
         </div>
-        <Avatar :userId="blog?.user_author?.id" fullName />
+        <Avatar :userId="blog?.user_author_id" fullName />
       </div>
       <div v-html="blog?.htmlContent"></div>
     </section>
@@ -77,7 +77,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Post } from './../../models/post';
+import { Post } from '@/models/post';
 import { Comment } from '@/models/comment';
 import { PropType, computed } from 'vue';
 

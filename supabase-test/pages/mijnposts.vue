@@ -9,6 +9,17 @@
       >
         Terug naar Nieuwsfeed
       </Button>
+
+      <Button
+        class="moveToRight"
+        size="small"
+        state="primary"
+        icon="edit"
+        :loading="newPostLoading"
+        @click="insertNewPost"
+      >
+        Nieuwe blog schrijven
+      </Button>
     </ActionButtons>
 
     <InfiniteList
@@ -48,7 +59,34 @@ import ActionButtons from '@/components/buttons/ActionButtons.vue';
 import Button from '@/components/buttons/Button.vue';
 import BlogPost from '@/components/blogs/BlogPost.vue';
 
-import { Query, Filter, Post } from '@/models/post';
+import {
+  Query,
+  Filter,
+  Post,
+  newEmptyBlog,
+  PostInterface,
+} from '~~/models/post';
+
+const newPostLoading = ref(false);
+
+// TODO: test this
+const insertNewPost = async () => {
+  const supabase = useSupabase();
+  const { $router } = useNuxtApp();
+  newPostLoading.value = true;
+
+  const { data, error } = await supabase
+    .from<PostInterface>('News_items')
+    .insert(newEmptyBlog())
+    .single();
+
+  console.log(data, error);
+
+  if (data?.id) $router.push(`/blogs/aanpassen?id=${data.id}`);
+
+  // route to editor
+  newPostLoading.value = false;
+};
 
 const now = new Date().toISOString().toLocaleString();
 const whereUnpublished: Query = (query: Filter) =>
@@ -60,4 +98,8 @@ const wherePublished: Query = (query: Filter) =>
   query.eq('user_author', useUser().value.id).lt('publish_date', now);
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.moveToRight {
+  margin-left: auto;
+}
+</style>

@@ -1,6 +1,3 @@
-import { Post, PostInterface } from './Post';
-import { UserData, UserDataInterface } from './userData';
-
 export interface CommentInterface {
   id?: number;
   news_item: string;

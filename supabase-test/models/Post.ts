@@ -3,6 +3,7 @@ import StarterKit from '@tiptap/starter-kit';
 
 import { Comment, CommentInterface } from './comment';
 import { UserData, UserDataInterface } from './userData';
+import { nowDateString } from '~~/util/nowDateString';
 
 import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { JSONContent } from '@tiptap/core';
@@ -11,12 +12,35 @@ import { SupabaseQueryBuilder } from '@supabase/supabase-js/dist/main/lib/Supaba
 export type Filter = PostgrestFilterBuilder<PostInterface>;
 export type Query = (query: Filter) => Filter;
 
+// New post without data
+export const newEmptyBlog = (): PostInterface => {
+  return {
+    title: '',
+    content: { type: 'doc', content: [{ type: 'paragraph' }] },
+    news_type: 'blog', // todo: add enum of types
+    has_banner: false,
+
+    created_at: nowDateString(),
+    updated_at: nowDateString(),
+    publish_date: null,
+
+    author_is_user: true,
+    author_is_ope: false,
+    user_author: useUser().value.id,
+    group_author: null,
+
+    kudos: [],
+
+    comments_allowed: true,
+  };
+};
+
 export interface PostInterface {
-  id: number;
+  id?: number;
   title: string;
   content: JSONContent;
   news_type: 'blog'; // todo: add enum of types
-  banner_id: string;
+  has_banner: boolean;
 
   created_at: string;
   updated_at: string;
@@ -24,7 +48,7 @@ export interface PostInterface {
 
   author_is_user: boolean;
   author_is_ope: boolean;
-  user_author?: UserDataInterface;
+  user_author?: UserDataInterface | string;
   group_author?: Object;
 
   kudos: string[];
@@ -37,7 +61,7 @@ export class Post implements PostInterface {
   title: string;
   content: JSONContent;
   news_type: 'blog'; // todo: add enum of types
-  banner_id: string;
+  has_banner: boolean;
 
   created_at: string;
   updated_at: string;
@@ -45,7 +69,8 @@ export class Post implements PostInterface {
 
   author_is_user: boolean;
   author_is_ope: boolean;
-  user_author?: UserData;
+  user_author?: UserData | string;
+  user_author_id: string;
   group_author?: Object;
 
   kudos: string[];
@@ -53,22 +78,33 @@ export class Post implements PostInterface {
   comments_allowed: boolean;
 
   htmlContent: string;
+  endpoint: SupabaseQueryBuilder<PostInterface>;
 
   constructor(post: PostInterface) {
     this.id = post.id;
     this.title = post.title;
     this.content = post.content;
     this.news_type = post.news_type;
-    this.banner_id = post.banner_id;
+    this.has_banner = post.has_banner;
     this.created_at = post.created_at;
     this.updated_at = post.updated_at;
     this.publish_date = post.publish_date;
     this.author_is_user = post.author_is_user;
     this.author_is_ope = post.author_is_ope;
-    this.user_author = new UserData(post.user_author);
     this.group_author = post.group_author;
     this.kudos = post.kudos;
     this.comments_allowed = post.comments_allowed;
+
+    this.endpoint = useSupabase().from<PostInterface>('News_items');
+
+    if (!post.user_author) this.user_author == null;
+    else if (typeof post.user_author == 'string') {
+      this.user_author = post.user_author;
+      this.user_author_id = post.user_author;
+    } else if (typeof post.user_author == 'object') {
+      this.user_author = new UserData(post.user_author as UserDataInterface);
+      this.user_author_id = post.user_author.id;
+    }
 
     this.htmlContent = generateHTML(post.content, [StarterKit]);
   }
@@ -79,12 +115,12 @@ export class Post implements PostInterface {
   }
 
   async bannerUrl(): Promise<string> {
-    if (!this.banner_id) return;
+    if (!this.has_banner) return;
 
     const storage = useStorage();
     const { signedURL, error } = await storage
       .from('blogs')
-      .createSignedUrl(+this.id + '/' + this.banner_id, 60);
+      .createSignedUrl(+this.id + '/banner', 60);
 
     if (error) return;
     return signedURL;
@@ -104,8 +140,15 @@ export class Post implements PostInterface {
 
   isOwner(): boolean {
     const user = useUser();
-    if (!user?.value) return false;
-    return user.value.id === this.user_author.id;
+    if (!user?.value || !this.user_author) return false;
+
+    if (typeof this.user_author == 'string')
+      return user.value.id == this.user_author;
+
+    if (typeof this.user_author == 'object')
+      return user.value.id == this.user_author.id;
+
+    return false; // should never reach this
   }
 
   // Get all comments from this post

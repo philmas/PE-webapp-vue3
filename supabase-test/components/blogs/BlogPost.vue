@@ -1,7 +1,7 @@
 <template>
   <div
     class="blogCard"
-    :class="{ loading: true, noImage: !blog?.banner_id }"
+    :class="{ noImage: !blog?.has_banner }"
     @click="$emit('click')"
   >
     <div class="title">{{ blog?.title }}</div>
@@ -11,7 +11,7 @@
     <div v-else class="content loadingContent"></div>
 
     <div
-      v-if="blog.banner_id"
+      v-if="blog.has_banner"
       class="image"
       :style="{ background: imageUrl }"
     ></div>
@@ -24,7 +24,7 @@
       <Avatar
         v-if="blog?.user_author"
         :fullName="true"
-        :userId="blog.user_author.id"
+        :userId="blog.user_author_id"
       />
     </div>
   </div>
@@ -32,8 +32,8 @@
 
 <script setup lang="ts">
 import { PropType } from 'vue';
-import { Post } from './../../models/post';
-import Avatar from './../Avatar.vue';
+import { Post } from '@/models/post';
+import Avatar from '@/components/Avatar.vue';
 
 const props = defineProps({
   blog: {
