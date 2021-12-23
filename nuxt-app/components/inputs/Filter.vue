@@ -141,7 +141,7 @@ button {
 
   &:hover {
     transition: 0.1s ease-in;
-    background-color: var(--grey-color-300);
+    background-color: var(--grey-color-200);
   }
 }
 

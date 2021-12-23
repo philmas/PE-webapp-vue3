@@ -74,7 +74,7 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .list {
   --width: var(--width-large, 35rem);
   width: var(--width);
@@ -92,11 +92,11 @@ onMounted(async () => {
   gap: var(--margin-large);
 }
 .list .card {
-  padding: var(--padding-large) var(--padding-large) var(--padding-small)
-    var(--padding-large);
+  padding: var(--gap-48) var(--gap-64) var(--gap-16) var(--gap-64);
   background: var(--white-color);
   border-radius: var(--corner-radius);
-  outline: 2px solid var(--grey-color-400);
+  // outline: 2px solid var(--grey-color-400);
+  box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
 }
 
 .loadMore {

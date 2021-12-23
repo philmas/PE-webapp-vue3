@@ -50,8 +50,7 @@ const signOut = (e: Event) => {
 .wrapper {
   --padding-ver: 1rem;
   --padding-hor: min(2rem, 5vw);
-  --height: 5rem;
-
+  --height: 56px;
   position: relative;
   height: var(--height);
 }
@@ -69,12 +68,13 @@ const signOut = (e: Event) => {
   align-items: center;
   z-index: 101;
   backdrop-filter: blur(7px) saturate(2);
+  box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
 
   & > a {
     width: 100%;
 
     & .logo {
-      height: 3rem;
+      height: 2rem;
       width: 100%;
       background: url(/logo.svg);
       background-size: contain;

@@ -63,7 +63,7 @@ const categoryList = computed(() => {
   cursor: pointer;
 
   display: grid;
-  gap: var(--margin-tiny) var(--vertical-gap);
+  // gap: var(--gap-16) 0;
   grid-template-columns: var(--grid-columns) var(--grid-columns);
   grid-template-areas: "title title" "datePosted image" "content image" "footer footer";
 
@@ -74,6 +74,7 @@ const categoryList = computed(() => {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    margin-bottom: var(--gap-8);
   }
 
   & .datePosted {
@@ -85,7 +86,7 @@ const categoryList = computed(() => {
 
   & .content {
     grid-area: content;
-    margin-top: 0.25rem;
+    margin-top: var(--gap-16);
 
     // Set max amount of rows to var(--max-lines) and add ellipsis to the end
     overflow: hidden;
@@ -114,7 +115,7 @@ const categoryList = computed(() => {
   }
 
   & .footer {
-    margin-top: var(--margin-tiny);
+    margin-top: var(--gap-16);
     grid-area: footer;
     display: flex;
     align-items: center;
@@ -125,7 +126,7 @@ const categoryList = computed(() => {
       // background: var(--pill-background);
       // border-radius: var(--pill-border-radius);
       // font-size: var(--pill-font-size);
-      outline: var(--pill-outline);
+      // outline: var(--pill-outline);
       // padding: var(--pill-padding-vertical) var(--pill-padding-horizontal);
       cursor: pointer;
       white-space: nowrap;

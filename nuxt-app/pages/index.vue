@@ -7,6 +7,7 @@
           size="small"
           state="primary"
           icon="add"
+          class="new-post"
           @click="$router.push('/cards/nieuweblog')"
           >Nieuw bericht</Button
         >
@@ -85,6 +86,10 @@ onMounted(async () => {
   display: flex;
   width: var(--width-large);
   margin: 0 auto;
+
+  .new-post {
+    box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
+  }
 }
 
 .openCardWrapper {

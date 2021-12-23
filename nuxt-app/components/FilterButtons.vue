@@ -16,7 +16,7 @@ import Filter from "./inputs/Filter.vue";
 
 <style scoped lang="scss">
 .filterButtons {
-  outline: 2px solid var(--grey-color-400);
+  box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;

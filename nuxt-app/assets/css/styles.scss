@@ -135,6 +135,7 @@
   --grey-color-400: hsl(206.7, 20.5%, 82.7%);
   --grey-color-300: hsl(210, 25.8%, 87.8%);
   --grey-color-200: hsl(207.3, 29.7%, 92.7%);
+  --grey-color-150: hsl(240, 4%, 95%);
   --grey-color-100: hsl(210, 16.7%, 97.6%);
   --grey-color-000: hsl(0, 0%, 100%);
 
@@ -166,7 +167,8 @@
   /* WIDTH */
   --width-full: 100%;
   --width-huge: 768px;
-  --width-large: 640px;
+  --width-large: 768px;
+  // --width-large: 640px;
   --width-medium: 512px;
   --width-small: 256px;
   --width-tiny: 128px;
@@ -186,9 +188,26 @@
   --border: 1px solid var(--grey-color-700);
 
   /* PADDING */
-  --padding-huge: 24px;
-  --padding-large: 16px;
-  --padding-medium: 12px;
+  --gap-4: 4px;
+  --gap-8: 8px;
+  --gap-12: 12px;
+  --gap-16: 16px;
+  --gap-24: 24px;
+  --gap-32: 32px;
+  --gap-48: 48px;
+  --gap-64: 64px;
+  --gap-96: 96px;
+  --gap-128: 128px;
+  --gap-192: 192px;
+  --gap-256: 256px;
+  --gap-384: 384px;
+  --gap-512: 512px;
+  --gap-640: 640px;
+  --gap-768: 768px;
+
+  --padding-huge: 48px;
+  --padding-large: 32px;
+  --padding-medium: 16px;
   --padding-small: 8px;
   --padding-tiny: 4px;
   --padding-input: var(--padding-medium) var(--padding-small);
@@ -202,7 +221,7 @@
   --margin-input: var(--padding-medium) var(--padding-small);
 
   /* ELEMENT SPECIFICATIONS */
-  --background-color: var(--grey-color-100);
+  --background-color: var(--grey-color-150);
   --color: var(--grey-color-900);
 
   --modal-background: var(--white-color);

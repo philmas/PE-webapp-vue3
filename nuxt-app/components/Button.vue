@@ -88,6 +88,10 @@ button {
   // STATES
   &.state-primary {
     --bg: var(--primary-color-400);
+    &:hover {
+      background-color: var(--primary-color-500);
+      transition: 0.1s ease-in;
+    }
   }
 
   &.state-success {
