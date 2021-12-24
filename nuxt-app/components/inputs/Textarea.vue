@@ -1,5 +1,5 @@
 <template>
-  <div class="input-textarea" :class="classes">
+  <div class="input-textarea" :placeholder="placeholder" :class="classes">
     <label v-if="label" class="label" :for="id">{{ label }}</label>
     <div
       ref="textarea"
@@ -12,7 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { randomId } from '../util/random';
 import { PropType } from 'vue';
 
 const props = defineProps({
@@ -33,14 +32,15 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:modelValue']);
 
-const id = randomId('textarea');
-const textarea = ref<HTMLInputElement | null>(null);
+const id = 'textarea-' + Math.random().toString(36).substring(2, 9);
+const textarea = ref<HTMLInputElement>();
 
 const classes = computed(() => {
   const classes: { [key: string]: boolean } = {};
   classes['size-' + props.size] = !!props.size;
   classes['disabled'] = props.disabled as boolean;
   classes['resize'] = props.resizeable as boolean;
+  classes['placeholder-visible'] = !props.modelValue;
   return classes;
 });
 
@@ -98,7 +98,7 @@ defineExpose({
 
   & .textarea {
     background: var(--bg, var(--grey-color-200));
-    border-radius: var(--inner-corner-radius);
+    border-radius: var(--corner-radius);
     padding: 0.5rem;
     width: 100%;
     overflow-y: auto;
@@ -114,5 +114,14 @@ defineExpose({
       color: var(--grey-color-500);
     }
   }
+}
+
+.placeholder-visible.input-textarea::after {
+  content: attr(placeholder);
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  color: hsl(215.2, 11.7%, 48.4%);
+  pointer-events: none;
 }
 </style>

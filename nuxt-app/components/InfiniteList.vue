@@ -2,99 +2,96 @@
   <div class="list">
     <div v-if="title" class="title">{{ title }}</div>
 
-    <section v-for="(post, index) in list" :key="index" class="card">
+    <!-- Loaded items in list -->
+    <section v-for="post in list" class="card">
       <slot v-bind="post"> {{ post }}</slot>
     </section>
 
-    <section v-for="item in new Array(loading)" :key="item" class="card">
-      <slot name="loading" />
+    <section v-for="item in new Array(itemsToLoad)" :key="item" class="card">
+      <slot name="loading"></slot>
     </section>
 
     <div class="loadMore">
-      <Button @click="loadMore" :loading="!!loading">Meer laden</Button>
+      <Button
+        v-if="!reachedBottom"
+        @click="loadMore"
+        :loading="itemsToLoad != 0"
+        size="small"
+      >
+        Meer laden
+      </Button>
+
+      <Button v-else-if="!hideNoNewItems" size="small" :disabled="true">
+        Er zijn geen nieuwe nieuws items meer
+      </Button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, Ref, watch, onMounted } from 'vue';
-import { Post } from '../models/posts/post';
-
-import Button from './Button.vue';
+import { PropType } from 'vue';
+import { Post, Query } from '@/models/post';
+import Button from '@/components/buttons/Button.vue';
 
 const props = defineProps({
   title: {
-    type: String,
-    default: '',
+    type: String as PropType<string>,
+    required: false,
   },
-  initCount: {
-    type: Number,
-    default: 10,
+  where: {
+    type: Function as PropType<Query>,
+    default: null,
   },
-  pageCount: {
-    type: Number,
-    default: 5,
-  },
-  autoLoad: {
-    type: Boolean,
-    default: true,
-  },
-  bottomOffset: {
-    type: Number,
-    default: 400,
+  hideNoNewItems: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
 });
-const emit = defineEmits(['fetch']);
-const list: Ref<Post[]> = ref([]);
-const loading = ref(props.initCount);
 
-watch(list, () => {
-  loading.value = 0;
-});
+const list = ref<Post[]>([]);
+const itemsToLoad = ref(10);
+const reachedBottom = ref(false);
 
 const loadMore = () => {
-  loading.value = props.pageCount;
-  emit('fetch', list, props.pageCount);
+  console.log('Todo: load more');
+  itemsToLoad.value = 10;
+
+  setTimeout(() => {
+    itemsToLoad.value = 0;
+  }, 3000);
 };
 
 onMounted(async () => {
-  emit('fetch', list, props.initCount);
+  const posts = await Post.fetchNext(10, 0, props.where);
 
-  if (props.autoLoad) {
-    window.addEventListener('scroll', () => {
-      if (!!loading.value) return;
-      const scrollTop = window.innerHeight + window.scrollY;
-      const height = document.body.offsetHeight;
-
-      if (scrollTop < height - props.bottomOffset) return;
-
-      loadMore();
-    });
+  if (posts) {
+    list.value = [...list.value, ...posts];
+    reachedBottom.value = posts.length < 10;
   }
+
+  itemsToLoad.value = 0;
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .list {
-  --width: var(--width-large, 35rem);
-  width: var(--width);
+  --list-width: var(--width-large);
+
+  width: var(--list-width);
   margin: var(--spacing-large) auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-large);
-}
-.list .title {
-  font-size: var(--header);
-}
-.list .loading {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-large);
-}
-.list .card {
-  padding: var(--spacing-large);
-  background: var(--white-color);
-  border-radius: var(--corner-radius);
+
+  .title {
+    font-size: var(--header);
+  }
+
+  .card {
+    padding: var(--spacing-large);
+    background: var(--white-color);
+    border-radius: var(--corner-radius);
+  }
 }
 
 .loadMore {
@@ -103,27 +100,27 @@ onMounted(async () => {
   margin-top: var(--spacing-large);
 }
 
-/* MEDIA QUERIES */
 @media screen and (max-width: 40rem) {
   .list {
-    --width: var(--width-full);
+    --list-width: var(--width-full);
     gap: 0;
-  }
-  .list .loading {
-    gap: 0;
-  }
-  .list .card {
-    padding: var(--spacing-huge);
-    border-radius: 0;
-  }
-  .list .card:first-of-type {
-    border-radius: var(--corner-radius-large) var(--corner-radius-large) 0 0;
-  }
-  .list .card:last-of-type {
-    border-radius: 0 0 var(--corner-radius-large) var(--corner-radius-large);
-  }
-  .list .card:not(:last-child) {
-    border-bottom: 2px solid var(--grey-color-200);
+
+    & .card {
+      padding: var(--spacing-huge);
+      border-radius: 0;
+    }
+
+    & .card:first-of-type {
+      border-radius: var(--corner-radius-large) var(--corner-radius-large) 0 0;
+    }
+
+    &.card:last-of-type {
+      border-radius: 0 0 var(--corner-radius-large) var(--corner-radius-large);
+    }
+
+    & .card:not(:last-child) {
+      border-bottom: 2px solid var(--grey-color-200);
+    }
   }
 }
 </style>

@@ -1,69 +1,74 @@
 <template>
-  <div class="posts">
+  <div>
     <ActionButtons rightAlign>
       <Button
         size="small"
         state="primary"
         icon="add"
-        @click="$router.push('/cards/nieuweblog')"
-        >Nieuw bericht</Button
+        @click="$router.push('/mijnposts')"
       >
+        Mijn berichten
+      </Button>
     </ActionButtons>
-    <InfiniteList @fetch="fetchItems" :autoLoad="true">
+
+    <InfiniteList :where="where">
       <template #default="post">
-        <!-- {{ post.canShare() }} -->
-        <BlogPost :blog="post" @click="openPost(post)" />
+        <BlogPost :blog="new Post(post)" @click="openPost(post)" />
       </template>
 
-      <template #loading>
-        <BlogPost />
-      </template>
+      <template #loading> loading </template>
     </InfiniteList>
 
     <div v-if="openedPost" class="openCardWrapper">
-      <BlogOpen :blog="openedPost" @clickBackToNews="backToNewsfeed" />
+      <BlogOpen :blog="openedPost" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import InfiniteList from '@/components/InfiniteList.vue';
-import BlogOpen from '@/components/cards/BlogOpen.vue';
-import BlogPost from '@/components/cards/BlogPost.vue';
+import Button from '@/components/buttons/Button.vue';
+import BlogPost from '@/components/blogs/BlogPost.vue';
+import BlogOpen from '@/components/blogs/BlogOpen.vue';
+import { Filter, Query, Post, PostInterface } from '../models/post';
+import { nowDateString } from '~~/util/nowDateString';
 
-import { Ref, onMounted, onBeforeMount } from 'vue';
-import { Post } from '../models/posts/post';
-import { Blog, Blogs } from './../models/posts/blogs';
+const { $router } = useNuxtApp();
 
-const nuxtApp = useNuxtApp();
 const openedPost = ref<Post>();
 
-const fetchItems = async (list: Ref<Post[]>, amount: number) => {
-  const newCards = await Blogs.fetchBlogs(nuxtApp);
+const cardId = computed(() => {
+  const id = $router.currentRoute.value.query?.id;
+  if (!id) return -1;
+  return parseInt(id) || -1;
+});
+watch(cardId, (newId, oldId) => {
+  if (newId === oldId) return;
+  if (newId === -1) {
+    openedPost.value = undefined;
+    return;
+  }
+});
 
-  list.value = list.value.concat(newCards.posts);
-};
+// WHERE -> published = true
+const where: Query = (query: Filter) =>
+  query.lte('publish_date', nowDateString());
 
 // HANDLE OPEN / CLOSE BLOG POST
-const openPost = (post: Post) => {
-  openedPost.value = new Blog(post);
-
-  const nextURL = `?id=${post.id}`;
-  nuxtApp.$router.push(nextURL);
-};
-
-const backToNewsfeed = () => {
-  openedPost.value = undefined;
-  nuxtApp.$router.push('/');
+const openPost = async (postInterface: PostInterface) => {
+  const post = new Post(postInterface);
+  openedPost.value = post;
+  $router.push(`?id=${post.id}`);
 };
 
 onBeforeMount(async () => {
-  const cardId = nuxtApp.$router.currentRoute.value.query?.id;
+  const cardId = $router.currentRoute.value.query?.id;
+  if (!cardId) return;
 
-  // Set card to open if url has an Id of a blog post
-  openedPost.value = cardId ? await Blog.fetchBlog(nuxtApp, cardId) : undefined;
+  const post = await Post.fetch(cardId);
+
+  if (post) openedPost.value = post;
+  // todo: else display error in (confirm) message
 });
-
 onMounted(async () => {
   window.addEventListener('popstate', (e: PopStateEvent) => {
     if (e.state.current == '/') {
@@ -74,10 +79,6 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
-.posts {
-  margin: var(--spacing-huge) 0;
-}
-
 .openCardWrapper {
   position: fixed;
   width: 100vw;

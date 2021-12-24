@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { Message } from './../models/confirmMessage';
-import Button from './Button.vue';
+import Button from './buttons/Button.vue';
 
 defineProps<{ message: Message }>();
 </script>
@@ -39,7 +39,7 @@ defineProps<{ message: Message }>();
 <style scoped lang="scss">
 .confirmMessage {
   padding: var(--spacing-large);
-  background: #ffffffab;
+  background: var(--navigation-background);
   backdrop-filter: blur(7px) saturate(2);
   width: 100%;
   border-radius: var(--corner-radius);

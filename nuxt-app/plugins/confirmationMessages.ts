@@ -9,7 +9,13 @@ export default defineNuxtPlugin(() => {
       confirmMessages: readonly(messages),
       addConfirmMessage: (message: Message) => {
         messages.value.push(message);
-        //TODO: add timeout before removing message
+
+        // Remove message (not very efficiently) from list of messages after 7 seconds
+        setTimeout(() => {
+          messages.value = messages.value.filter(
+            (m) => m.content != message.content && m.title != message.title
+          );
+        }, 7000);
       },
       removeConfirmMessage: (message: Message) => {
         messages.value = messages.value.filter(

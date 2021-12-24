@@ -1,16 +1,18 @@
 <template>
-  <NavigationBar>
-    <template #menu> </template>
-  </NavigationBar>
+  <div>
+    <NavigationBar>
+      <template #menu> </template>
+    </NavigationBar>
 
-  <slot v-if="authenticated" />
-  <Login v-else />
+    <Login v-if="!user" />
+    <slot v-else></slot>
 
-  <div class="confirmationMessages" v-if="$confirmMessages">
-    <ConfirmMessage
-      v-for="message in $confirmMessages.value"
-      :message="message"
-    />
+    <div class="confirmationMessages" v-if="$confirmMessages">
+      <ConfirmMessage
+        v-for="message in $confirmMessages.value"
+        :message="message"
+      />
+    </div>
   </div>
 </template>
 
@@ -21,22 +23,9 @@ export default {
 </script>
 
 <script setup lang="ts">
-import ConfirmMessage from '@/components/ConfirmMessage.vue';
-const authenticated = ref(false);
+import NavigationBar from '@/components/NavigationBar.vue';
 
-onMounted(async () => {
-  const { $initUser, $user } = useNuxtApp();
-
-  $initUser();
-
-  watch($user, () => {
-    if (!$user || !$user.value) {
-      authenticated.value = false;
-    } else {
-      authenticated.value = true;
-    }
-  });
-});
+const user = useUser();
 </script>
 
 <style scoped lang="scss">

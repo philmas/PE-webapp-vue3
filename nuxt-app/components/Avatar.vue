@@ -1,25 +1,26 @@
 <template>
-  <div class="avatar" :class="classes" @click="emitClick">
-    <slot>{{ firstName }}</slot>
-    <img :src="src" :alt="alt" @error="replaceByDefault" />
+  <div class="avatar" :class="classes" @click.self="$emit('click')">
+    <div>
+      {{ displayName }}
+      <slot></slot>
+    </div>
+
+    <img :alt="displayName + '\'s profielfoto'" :src="src" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, PropType } from 'vue';
+import { UserData } from '~~/models/userData';
 
 type AvatarSize = 'small' | 'medium' | 'large' | 'huge';
 type AvatarAlign = 'left' | 'right' | 'top' | 'bottom';
 
+const storage = useStorage();
+const supabase = useSupabase();
 const props = defineProps({
-  src: {
+  userId: {
     type: String,
-    default:
-      'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg',
-  },
-  alt: {
-    type: String,
-    default: '',
   },
   size: {
     type: String as PropType<AvatarSize>,
@@ -29,16 +30,50 @@ const props = defineProps({
     type: String as PropType<AvatarAlign>,
     default: 'left',
   },
-  name: {
-    type: String,
-    default: '',
+  fullName: {
+    type: Boolean,
+    default: false,
   },
 });
-const emit = defineEmits(['click']);
+defineEmits(['click']);
 
-const firstName = computed(() => {
-  const name = props.name.split(' ');
-  return name[0];
+const src = ref(
+  'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
+);
+const userData = ref<UserData>();
+const displayName = computed(() => {
+  if (!userData.value) return '';
+
+  let name = userData.value.name_first;
+  if (!props.fullName) return name;
+
+  name += userData.value.name_insertion
+    ? ' ' + userData.value.name_insertion
+    : '';
+  name += ' ' + userData.value.name_last;
+  return name;
+});
+
+onMounted(async () => {
+  const { data } = await supabase
+    .from<UserData>('User')
+    .select('*')
+    .eq('id', props.userId)
+    .single();
+
+  userData.value = data;
+
+  if (data) {
+    const { signedURL, error } = await storage
+      .from('profile')
+      .createSignedUrl('gebruikers/' + data.id + '/' + data.photo_id, 60);
+
+    if (signedURL) {
+      src.value = signedURL;
+    } else {
+      console.error(error);
+    }
+  }
 });
 
 const classes = computed(() => {
@@ -47,28 +82,24 @@ const classes = computed(() => {
   classObject['align-' + props.align] = !!props.align;
   return classObject;
 });
-
-const replaceByDefault = (e: Event) =>
-  ((e.target as HTMLImageElement).src =
-    'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg');
-
-const emitClick = () => emit('click');
 </script>
 
 <style scoped lang="scss">
 .avatar {
-  --size: 3rem;
+  --avatar-size: 3rem;
+
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0 0.25rem;
-  width: var(--width, fit-content);
-  margin: var(--spacing, 0);
+  gap: 0 var(--spacing-small);
+  width: fit-content;
+  color: var(--grey-color-800);
+  font-size: var(--small);
   cursor: pointer;
 
   & img {
-    height: var(--size);
-    width: var(--size);
+    height: var(--avatar-size);
+    width: var(--avatar-size);
     cursor: pointer;
     border-radius: 50%;
     border: 1px solid var(--grey-color-200);
@@ -77,30 +108,30 @@ const emitClick = () => emit('click');
   // IMAGE SIZE
   &.size- {
     &huge > img {
-      --size: 15rem;
+      --avatar-size: 15rem;
     }
 
     &large > img {
-      --size: 4rem;
+      --avatar-size: 4rem;
     }
 
     &small {
-      font-size: 0.8rem;
-      --size: 2rem;
+      font-size: var(--small);
+      --avatar-size: 2rem;
     }
   }
 
   // IMAGE ALIGN
   &.align- {
-    &-right {
+    &right {
       flex-direction: row-reverse;
     }
 
-    &-top {
+    &top {
       flex-direction: column;
     }
 
-    &-bottom {
+    &bottom {
       flex-direction: column-reverse;
     }
   }

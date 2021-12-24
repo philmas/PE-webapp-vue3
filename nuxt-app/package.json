@@ -6,20 +6,14 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@nuxtjs/pwa": "^3.3.5",
-    "nuxt3": "^3.0.0-27307420.6a25d3e"
+    "nuxt3": "latest"
   },
   "dependencies": {
-    "@tiptap/extension-table": "^2.0.0-beta.45",
-    "@tiptap/extension-table-cell": "^2.0.0-beta.20",
-    "@tiptap/extension-table-header": "^2.0.0-beta.22",
-    "@tiptap/extension-table-row": "^2.0.0-beta.19",
-    "@tiptap/extension-underline": "^2.0.0-beta.22",
-    "@tiptap/starter-kit": "^2.0.0-beta.145",
-    "@tiptap/vue-3": "^2.0.0-beta.81",
-    "axios": "^0.24.0",
-    "lodash": "^4.17.21",
-    "sass": "^1.43.4",
-    "sass-loader": "^12.3.0"
+    "@supabase/supabase-js": "^1.28.5",
+    "@tiptap/core": "^2.0.0-beta.158",
+    "@tiptap/starter-kit": "^2.0.0-beta.163",
+    "@tiptap/vue-3": "^2.0.0-beta.84",
+    "sass": "^1.45.0",
+    "sass-loader": "^12.4.0"
   }
 }

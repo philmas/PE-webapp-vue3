@@ -1,20 +1,15 @@
 <template>
   <div class="wrapper">
     <div class="navigationBar">
-      <NuxtLink to="./">
-        <div class="logo"></div>
-      </NuxtLink>
-      <Avatar
-        v-if="$user?.value"
-        :src="$user.value.getPhotoUrl()"
-        @click="toggleMenu"
-        :name="$user.value.fullName"
-      />
+      <div class="logo"></div>
+      <div @click="toggleMenu">
+        <Avatar v-if="user" :userId="user.id" />
+      </div>
     </div>
 
     <Modal v-if="menu" @close="closeMenu">
-      <template #header> Header </template>
-      <Button size="large" @click="signOut"> signOut</Button>
+      <template #header> Uitloggen </template>
+      <Button size="large" @click="logOut"> Uitloggen</Button>
     </Modal>
   </div>
 </template>
@@ -22,11 +17,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+import Button from './buttons/Button.vue';
 import Avatar from './Avatar.vue';
 import Modal from './/Modal.vue';
 
-const nuxtApp = useNuxtApp();
+const user = useUser();
 const menu = ref(false);
+
+const { signOut } = useAuth();
 
 const toggleMenu = (e: Event) => {
   if (!e) return;
@@ -38,27 +36,28 @@ const closeMenu = () => {
   menu.value = false;
 };
 
-const signOut = (e: Event) => {
+const logOut = async (e: Event) => {
   if (!e) return;
 
-  nuxtApp.$signOut();
+  await signOut();
   closeMenu();
 };
 </script>
 
 <style scoped lang="scss">
 .wrapper {
-  --spacing-ver: 1rem;
-  --spacing-hor: min(2rem, 5vw);
-  --height: 5rem;
+  --spacing-ver: var(--spacing-medium);
+  --spacing-hor: min(1rem, 5vw);
+  --navigationbar-height: 5rem;
 
   position: relative;
-  height: var(--height);
+  height: var(--navigationbar-height);
+  margin-bottom: var(--spacing-huge);
 }
 
 .navigationBar {
   position: fixed;
-  height: var(--height);
+  height: var(--navigationbar-height);
   width: 100vw;
   padding: var(--spacing-ver) var(--spacing-hor);
   top: 0;
@@ -70,17 +69,13 @@ const signOut = (e: Event) => {
   z-index: 101;
   backdrop-filter: blur(7px) saturate(2);
 
-  & > a {
+  & .logo {
+    height: 3rem;
     width: 100%;
-
-    & .logo {
-      height: 3rem;
-      width: 100%;
-      background: url(/logo.svg);
-      background-size: contain;
-      background-position: left;
-      background-repeat: no-repeat;
-    }
+    background: url(/logo.svg);
+    background-size: contain;
+    background-position: left;
+    background-repeat: no-repeat;
   }
 }
 </style>

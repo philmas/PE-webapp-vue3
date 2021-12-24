@@ -2,7 +2,7 @@
   <Container>
     <div class="editorButtons">
       <div class="action" v-for="button in actionButtonsFiltered">
-        <div v-if="button.id == 'divider'" class="divider" />
+        <div v-if="button.id == 'divider'" class="divider"></div>
         <Button
           v-else
           size="tiny"
@@ -13,7 +13,7 @@
             active: button?.isActive && button?.isActive(),
           }"
           @click="button.action()"
-        />
+        ></Button>
       </div>
 
       <Button class="insertButton" size="small" @click="insertTable">
@@ -25,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import Button from '@/components/buttons/Button.vue';
 import { useEditor, EditorContent } from '@tiptap/vue-3';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -33,10 +34,12 @@ import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
 
+import Container from '@/components/Container.vue';
+
 const props = defineProps({
   modelValue: {
-    type: String,
-    default: '<h1>Titel</h1><p>I’m running Tiptap <b>with</b> Vue.js. 🎉</p>',
+    type: Object,
+    default: { type: 'doc', content: [{ type: 'paragraph' }] },
   },
 });
 
@@ -46,7 +49,7 @@ const editor = useEditor({
   content: props.modelValue,
   extensions: [StarterKit, Underline, Table, TableRow, TableHeader, TableCell],
   onUpdate: () => {
-    emit('update:modelValue', editor.value.getHTML());
+    emit('update:modelValue', editor.value.getJSON());
   },
 });
 
@@ -229,28 +232,23 @@ const actionButtonsFiltered = computed(() =>
   z-index: 1;
   width: 100%;
   overflow: visible auto;
-
   & .divider {
     width: 1px;
     height: 2rem;
     background-color: var(--grey-color-700);
   }
-
   & .action button {
     --bg: transparent;
     --color: var(--grey-color-800);
-
     &.active {
       --bg: var(--primary-color-300);
       --color: var(--primary-color-900);
     }
-
     &.disabled {
       --color: var(--grey-color-200);
       --bg: transparent;
     }
   }
-
   & .insertButton {
     margin-left: auto;
   }
@@ -259,80 +257,33 @@ const actionButtonsFiltered = computed(() =>
 
 <style lang="scss">
 .ProseMirror {
-  padding: var(--spacing-small);
+  padding: var(--padding-small);
   outline: none;
-
   & h1 {
     margin: 0;
   }
-
-  & blockquote {
-    margin: 0;
-    border-left: 2px solid var(--grey-color-900);
-    padding: var(--spacing-small);
-
-    & p {
-      margin: 0;
-      font-size: var(--subheader);
-      font-style: italic;
-    }
-  }
-}
-
-/* Table-specific styling */
-.ProseMirror {
-  table {
-    border-collapse: collapse;
-    table-layout: fixed;
-    width: 100%;
-    margin: 0.5rem 0;
-    overflow: hidden;
-    border-radius: var(--corner-radius-small);
-
-    td,
-    th {
-      min-width: 1em;
-      border: 2px solid var(--grey-color-400);
-      padding: 3px 5px;
-      vertical-align: top;
-      box-sizing: border-box;
-      position: relative;
-      > * {
-        margin-bottom: 0;
-      }
-    }
-
-    th {
-      font-weight: bold;
-      text-align: left;
-      background-color: var(--grey-color-300);
-    }
-    .selectedCell:after {
-      z-index: 2;
-      position: absolute;
+  // Placeholder voor title
+  & h1:first-of-type {
+    & br {
       content: '';
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background: var(--primary-color-300);
-      opacity: 0.2;
-      pointer-events: none;
     }
-    .column-resize-handle {
-      position: absolute;
-      right: -2px;
-      top: 0;
-      bottom: -2px;
-      width: 4px;
-      background-color: #adf;
-      pointer-events: none;
+    & br:after {
+      content: 'Type hier een titel';
+      color: var(--grey-color-300);
     }
-    p {
-      margin: 0.25rem;
+  }
+  // placeholder voor eerste content regel
+  & h1:first-of-type + * {
+    & br {
+      content: '';
+    }
+    & br:after {
+      content: 'Type hier een spectaculaire blog';
+      color: var(--grey-color-300);
     }
   }
 }
+/* Table-specific styling */
 .tableWrapper {
   overflow-x: auto;
 }

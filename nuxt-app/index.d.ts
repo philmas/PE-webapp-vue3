@@ -1,21 +1,11 @@
 import type { AxiosInstance } from 'axios';
-import { User } from './models/user';
 import type { Ref } from 'vue';
-import { Message } from './models/confirmMessage';
-
-type UserOrError = Promise<
-  | { error: Error; user?: undefined }
-  | { user: UserInterface; error?: undefined }
->;
+import { SupabaseClient, User } from '@supabase/supabase-js';
+import useSupabase from './composables/useSupabase';
 
 declare module '#app' {
   interface NuxtApp {
     $httpClient: AxiosInstance;
-
-    $user: Ref<User>;
-    $initUser: () => UserOrError;
-    $signIn: (email: string, password: string) => UserOrError;
-    $signOut: () => Promise<void>;
 
     $confirmMessages: Ref<Message[]>;
     $addConfirmMessage: (message: Message) => void;
@@ -26,11 +16,6 @@ declare module '#app' {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $httpClient: AxiosInstance;
-
-    $user: Ref<User>;
-    $initUser: () => UserOrError;
-    $signIn: (email: string, password: string) => UserOrError;
-    $signOut: () => Promise<void>;
 
     $confirmMessages: Ref<Message[]>;
     $addConfirmMessage: (message: Message) => void;

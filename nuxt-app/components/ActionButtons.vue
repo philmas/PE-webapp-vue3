@@ -1,9 +1,11 @@
+<!-- DEPRECATED -> moved to buttons/ActionButtons.vue -->
+
 <template>
   <section
     class="actionButtons"
     :class="{ alignActionsRight: rightAlign, placementBottem: bottom }"
   >
-    <slot />
+    <slot></slot>
   </section>
 </template>
 
@@ -23,11 +25,12 @@ defineProps({
 <style scoped lang="scss">
 .actionButtons {
   width: var(--width-large);
-  margin: 1rem auto 0;
+  margin: var(--spacing-medium) auto 0;
   max-width: 90vw;
   display: flex;
   flex-wrap: wrap;
   gap: var(--spacing-small);
+  margin-bottom: var(--spacing-large);
 
   &.alignActionsRight {
     justify-content: end;

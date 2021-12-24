@@ -13,19 +13,19 @@
         @focus="focus = true"
         @blur="focus = false"
       />
-      <div v-if="icon" class="icon" @click.stop="emitIconClick">
-        <ion-icon :icon="icon" />
-      </div>
+      <ion-icon
+        v-if="icon"
+        :icon="icon"
+        class="icon"
+        @click.stop="emitIconClick"
+      />
     </label>
-    <div v-if="error" class="error">
-      {{ error }}
-    </div>
+    <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { PropType, ref, computed } from 'vue';
-import { randomId } from '../util/random';
+import { PropType, computed } from 'vue';
 
 type InputTypes =
   | 'text'
@@ -63,18 +63,9 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'iconClick']);
 
 // random string
-const id = randomId('input');
+const id = 'input-' + Math.random().toString(36).substring(2, 9);
 
 const focus = ref(false);
-
-const focusIn = computed(() => {
-  if (focus.value || !!props.modelValue) return true;
-  if (props.type == 'date' || props.type == 'time' || props.type == 'color')
-    return true;
-
-  return false;
-});
-
 const inputTitle = computed(() => {
   let title = props.label || props.placeholder || props.type;
   if (props.required) title += '*';
@@ -95,9 +86,8 @@ const input = computed({
 // Handle Classes
 const classes = computed(() => {
   const classes: { [key: string]: boolean } = {};
-  classes.focusIn = focusIn.value;
-  classes.focus = focus.value;
   classes['size-' + props.size] = !!props.size;
+  classes['focus'] = !!focus.value;
   classes.disabled = !!props.disabled;
   return classes;
 });
@@ -156,76 +146,5 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
-
-// & ~ .input {
-//   margin-top: var(--spacing-huge);
-// }
-
-// max-width: var(--max-width);
-// &.size-large {
-//   width: 100%;
-// }
-
-// & label {
-//   position: relative;
-//   background: var(--grey-color-100);
-//   border-radius: var(--inner-corner-radius);
-//   display: flex;
-//   align-items: center;
-//   padding: 0 var(--spacing-small);
-//   & .label {
-//     position: absolute;
-//     left: 0.75rem;
-//     // top: 50%;
-//     // transform: translateY(-50%);
-//     // transition: 0.2s;
-//     color: var(--grey-color-700);
-//     font-size: var(--small);
-//   }
-//   & input {
-//     width: var(--width-full);
-//     padding: var(--spacing-input);
-//     outline: none !important;
-//     border: none;
-//     background: var(--transparent-color);
-//   }
-//   & .icon {
-//     cursor: pointer;
-//     --color: var(--grey-color-800);
-//   }
-// }
-// &.focus {
-//   & label {
-//     outline: 1px solid var(--primary-color, #0058a9);
-//   }
-//   & ::placeholder {
-//     color: var(--grey-color-500);
-//   }
-// }
-// &.focusIn {
-//   & .label {
-//     // left: 0rem;
-//     // top: -1.1rem;
-//     // transform: translateY(0);
-//   }
-// }
-// &.disabled {
-//   & input {
-//     color: var(--grey-color-500);
-//   }
-//   & .icon {
-//     --color: var(--grey-color-500);
-//   }
-// }
-// & .error {
-//   color: var(--error-color, #ff0000);
-//   font-size: var(--small);
-//   display: flex;
-//   justify-content: flex-end;
-// }
-
-::placeholder {
-  color: transparent;
 }
 </style>
