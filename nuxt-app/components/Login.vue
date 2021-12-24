@@ -1,9 +1,9 @@
 <template>
   <Modal>
-    <template #header>Welkom bij de Proteus-Eretes app</template>
+    <template #header>Welkom bij de Proteus-Eretes App</template>
     <!-- TODO: Add text for users who have not logged in before -->
     <form @submit.prevent="login">
-      <Input size="medium" label="Email" v-model="email" />
+      <Input class="input" size="medium" label="Email" v-model="email" />
 
       <Button
         state="primary"
@@ -20,18 +20,18 @@
 </template>
 
 <script setup lang="ts">
-import Button from './buttons/Button.vue';
-import Input from './inputs/Input.vue';
-import Modal from './Modal.vue';
+import Button from "./buttons/Button.vue";
+import Input from "./inputs/Input.vue";
+import Modal from "./Modal.vue";
 
 const auth = useAuth();
 
-const email = ref('');
-const error = ref('');
+const email = ref("");
+const error = ref("");
 const loading = ref(false);
 
 const login = async (e: Event) => {
-  if (!e || e.type != 'submit' || !loading) return;
+  if (!e || e.type != "submit" || !loading) return;
   loading.value = true;
 
   const { error: supabaseError } = await auth.signIn({
@@ -43,9 +43,15 @@ const login = async (e: Event) => {
     return;
   }
 
-  error.value = '';
+  error.value = "";
   loading.value = false;
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px 0;
+}
+</style>

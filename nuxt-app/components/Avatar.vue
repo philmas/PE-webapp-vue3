@@ -10,11 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from 'vue';
-import { UserData } from '~~/models/userData';
+import { computed, PropType } from "vue";
+import { UserData } from "~~/models/userData";
 
-type AvatarSize = 'small' | 'medium' | 'large' | 'huge';
-type AvatarAlign = 'left' | 'right' | 'top' | 'bottom';
+type AvatarSize = "small" | "medium" | "large" | "huge";
+type AvatarAlign = "left" | "right" | "top" | "bottom";
 
 const storage = useStorage();
 const supabase = useSupabase();
@@ -24,49 +24,49 @@ const props = defineProps({
   },
   size: {
     type: String as PropType<AvatarSize>,
-    default: 'medium',
+    default: "medium",
   },
   align: {
     type: String as PropType<AvatarAlign>,
-    default: 'left',
+    default: "left",
   },
   fullName: {
     type: Boolean,
     default: false,
   },
 });
-defineEmits(['click']);
+defineEmits(["click"]);
 
 const src = ref(
-  'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
+  "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
 );
 const userData = ref<UserData>();
 const displayName = computed(() => {
-  if (!userData.value) return '';
+  if (!userData.value) return "";
 
   let name = userData.value.name_first;
   if (!props.fullName) return name;
 
   name += userData.value.name_insertion
-    ? ' ' + userData.value.name_insertion
-    : '';
-  name += ' ' + userData.value.name_last;
+    ? " " + userData.value.name_insertion
+    : "";
+  name += " " + userData.value.name_last;
   return name;
 });
 
 onMounted(async () => {
   const { data } = await supabase
-    .from<UserData>('User')
-    .select('*')
-    .eq('id', props.userId)
+    .from<UserData>("User")
+    .select("*")
+    .eq("id", props.userId)
     .single();
 
   userData.value = data;
 
   if (data) {
     const { signedURL, error } = await storage
-      .from('profile')
-      .createSignedUrl('gebruikers/' + data.id + '/' + data.photo_id, 60);
+      .from("profile")
+      .createSignedUrl("gebruikers/" + data.id + "/" + data.photo_id, 60);
 
     if (signedURL) {
       src.value = signedURL;
@@ -78,8 +78,8 @@ onMounted(async () => {
 
 const classes = computed(() => {
   const classObject: { [key: string]: boolean } = {};
-  classObject['size-' + props.size] = !!props.size;
-  classObject['align-' + props.align] = !!props.align;
+  classObject["size-" + props.size] = !!props.size;
+  classObject["align-" + props.align] = !!props.align;
   return classObject;
 });
 </script>
@@ -91,7 +91,7 @@ const classes = computed(() => {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0 var(--spacing-small);
+  gap: 0 16px;
   width: fit-content;
   color: var(--grey-color-800);
   font-size: var(--small);

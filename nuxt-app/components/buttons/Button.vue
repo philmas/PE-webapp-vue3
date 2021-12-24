@@ -63,46 +63,50 @@ const classes = computed(() => {
 
 <style lang="scss">
 .button {
-  --color: var(--grey-color-200);
-  --bg: var(--grey-color-900);
-
-  all: unset;
-  display: block;
+  --color: var(--white-color);
+  --background-color: var(--grey-color-900);
   position: relative;
+  all: unset;
   min-width: 20rem;
   max-width: 90vw;
-  height: 3em;
-  color: var(--color);
-  background: var(--bg);
-  border-radius: var(--corner-radius);
+  color: var(--white-color);
+  background: var(--background-color);
+  border-radius: var(--button-radius);
   cursor: pointer;
-  transform: scale(1);
-  transition: transform 0.2s, opacity 0.2s;
 
   & > div {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: var(--margin-small);
+    padding: 8px 16px;
   }
 
   // STATES
   &.state-primary {
-    --bg: var(--primary-color-400);
+    --background-color: var(--primary-color-400);
     &:hover {
       background-color: var(--primary-color-500);
       transition: 0.1s ease-in;
     }
   }
   &.state-success {
-    --bg: var(--secondary-color);
+    --background-color: var(--secondary-color);
     --color: var(--grey-color-900);
   }
 
   &.state-destructive {
-    --bg: var(--destructive-color-200) !important;
+    --background-color: var(--destructive-color-200) !important;
     --color: var(--destructive-color-900) !important;
     opacity: 0.6;
+  }
+
+  /* DISABLED */
+  &.state-disabled,
+  &.disabled {
+    --background-color: var(--grey-color-200);
+    --color: var(--grey-color-500);
+    cursor: not-allowed !important;
   }
 
   // TOOLTIPS
@@ -129,38 +133,22 @@ const classes = computed(() => {
 
   /* SIZE */
   &.size-tiny {
-    height: 2.5rem;
+    // height: 2.5rem;
     min-width: max-content;
-    padding: 0 var(--spacing-small);
-    font-size: 0.8rem;
+    // padding: 0 var(--spacing-small);
+    font-size: 16px;
   }
   &.size-small {
-    height: 2.5rem;
+    // height: 2.5rem;
+    // min-width: max-content;
     min-width: max-content;
-    padding: 0 var(--spacing-medium);
-    font-size: 0.8rem;
+    // padding: 0 var(--spacing-medium);
+    font-size: 16px;
   }
   &.size-large {
-    height: 3rem;
-    width: 100%;
+    // height: 3rem;
+    // width: 100%;
     min-width: unset;
   }
-
-  &:hover {
-    transform: scale(1.05);
-    opacity: 1;
-
-    &.size-tiny {
-      transform: scale(1.1);
-    }
-  }
-}
-
-/* DISABLED */
-button.state-disabled,
-button.disabled {
-  --bg: var(--grey-color-200);
-  --color: var(--grey-color-500);
-  cursor: not-allowed !important;
 }
 </style>

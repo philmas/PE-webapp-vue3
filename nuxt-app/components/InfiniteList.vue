@@ -78,7 +78,7 @@ onMounted(async () => {
   --list-width: var(--width-large);
 
   width: var(--list-width);
-  margin: var(--spacing-large) auto;
+  margin: 32px auto;
   display: flex;
   flex-direction: column;
   gap: var(--margin-large);

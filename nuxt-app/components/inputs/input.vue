@@ -25,28 +25,28 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed } from 'vue';
+import { PropType, computed } from "vue";
 
 type InputTypes =
-  | 'text'
-  | 'password'
-  | 'email'
-  | 'number'
-  | 'tel'
-  | 'url'
-  | 'search'
-  | 'date'
-  | 'time'
-  | 'month'
-  | 'week'
-  | 'color'
-  | 'file'
-  | 'range'
-  | 'checkbox'
-  | 'radio'
-  | 'hidden';
+  | "text"
+  | "password"
+  | "email"
+  | "number"
+  | "tel"
+  | "url"
+  | "search"
+  | "date"
+  | "time"
+  | "month"
+  | "week"
+  | "color"
+  | "file"
+  | "range"
+  | "checkbox"
+  | "radio"
+  | "hidden";
 
-type InputSize = 'small' | 'medium' | 'large';
+type InputSize = "small" | "medium" | "large";
 
 const props = defineProps({
   type: String as PropType<InputTypes>,
@@ -60,15 +60,15 @@ const props = defineProps({
   disabled: Boolean,
   required: Boolean,
 });
-const emit = defineEmits(['update:modelValue', 'iconClick']);
+const emit = defineEmits(["update:modelValue", "iconClick"]);
 
 // random string
-const id = 'input-' + Math.random().toString(36).substring(2, 9);
+const id = "input-" + Math.random().toString(36).substring(2, 9);
 
 const focus = ref(false);
 const inputTitle = computed(() => {
   let title = props.label || props.placeholder || props.type;
-  if (props.required) title += '*';
+  if (props.required) title += "*";
 
   return title;
 });
@@ -79,15 +79,15 @@ const input = computed({
     return props.modelValue as string;
   },
   set(value: string) {
-    emit('update:modelValue', value);
+    emit("update:modelValue", value);
   },
 });
 
 // Handle Classes
 const classes = computed(() => {
   const classes: { [key: string]: boolean } = {};
-  classes['size-' + props.size] = !!props.size;
-  classes['focus'] = !!focus.value;
+  classes["size-" + props.size] = !!props.size;
+  classes["focus"] = !!focus.value;
   classes.disabled = !!props.disabled;
   return classes;
 });
@@ -95,13 +95,13 @@ const classes = computed(() => {
 // Emit icon click
 const emitIconClick = () => {
   if (props.disabled) return;
-  emit('iconClick');
+  emit("iconClick");
 };
 </script>
 
 <style scoped lang="scss">
 .input-box {
-  margin: var(--spacing-large) 0;
+  margin: 16px 0;
   width: 100%;
 
   & label {
@@ -123,7 +123,7 @@ const emitIconClick = () => {
 
     & input {
       width: var(--width-full);
-      padding: var(--spacing-input);
+      padding: 8px 16px;
       outline: none !important;
       border: none;
       background: var(--transparent-color);

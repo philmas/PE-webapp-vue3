@@ -17,7 +17,7 @@ defineProps({
     type: String,
   },
 });
-defineEmits(['close']);
+defineEmits(["close"]);
 </script>
 
 <style scoped lang="scss">
@@ -46,7 +46,11 @@ defineEmits(['close']);
     background-color: var(--modal-background);
     border-radius: var(--corner-radius-large);
     cursor: default;
-    padding: var(--spacing-large);
+    padding: 32px 48px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px 0;
 
     & .header {
       display: flex;

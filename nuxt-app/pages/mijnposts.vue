@@ -1,27 +1,28 @@
 <template>
-  <div>
-    <ActionButtons>
-      <Button
-        size="small"
-        state="primary"
-        icon="arrow_back"
-        @click="$router.push('/')"
-      >
-        Terug naar Nieuwsfeed
-      </Button>
+  <div class="container">
+    <div class="actions">
+      <ActionButtons>
+        <Button
+          size="small"
+          state="primary"
+          icon="arrow_back"
+          @click="$router.push('/')"
+        >
+          Nieuwsfeed
+        </Button>
 
-      <Button
-        class="moveToRight"
-        size="small"
-        state="primary"
-        icon="edit"
-        :loading="newPostLoading"
-        @click="insertNewPost"
-      >
-        Nieuwe blog schrijven
-      </Button>
-    </ActionButtons>
-
+        <Button
+          class="moveToRight"
+          size="small"
+          state="primary"
+          icon="edit"
+          :loading="newPostLoading"
+          @click="insertNewPost"
+        >
+          Nieuw bericht
+        </Button>
+      </ActionButtons>
+    </div>
     <InfiniteList
       :where="whereUnpublished"
       :hideNoNewItems="true"
@@ -55,9 +56,9 @@
 </template>
 
 <script setup lang="ts">
-import ActionButtons from '@/components/buttons/ActionButtons.vue';
-import Button from '@/components/buttons/Button.vue';
-import BlogPost from '@/components/blogs/BlogPost.vue';
+import ActionButtons from "@/components/buttons/ActionButtons.vue";
+import Button from "@/components/buttons/Button.vue";
+import BlogPost from "@/components/blogs/BlogPost.vue";
 
 import {
   Query,
@@ -65,7 +66,7 @@ import {
   Post,
   newEmptyBlog,
   PostInterface,
-} from '~~/models/post';
+} from "~~/models/post";
 
 const newPostLoading = ref(false);
 
@@ -76,7 +77,7 @@ const insertNewPost = async () => {
   newPostLoading.value = true;
 
   const { data, error } = await supabase
-    .from<PostInterface>('News_items')
+    .from<PostInterface>("News_items")
     .insert(newEmptyBlog())
     .single();
 
@@ -91,15 +92,28 @@ const insertNewPost = async () => {
 const now = new Date().toISOString().toLocaleString();
 const whereUnpublished: Query = (query: Filter) =>
   query
-    .eq('user_author', useUser().value.id)
-    .or('publish_date.is.null,publish_date.gt.' + now);
+    .eq("user_author", useUser().value.id)
+    .or("publish_date.is.null,publish_date.gt." + now);
 
 const wherePublished: Query = (query: Filter) =>
-  query.eq('user_author', useUser().value.id).lt('publish_date', now);
+  query.eq("user_author", useUser().value.id).lt("publish_date", now);
 </script>
 
 <style scoped lang="scss">
 .moveToRight {
   margin-left: auto;
+}
+
+.container {
+  margin: 64px auto;
+}
+
+.actions {
+  display: flex;
+  width: var(--width-large);
+  margin: 0 auto;
+  .new-post {
+    box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
+  }
 }
 </style>

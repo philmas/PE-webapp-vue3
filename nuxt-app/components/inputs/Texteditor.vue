@@ -25,31 +25,31 @@
 </template>
 
 <script setup lang="ts">
-import Button from '@/components/buttons/Button.vue';
-import { useEditor, EditorContent } from '@tiptap/vue-3';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import Table from '@tiptap/extension-table';
-import TableRow from '@tiptap/extension-table-row';
-import TableCell from '@tiptap/extension-table-cell';
-import TableHeader from '@tiptap/extension-table-header';
+import Button from "@/components/buttons/Button.vue";
+import { useEditor, EditorContent } from "@tiptap/vue-3";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
+import Table from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
 
-import Container from '@/components/Container.vue';
+import Container from "@/components/Container.vue";
 
 const props = defineProps({
   modelValue: {
     type: Object,
-    default: { type: 'doc', content: [{ type: 'paragraph' }] },
+    default: { type: "doc", content: [{ type: "paragraph" }] },
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 const editor = useEditor({
   content: props.modelValue,
   extensions: [StarterKit, Underline, Table, TableRow, TableHeader, TableCell],
   onUpdate: () => {
-    emit('update:modelValue', editor.value.getJSON());
+    emit("update:modelValue", editor.value.getJSON());
   },
 });
 
@@ -59,21 +59,21 @@ const tableIsVisible = computed(
 );
 
 const textSize = computed(() => {
-  if (editor.value?.isActive('heading', { level: 1 })) return 'h1';
-  if (editor.value?.isActive('heading', { level: 2 })) return 'h2';
-  if (editor.value?.isActive('blockquote')) return 'blockquote';
+  if (editor.value?.isActive("heading", { level: 1 })) return "h1";
+  if (editor.value?.isActive("heading", { level: 2 })) return "h2";
+  if (editor.value?.isActive("blockquote")) return "blockquote";
   if (
-    editor.value?.isActive('orderedList') ||
-    editor.value?.isActive('bulletList')
+    editor.value?.isActive("orderedList") ||
+    editor.value?.isActive("bulletList")
   )
-    return 'list';
-  else return 'p';
+    return "list";
+  else return "p";
 });
 
 const decreaseSize = () => {
-  if (textSize.value == 'h2' || textSize.value == 'blockquote')
+  if (textSize.value == "h2" || textSize.value == "blockquote")
     editor.value.commands.setParagraph();
-  else if (textSize.value == 'h1')
+  else if (textSize.value == "h1")
     editor.value.commands.setHeading({ level: 2 });
   else return;
 
@@ -81,8 +81,8 @@ const decreaseSize = () => {
 };
 
 const increaseSize = () => {
-  if (textSize.value == 'p') editor.value.commands.setHeading({ level: 2 });
-  else if (textSize.value == 'h2')
+  if (textSize.value == "p") editor.value.commands.setHeading({ level: 2 });
+  else if (textSize.value == "h2")
     editor.value.commands.setHeading({ level: 1 });
   else return;
 
@@ -100,115 +100,115 @@ const insertTable = (e: Event) => {
 
 const editorButtons = [
   {
-    id: 'tekst kleiner',
-    icon: 'text_decrease',
+    id: "tekst kleiner",
+    icon: "text_decrease",
     action: decreaseSize,
     vanishIf: () => tableIsVisible.value,
-    isDisabled: () => !(textSize.value == 'h1' || textSize.value === 'h2'),
+    isDisabled: () => !(textSize.value == "h1" || textSize.value === "h2"),
   },
   {
-    id: 'tekst groter',
-    icon: 'text_increase',
+    id: "tekst groter",
+    icon: "text_increase",
     action: () => increaseSize(),
     vanishIf: () => tableIsVisible.value,
-    isDisabled: () => !(textSize.value === 'p' || textSize.value === 'h2'),
+    isDisabled: () => !(textSize.value === "p" || textSize.value === "h2"),
   },
   {
-    id: 'divider',
+    id: "divider",
     vanishIf: () => tableIsVisible.value,
   },
   {
-    id: 'lijst',
-    icon: 'format_list_bulleted',
+    id: "lijst",
+    icon: "format_list_bulleted",
     vanishIf: () => tableIsVisible.value,
     isActive: () =>
-      editor.value?.isActive('bulletList') ||
-      editor.value?.isActive('orderedList'),
+      editor.value?.isActive("bulletList") ||
+      editor.value?.isActive("orderedList"),
     action: () => chainedCmd.value.toggleBulletList().run(),
   },
   {
-    id: 'citaat',
-    icon: 'format_quote',
+    id: "citaat",
+    icon: "format_quote",
     vanishIf: () => tableIsVisible.value,
-    isActive: () => editor.value?.isActive('blockquote'),
+    isActive: () => editor.value?.isActive("blockquote"),
     action: () => chainedCmd.value.toggleBlockquote().run(),
   },
   {
-    id: 'header aan/uit',
-    icon: 'title',
+    id: "header aan/uit",
+    icon: "title",
     vanishIf: () => !tableIsVisible.value,
     action: () => chainedCmd.value.toggleHeaderRow().run(),
   },
   {
-    id: 'rij toevoegen',
-    icon: 'table_rows',
+    id: "rij toevoegen",
+    icon: "table_rows",
     vanishIf: () => !tableIsVisible.value,
     action: () => chainedCmd.value.addRowAfter().run(),
   },
   {
-    id: 'colom toevoegen',
-    icon: 'view_column',
+    id: "colom toevoegen",
+    icon: "view_column",
     vanishIf: () => !tableIsVisible.value,
     action: () => chainedCmd.value.addColumnAfter().run(),
   },
   {
-    id: 'rij verwijderen',
-    icon: 'delete',
+    id: "rij verwijderen",
+    icon: "delete",
     vanishIf: () => !tableIsVisible.value || !editor.value?.can()?.deleteRow(),
     action: () => chainedCmd.value.deleteRow().run(),
   },
   {
-    id: 'colom verwijderen',
-    icon: 'delete',
+    id: "colom verwijderen",
+    icon: "delete",
     vanishIf: () =>
       !tableIsVisible.value || !editor.value?.can()?.deleteColumn(),
     action: () => chainedCmd.value.deleteColumn().run(),
   },
   {
-    id: 'split',
-    icon: 'call_split',
+    id: "split",
+    icon: "call_split",
     vanishIf: () => !tableIsVisible.value || !editor.value?.can()?.splitCell(),
     action: () => chainedCmd.value.splitCell().run(),
   },
   {
-    id: 'merge',
-    icon: 'call_merge',
+    id: "merge",
+    icon: "call_merge",
     vanishIf: () => !tableIsVisible.value || !editor.value?.can()?.mergeCells(),
     action: () => chainedCmd.value.mergeCells().run(),
   },
   {
-    id: 'divider',
+    id: "divider",
   },
   {
-    id: 'bold',
-    icon: 'format_bold',
-    isActive: () => editor?.value?.isActive('bold'),
+    id: "bold",
+    icon: "format_bold",
+    isActive: () => editor?.value?.isActive("bold"),
     action: () => chainedCmd.value.toggleBold().run(),
   },
   {
-    id: 'italic',
-    icon: 'format_italic',
-    isActive: () => editor?.value?.isActive('italic'),
+    id: "italic",
+    icon: "format_italic",
+    isActive: () => editor?.value?.isActive("italic"),
     action: () => chainedCmd.value.toggleItalic().run(),
   },
   {
-    id: 'underline',
-    icon: 'format_underlined',
-    isActive: () => editor?.value?.isActive('underline'),
+    id: "underline",
+    icon: "format_underlined",
+    isActive: () => editor?.value?.isActive("underline"),
     action: () => chainedCmd.value.toggleUnderline().run(),
   },
   {
-    id: 'divider',
+    id: "divider",
   },
   {
-    id: 'ongedaan maken',
-    icon: 'undo',
+    id: "ongedaan maken",
+    icon: "undo",
     action: () => chainedCmd.value.undo().run(),
     isDisabled: () => !editor.value?.can()?.undo(),
   },
   {
-    id: 'opnieuw doen',
-    icon: 'redo',
+    id: "opnieuw doen",
+    icon: "redo",
     action: () => chainedCmd.value.redo().run(),
     isDisabled: () => !editor.value?.can()?.redo(),
   },
@@ -265,20 +265,20 @@ const actionButtonsFiltered = computed(() =>
   // Placeholder voor title
   & h1:first-of-type {
     & br {
-      content: '';
+      content: "";
     }
     & br:after {
-      content: 'Type hier een titel';
+      content: "Type hier een titel";
       color: var(--grey-color-300);
     }
   }
   // placeholder voor eerste content regel
   & h1:first-of-type + * {
     & br {
-      content: '';
+      content: "";
     }
     & br:after {
-      content: 'Type hier een spectaculaire blog';
+      content: "Type hier een spectaculaire blog";
       color: var(--grey-color-300);
     }
   }

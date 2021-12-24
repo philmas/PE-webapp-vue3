@@ -70,17 +70,12 @@ const logOut = async (e: Event) => {
   box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
 
   & .logo {
-    height: 3rem;
+    height: 2rem;
     width: 100%;
-
-    & .logo {
-      height: 2rem;
-      width: 100%;
-      background: url(/logo.svg);
-      background-size: contain;
-      background-position: left;
-      background-repeat: no-repeat;
-    }
+    background: url(/logo.svg);
+    background-size: contain;
+    background-position: left;
+    background-repeat: no-repeat;
   }
 }
 </style>

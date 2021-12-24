@@ -8,10 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import { Blog } from "./../../models/posts/blogs";
+// import { Blog } from "./../../models/posts/blogs";
 import { PropType } from "vue";
-import Texteditor from "./../inputs/Texteditor.vue";
-import Filter from "./inputs/Filter.vue";
+import Filter from "@/components/inputs/Filter.vue";
+// import Texteditor from "./../inputs/Texteditor.vue";
 </script>
 
 <style scoped lang="scss">
