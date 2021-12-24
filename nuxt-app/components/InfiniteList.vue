@@ -29,9 +29,9 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
-import { Post, Query } from '@/models/post';
-import Button from '@/components/buttons/Button.vue';
+import { PropType } from "vue";
+import { Post, Query } from "@/models/post";
+import Button from "@/components/buttons/Button.vue";
 
 const props = defineProps({
   title: {
@@ -53,7 +53,7 @@ const itemsToLoad = ref(10);
 const reachedBottom = ref(false);
 
 const loadMore = () => {
-  console.log('Todo: load more');
+  console.log("Todo: load more");
   itemsToLoad.value = 10;
 
   setTimeout(() => {
@@ -81,17 +81,14 @@ onMounted(async () => {
   margin: var(--spacing-large) auto;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-large);
-
-  .title {
-    font-size: var(--header);
-  }
-
-  .card {
-    padding: var(--spacing-large);
-    background: var(--white-color);
-    border-radius: var(--corner-radius);
-  }
+  gap: var(--margin-large);
+}
+.list .card {
+  padding: var(--gap-48) var(--gap-64) var(--gap-16) var(--gap-64);
+  background: var(--white-color);
+  border-radius: var(--corner-radius);
+  // outline: 2px solid var(--grey-color-400);
+  box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
 }
 
 .loadMore {

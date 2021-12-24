@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
-import Button from './buttons/Button.vue';
-import Avatar from './Avatar.vue';
-import Modal from './/Modal.vue';
+import Button from "./buttons/Button.vue";
+import Avatar from "./Avatar.vue";
+import Modal from ".//Modal.vue";
 
 const user = useUser();
 const menu = ref(false);
@@ -46,10 +46,9 @@ const logOut = async (e: Event) => {
 
 <style scoped lang="scss">
 .wrapper {
-  --spacing-ver: var(--spacing-medium);
-  --spacing-hor: min(1rem, 5vw);
-  --navigationbar-height: 5rem;
-
+  --padding-ver: 1rem;
+  --padding-hor: min(2rem, 5vw);
+  --height: 56px;
   position: relative;
   height: var(--navigationbar-height);
   margin-bottom: var(--spacing-huge);
@@ -68,14 +67,20 @@ const logOut = async (e: Event) => {
   align-items: center;
   z-index: 101;
   backdrop-filter: blur(7px) saturate(2);
+  box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
 
   & .logo {
     height: 3rem;
     width: 100%;
-    background: url(/logo.svg);
-    background-size: contain;
-    background-position: left;
-    background-repeat: no-repeat;
+
+    & .logo {
+      height: 2rem;
+      width: 100%;
+      background: url(/logo.svg);
+      background-size: contain;
+      background-position: left;
+      background-repeat: no-repeat;
+    }
   }
 }
 </style>

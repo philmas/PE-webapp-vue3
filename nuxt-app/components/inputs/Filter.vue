@@ -10,7 +10,9 @@
       Loading...
     </div>
     <div v-else>
-      <i v-if="icon" class="material-icons-outlined">{{ icon }}</i>
+      <i v-if="icon" class="material-icons-outlined" style="font-size: 18px">{{
+        icon
+      }}</i>
       <slot />
     </div>
   </button>
@@ -19,12 +21,7 @@
 <script setup lang="ts">
 import { computed, PropType } from "vue";
 
-type ButtonState =
-  | "default"
-  | "primary"
-  | "secondary"
-  | "disabled"
-  | "destructive";
+type ButtonState = "default" | "hover" | "active" | "disabled";
 
 const props = defineProps({
   icon: {
@@ -35,10 +32,6 @@ const props = defineProps({
     type: String as PropType<ButtonState>,
     default: "default",
   },
-  size: {
-    type: String as PropType<"tiny" | "small" | "medium" | "large">,
-    default: "medium",
-  },
   loading: {
     type: Boolean as PropType<boolean>,
     default: false,
@@ -47,12 +40,10 @@ const props = defineProps({
     type: Boolean as PropType<boolean>,
     default: false,
   },
-  tooltip: String as PropType<string>,
 });
 
 const classes = computed(() => {
   const classObj: { [key: string]: boolean } = {};
-  classObj["button"] = true;
   classObj["disabled"] = !!props.disabled || !!props.loading;
   classObj["size-" + props.size] = !!props.size;
   classObj["state-" + props.state] = !!props.state;
@@ -61,23 +52,21 @@ const classes = computed(() => {
 });
 </script>
 
-<style lang="scss">
-.button {
-  --color: var(--grey-color-200);
-  --bg: var(--grey-color-900);
-
-  all: unset;
-  display: block;
+<style scoped lang="scss">
+button {
+  font-size: 16px;
   position: relative;
-  min-width: 20rem;
-  max-width: 90vw;
-  height: 3em;
-  color: var(--color);
-  background: var(--bg);
-  border-radius: var(--corner-radius);
+  all: unset;
+  padding: 4px 8px;
+  // max-width: 90vw;
+  // height: 3em;
+  color: var(--grey-color-800);
+  background: white;
+  // outline: 1px solid var(--grey-color-300);
+  border-radius: var(--button-radius);
   cursor: pointer;
-  transform: scale(1);
-  transition: transform 0.2s, opacity 0.2s;
+  // transform: scale(1);
+  // transition: transform 0.2s, opacity 0.2s;
 
   & > div {
     display: flex;
@@ -89,11 +78,8 @@ const classes = computed(() => {
   // STATES
   &.state-primary {
     --bg: var(--primary-color-400);
-    &:hover {
-      background-color: var(--primary-color-500);
-      transition: 0.1s ease-in;
-    }
   }
+
   &.state-success {
     --bg: var(--secondary-color);
     --color: var(--grey-color-900);
@@ -103,6 +89,11 @@ const classes = computed(() => {
     --bg: var(--destructive-color-200) !important;
     --color: var(--destructive-color-900) !important;
     opacity: 0.6;
+  }
+
+  &.state-link {
+    --bg: var(--transparent-color);
+    --color: var(--grey-color-900);
   }
 
   // TOOLTIPS
@@ -119,7 +110,7 @@ const classes = computed(() => {
       left: 50%;
       transform: translateX(-50%);
       opacity: 0;
-      padding: var(--spacing-tiny);
+      padding: var(--padding-tiny);
     }
 
     &:not(.disabled):hover::after {
@@ -127,32 +118,30 @@ const classes = computed(() => {
     }
   }
 
-  /* SIZE */
-  &.size-tiny {
-    height: 2.5rem;
-    min-width: max-content;
-    padding: 0 var(--spacing-small);
-    font-size: 0.8rem;
-  }
-  &.size-small {
-    height: 2.5rem;
-    min-width: max-content;
-    padding: 0 var(--spacing-medium);
-    font-size: 0.8rem;
-  }
-  &.size-large {
-    height: 3rem;
-    width: 100%;
-    min-width: unset;
-  }
+  // /* SIZE */
+  // &.size-tiny {
+  //   // height: 32px;
+  //   min-width: max-content;
+  //   padding: var(--padding-tiny);
+  //   font-size: 0.8rem !important;
+  //   font-size: var(--small);
+  // }
+  // &.size-small {
+  //   // height: 40px;
+  //   min-width: max-content;
+  //   padding: var(--padding-medium);
+  //   font-size: var(--small);
+  //   // font-size: 0.8rem;
+  // }
+  // &.size-large {
+  //   height: 3rem;
+  //   width: 100%;
+  //   min-width: unset;
+  // }
 
   &:hover {
-    transform: scale(1.05);
-    opacity: 1;
-
-    &.size-tiny {
-      transform: scale(1.1);
-    }
+    transition: 0.1s ease-in;
+    background-color: var(--grey-color-200);
   }
 }
 

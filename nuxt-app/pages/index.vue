@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <ActionButtons rightAlign>
-      <Button
-        size="small"
-        state="primary"
-        icon="add"
-        @click="$router.push('/mijnposts')"
-      >
-        Mijn berichten
-      </Button>
-    </ActionButtons>
-
-    <InfiniteList :where="where">
+  <div class="posts">
+    <div class="actions">
+      <FilterButtons> </FilterButtons>
+      <ActionButtons rightAlign>
+        <Button
+          size="small"
+          state="primary"
+          icon="add"
+          class="new-post"
+          @click="$router.push('/cards/nieuweblog')"
+          >Nieuw bericht</Button
+        >
+      </ActionButtons>
+    </div>
+    <InfiniteList @fetch="fetchItems" :autoLoad="true">
       <template #default="post">
         <BlogPost :blog="new Post(post)" @click="openPost(post)" />
       </template>
@@ -26,13 +28,13 @@
 </template>
 
 <script setup lang="ts">
-import Button from '@/components/buttons/Button.vue';
-import BlogPost from '@/components/blogs/BlogPost.vue';
-import BlogOpen from '@/components/blogs/BlogOpen.vue';
-import { Filter, Query, Post, PostInterface } from '../models/post';
-import { nowDateString } from '~~/util/nowDateString';
+import InfiniteList from "@/components/InfiniteList.vue";
+import BlogOpen from "@/components/cards/BlogOpen.vue";
+import BlogPost from "@/components/cards/BlogPost.vue";
 
-const { $router } = useNuxtApp();
+import { Ref, onMounted, onBeforeMount } from "vue";
+import { Post } from "../models/posts/post";
+import { Blog, Blogs } from "./../models/posts/blogs";
 
 const openedPost = ref<Post>();
 
@@ -51,13 +53,19 @@ watch(cardId, (newId, oldId) => {
 
 // WHERE -> published = true
 const where: Query = (query: Filter) =>
-  query.lte('publish_date', nowDateString());
+  query.lte("publish_date", nowDateString());
 
 // HANDLE OPEN / CLOSE BLOG POST
-const openPost = async (postInterface: PostInterface) => {
-  const post = new Post(postInterface);
-  openedPost.value = post;
-  $router.push(`?id=${post.id}`);
+const openPost = (post: Post) => {
+  openedPost.value = new Blog(post);
+
+  const nextURL = `?id=${post.id}`;
+  nuxtApp.$router.push(nextURL);
+};
+
+const backToNewsfeed = () => {
+  openedPost.value = undefined;
+  nuxtApp.$router.push("/");
 };
 
 onBeforeMount(async () => {
@@ -70,8 +78,8 @@ onBeforeMount(async () => {
   // todo: else display error in (confirm) message
 });
 onMounted(async () => {
-  window.addEventListener('popstate', (e: PopStateEvent) => {
-    if (e.state.current == '/') {
+  window.addEventListener("popstate", (e: PopStateEvent) => {
+    if (e.state.current == "/") {
       openedPost.value = undefined;
     }
   });
@@ -79,6 +87,20 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+.posts {
+  margin: var(--margin-huge) 0;
+}
+
+.actions {
+  display: flex;
+  width: var(--width-large);
+  margin: 0 auto;
+
+  .new-post {
+    box-shadow: 0 0 0 1px rgba(9, 9, 9, 0.1);
+  }
+}
+
 .openCardWrapper {
   position: fixed;
   width: 100vw;
