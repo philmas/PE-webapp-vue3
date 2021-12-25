@@ -2,7 +2,7 @@ import { generateHTML } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 
 import { Comment, CommentInterface } from "@/models/comment";
-import { UserData, UserDataInterface } from "@/models/userData";
+import { UserData, UserDataInterface } from "@/models/UserData";
 import { nowDateString } from "~~/util/nowDateString";
 
 import { PostgrestFilterBuilder } from "@supabase/postgrest-js";
