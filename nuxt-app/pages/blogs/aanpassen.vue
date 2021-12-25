@@ -59,19 +59,19 @@
 </template>
 
 <script setup lang="ts">
-import ActionButtons from '@/components/buttons/ActionButtons.vue';
-import Button from '@/components/buttons/Button.vue';
-import Image from '@/components/inputs/Image.vue';
-import Input from '@/components/inputs/Input.vue';
+import ActionButtons from "@/components/buttons/ActionButtons.vue";
+import Button from "@/components/buttons/Button.vue";
+import Image from "@/components/inputs/Image.vue";
+import Input from "@/components/inputs/Input.vue";
 
-import Texteditor from '@/components/inputs/Texteditor.vue';
-import { Message } from '~~/models/confirmMessage';
+import Texteditor from "@/components/inputs/Texteditor.vue";
+import { Message } from "~~/models/confirmMessage";
 
-import { Post } from '~~/models/post';
+import { Post } from "~~/models/Post";
 
 const nuxtApp = useNuxtApp();
 const openedPost = ref<Post>();
-const imageUrl = ref<string>('none');
+const imageUrl = ref<string>("none");
 const backToMyPostsLoading = ref(false);
 
 const publishModal = ref(true);
@@ -79,11 +79,11 @@ const publishDateTime = ref<Date>(new Date());
 
 const publishDate = computed<string>({
   get() {
-    const date = publishDateTime.value.toISOString().split('T')[0];
+    const date = publishDateTime.value.toISOString().split("T")[0];
     return date;
   },
   set(value: string) {
-    const split = value.split('-');
+    const split = value.split("-");
     const date = new Date(publishDateTime.value);
 
     if (split.length >= 3) {
@@ -101,10 +101,10 @@ const publishDate = computed<string>({
 const publishTime = computed<string>({
   get() {
     const timeString = publishDateTime.value.toTimeString();
-    return timeString.split(' ')[0];
+    return timeString.split(" ")[0];
   },
   set(value: string) {
-    const split = value.split(':');
+    const split = value.split(":");
     const date = new Date(publishDateTime.value);
 
     if (split.length >= 2) {
@@ -126,7 +126,7 @@ const publishTime = computed<string>({
 const backToMyPosts = async () => {
   backToMyPostsLoading.value = true;
   await save();
-  nuxtApp.$router.push('/mijnposts');
+  nuxtApp.$router.push("/mijnposts");
   backToMyPostsLoading.value = false;
 };
 
@@ -143,7 +143,7 @@ const save = async (savePublishDate = false) => {
   if (savePublishDate)
     updatedPost.publish_date = publishDateTime.value.toISOString();
 
-  await supabase.from('News_items').update(updatedPost).eq('id', post.id);
+  await supabase.from("News_items").update(updatedPost).eq("id", post.id);
 };
 
 const publishPost = async () => {
@@ -154,8 +154,8 @@ const publishPost = async () => {
   const now = new Date();
 
   // If dateTime published is larger than now => post will be published in the future
-  if (dateTime > now) $router.push('/mijnposts');
-  else $router.push('/');
+  if (dateTime > now) $router.push("/mijnposts");
+  else $router.push("/");
 };
 
 const deletePost = () => {
@@ -165,19 +165,19 @@ const deletePost = () => {
   const { $router, $removeConfirmMessage, $addConfirmMessage } = useNuxtApp();
 
   const confirmMessage: Message = {
-    title: 'Heel zeker?',
-    content: 'Weet je zeker dat je deze blog wilt verwijderen?',
+    title: "Heel zeker?",
+    content: "Weet je zeker dat je deze blog wilt verwijderen?",
     hasCancelButton: true,
-    cancelButtonText: 'Niet verwijderen',
+    cancelButtonText: "Niet verwijderen",
     acceptButton: {
-      text: 'Ja heel zeker!',
+      text: "Ja heel zeker!",
       action: async () => {
         const { error } = await supabase
-          .from('News_items')
+          .from("News_items")
           .delete()
-          .eq('id', openedPost.value.id);
+          .eq("id", openedPost.value.id);
 
-        if (!error) $router.push('/mijnposts');
+        if (!error) $router.push("/mijnposts");
         $removeConfirmMessage(confirmMessage);
       },
     },
@@ -197,7 +197,7 @@ onMounted(async () => {
 
   try {
     openedPost.value = await Post.fetch(parseInt(cardId), (query) =>
-      query.eq('user_author', user.value.id)
+      query.eq("user_author", user.value.id)
     );
 
     if (openedPost.value.publish_date) {
@@ -213,7 +213,7 @@ onMounted(async () => {
 });
 
 onUnmounted(async () => {
-  console.log('save');
+  console.log("save");
   await save();
 });
 </script>

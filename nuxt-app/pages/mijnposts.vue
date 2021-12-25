@@ -66,7 +66,7 @@ import {
   Post,
   newEmptyBlog,
   PostInterface,
-} from "~~/models/post";
+} from "~~/models/Post";
 
 const newPostLoading = ref(false);
 
