@@ -1,23 +1,23 @@
-import { defineNuxtConfig } from 'nuxt3';
+import { defineNuxtConfig } from "nuxt3";
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
   build: {
-    transpile: ['@popperjs'],
+    transpile: ["@popperjs"],
   },
-  css: ['~/assets/css/fonts.scss', '~/assets/css/styles.scss'], // CSS init file
+  css: ["~/assets/css/fonts.scss", "~/assets/css/styles.scss"], // CSS init file
   meta: {
     link: [
       {
-        href: 'https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined',
-        rel: 'stylesheet',
+        href: "https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined",
+        rel: "stylesheet",
       },
     ],
   },
   vue: {
     compilerOptions: {
       // Define ion-icon as custom tag
-      isCustomElement: (tag: string) => ['ion-icon'].includes(tag),
+      isCustomElement: (tag: string) => ["ion-icon"].includes(tag),
     },
   },
   publicRuntimeConfig: {
