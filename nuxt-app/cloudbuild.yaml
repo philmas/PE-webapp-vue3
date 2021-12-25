@@ -14,17 +14,34 @@
 
 # [START cloudbuild_yarn_node]
 steps:
-  # Install dependencies
-  # - name: node
-  #   entrypoint: cd
-  #   args: ["./nuxt-app"]
-  - name: node
-    entrypoint: yarn
-    args: ["install"]
-    dir: "nuxt-app"
-  # Run custom commands
-  - name: node
-    entrypoint: yarn
-    args: ["build"]
-    dir: "nuxt-app"
+  # build the container
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--network=cloudbuild",
+        "-t",
+        "gcr.io/proteus-wikitest/server",
+        ".",
+      ]
+  # push the container image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/proteus-wikitest/server"]
+  # Deploy container image to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "run",
+        "deploy",
+        "server",
+        "--image",
+        "gcr.io/proteus-wikitest/server",
+        "--region",
+        "europe-west4",
+        "--platform",
+        "managed",
+        "--allow-unauthenticated",
+      ]
+images:
+  - "gcr.io/proteus-wikitest/server"
 # [END cloudbuild_yarn_node]
