@@ -40,7 +40,7 @@ import ActionButtons from "@/components/buttons/ActionButtons.vue";
 import MenuButtons from "@/components/buttons/MenuButtons.vue";
 import Button from "@/components/buttons/Button.vue";
 
-import { Filter, Query, Post, PostInterface } from "../models/post";
+import { Filter, Query, Post, PostInterface } from "@/models/Post";
 import { nowDateString } from "~~/util/nowDateString";
 
 const { $router } = useNuxtApp();
