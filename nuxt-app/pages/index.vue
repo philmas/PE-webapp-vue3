@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div class="menu">
+      <MenuButtons></MenuButtons>
+    </div>
     <div class="actions">
       <FilterButtons></FilterButtons>
       <ActionButtons rightAlign>
@@ -34,6 +37,7 @@ import BlogOpen from "@/components/blogs/BlogOpen.vue";
 
 import FilterButtons from "@/components/buttons/FilterButtons.vue";
 import ActionButtons from "@/components/buttons/ActionButtons.vue";
+import MenuButtons from "@/components/buttons/MenuButtons.vue";
 import Button from "@/components/buttons/Button.vue";
 
 import { Filter, Query, Post, PostInterface } from "../models/post";
