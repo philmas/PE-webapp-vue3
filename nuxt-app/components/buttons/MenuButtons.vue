@@ -8,7 +8,7 @@
       </div>
       <div class="navItem">
         <div class="navImg" style="background-image: url('./cat2.png')"></div>
-        <div class="navText">Eetlijst</div>
+        <div class="navText">Eetlijsten</div>
       </div>
       <div class="navItem">
         <div class="navImg" style="background-image: url('./cat3.png')"></div>
