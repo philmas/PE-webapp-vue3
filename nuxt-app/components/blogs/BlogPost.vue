@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
-import { Post } from "@/models/post";
+import { Post } from "@/models/Post";
 import Avatar from "@/components/Avatar.vue";
 import Filter from "@/components/inputs/Filter.vue";
 

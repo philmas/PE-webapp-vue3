@@ -77,7 +77,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Post } from "@/models/post";
+import { Post } from "@/models/Post";
 import { Comment } from "@/models/comment";
 import { PropType, computed } from "vue";
 
