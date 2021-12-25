@@ -9,7 +9,7 @@
           size="small"
           state="destructive"
           @click="$removeConfirmMessage(message)"
-          >{{ message?.cancelButtonText || 'Nee' }}</Button
+          >{{ message?.cancelButtonText || "Nee" }}</Button
         >
         <Button
           v-if="message.rejectButton"
@@ -30,8 +30,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Message } from './../models/confirmMessage';
-import Button from './buttons/Button.vue';
+import { Message } from "@/models/confirmMessage";
+import Button from "@/components/buttons/Button.vue";
 
 defineProps<{ message: Message }>();
 </script>

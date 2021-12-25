@@ -17,9 +17,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import Button from "./buttons/Button.vue";
-import Avatar from "./Avatar.vue";
-import Modal from ".//Modal.vue";
+import Button from "@/components/buttons/Button.vue";
+import Avatar from "@/components/Avatar.vue";
+import Modal from "@/components/Modal.vue";
 
 const user = useUser();
 const menu = ref(false);

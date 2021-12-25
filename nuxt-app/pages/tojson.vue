@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import { generateJSON } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
+import { generateJSON } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
 
 const jsonData = ref({});
 
