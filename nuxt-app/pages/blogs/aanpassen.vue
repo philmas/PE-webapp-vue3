@@ -62,6 +62,7 @@
 import ActionButtons from "@/components/buttons/ActionButtons.vue";
 import Button from "@/components/buttons/Button.vue";
 import Image from "@/components/inputs/Image.vue";
+// Hopefully it works now...
 import Input from "@/components/inputs/Input.vue";
 
 import Texteditor from "@/components/inputs/Texteditor.vue";
