@@ -24,9 +24,11 @@ steps:
         "gcr.io/proteus-wikitest/server",
         ".",
       ]
+    dir: "nuxt-app"
   # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/proteus-wikitest/server"]
+    dir: "nuxt-app"
   # Deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:
@@ -42,6 +44,7 @@ steps:
         "managed",
         "--allow-unauthenticated",
       ]
+    dir: "nuxt-app"
 images:
   - "gcr.io/proteus-wikitest/server"
 # [END cloudbuild_yarn_node]
