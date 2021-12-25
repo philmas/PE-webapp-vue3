@@ -16,6 +16,9 @@
 steps:
   # Install dependencies
   - name: node
+    entrypoint: cd
+    args: ["./nuxt-app"]
+  - name: node
     entrypoint: yarn
     args: ["install"]
   # Run tests
