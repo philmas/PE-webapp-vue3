@@ -13,7 +13,7 @@ export class Comment implements CommentInterface {
   content: string;
   created_at: string;
 
-  endPoint = 'News_comments';
+  endPoint = "News_comments";
 
   constructor(comment: CommentInterface) {
     this.id = comment.id;
@@ -33,7 +33,7 @@ export class Comment implements CommentInterface {
     const { error } = await supabase
       .from<CommentInterface>(this.endPoint)
       .delete()
-      .eq('id', this.id);
+      .eq("id", this.id);
     return !error;
   }
 
@@ -41,7 +41,7 @@ export class Comment implements CommentInterface {
     const supabase = useSupabase();
     const user = useUser();
     const { data, error } = await supabase
-      .from('News_comments')
+      .from("News_comments")
       .insert({
         news_item: newsId,
         author: user.value.id,

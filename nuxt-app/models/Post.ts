@@ -1,13 +1,13 @@
-import { generateHTML } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
+import { generateHTML } from "@tiptap/core";
+import StarterKit from "@tiptap/starter-kit";
 
-import { Comment, CommentInterface } from './comment';
-import { UserData, UserDataInterface } from './userData';
-import { nowDateString } from '~~/util/nowDateString';
+import { Comment, CommentInterface } from "@/models/comment";
+import { UserData, UserDataInterface } from "@/models/userData";
+import { nowDateString } from "~~/util/nowDateString";
 
-import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
-import { JSONContent } from '@tiptap/core';
-import { SupabaseQueryBuilder } from '@supabase/supabase-js/dist/main/lib/SupabaseQueryBuilder';
+import { PostgrestFilterBuilder } from "@supabase/postgrest-js";
+import { JSONContent } from "@tiptap/core";
+import { SupabaseQueryBuilder } from "@supabase/supabase-js/dist/main/lib/SupabaseQueryBuilder";
 
 export type Filter = PostgrestFilterBuilder<PostInterface>;
 export type Query = (query: Filter) => Filter;
@@ -15,9 +15,9 @@ export type Query = (query: Filter) => Filter;
 // New post without data
 export const newEmptyBlog = (): PostInterface => {
   return {
-    title: '',
-    content: { type: 'doc', content: [{ type: 'paragraph' }] },
-    news_type: 'blog', // todo: add enum of types
+    title: "",
+    content: { type: "doc", content: [{ type: "paragraph" }] },
+    news_type: "blog", // todo: add enum of types
     has_banner: false,
 
     created_at: nowDateString(),
@@ -39,7 +39,7 @@ export interface PostInterface {
   id?: number;
   title: string;
   content: JSONContent;
-  news_type: 'blog'; // todo: add enum of types
+  news_type: "blog"; // todo: add enum of types
   has_banner: boolean;
 
   created_at: string;
@@ -60,7 +60,7 @@ export class Post implements PostInterface {
   id: number;
   title: string;
   content: JSONContent;
-  news_type: 'blog'; // todo: add enum of types
+  news_type: "blog"; // todo: add enum of types
   has_banner: boolean;
 
   created_at: string;
@@ -95,13 +95,13 @@ export class Post implements PostInterface {
     this.kudos = post.kudos;
     this.comments_allowed = post.comments_allowed;
 
-    this.endpoint = useSupabase().from<PostInterface>('News_items');
+    this.endpoint = useSupabase().from<PostInterface>("News_items");
 
     if (!post.user_author) this.user_author == null;
-    else if (typeof post.user_author == 'string') {
+    else if (typeof post.user_author == "string") {
       this.user_author = post.user_author;
       this.user_author_id = post.user_author;
-    } else if (typeof post.user_author == 'object') {
+    } else if (typeof post.user_author == "object") {
       this.user_author = new UserData(post.user_author as UserDataInterface);
       this.user_author_id = post.user_author.id;
     }
@@ -111,7 +111,7 @@ export class Post implements PostInterface {
 
   static getEndpoint(): SupabaseQueryBuilder<PostInterface> {
     const supabase = useSupabase();
-    return supabase.from<PostInterface>('News_items');
+    return supabase.from<PostInterface>("News_items");
   }
 
   async bannerUrl(): Promise<string> {
@@ -119,8 +119,8 @@ export class Post implements PostInterface {
 
     const storage = useStorage();
     const { signedURL, error } = await storage
-      .from('blogs')
-      .createSignedUrl(+this.id + '/banner', 60);
+      .from("blogs")
+      .createSignedUrl(+this.id + "/banner", 60);
 
     if (error) return;
     return signedURL;
@@ -128,13 +128,13 @@ export class Post implements PostInterface {
 
   // TODO: @philmas wilde hier nog mooie formating maken
   static formatDate(date: string): string {
-    if (!date || !new Date(date)) return 'Nog niet gepubliceerd';
+    if (!date || !new Date(date)) return "Nog niet gepubliceerd";
 
     const now = new Date();
     const dateObj = new Date(date);
     const toString = dateObj.toDateString();
 
-    if (dateObj > now) return 'Wordt gepubliceerd op ' + toString;
+    if (dateObj > now) return "Wordt gepubliceerd op " + toString;
     return toString;
   }
 
@@ -142,10 +142,10 @@ export class Post implements PostInterface {
     const user = useUser();
     if (!user?.value || !this.user_author) return false;
 
-    if (typeof this.user_author == 'string')
+    if (typeof this.user_author == "string")
       return user.value.id == this.user_author;
 
-    if (typeof this.user_author == 'object')
+    if (typeof this.user_author == "object")
       return user.value.id == this.user_author.id;
 
     return false; // should never reach this
@@ -155,10 +155,10 @@ export class Post implements PostInterface {
   async fetchComments(): Promise<Comment[]> {
     const supabase = useSupabase();
     const { data } = await supabase
-      .from<CommentInterface>('News_comments')
-      .select('*')
-      .eq('news_item', this.id)
-      .order('created_at', { ascending: false });
+      .from<CommentInterface>("News_comments")
+      .select("*")
+      .eq("news_item", this.id)
+      .order("created_at", { ascending: false });
 
     if (!data) return null;
     return data.map((comment) => new Comment(comment));
@@ -168,9 +168,9 @@ export class Post implements PostInterface {
     const supabase = useSupabase();
 
     let query = supabase
-      .from<PostInterface>('News_items')
-      .select('*, user_author (*)')
-      .eq('id', id);
+      .from<PostInterface>("News_items")
+      .select("*, user_author (*)")
+      .eq("id", id);
 
     // modify query with where
     if (where) query = where(query);
@@ -186,9 +186,9 @@ export class Post implements PostInterface {
     const supabase = useSupabase();
 
     let query = supabase
-      .from<PostInterface>('News_items')
-      .select('*, user_author (*)')
-      .order('created_at', { ascending: false });
+      .from<PostInterface>("News_items")
+      .select("*, user_author (*)")
+      .order("created_at", { ascending: false });
 
     // modify query with where
     if (where) query = where(query);
@@ -208,10 +208,10 @@ export class Post implements PostInterface {
     const supabase = useSupabase();
 
     let query = supabase
-      .from<PostInterface>('News_items')
-      .select('*, user_author (*)')
-      .order('created_at', { ascending: false })
-      .gte('id', from);
+      .from<PostInterface>("News_items")
+      .select("*, user_author (*)")
+      .order("created_at", { ascending: false })
+      .gte("id", from);
 
     // modify query with where
     if (where) query = where(query);
