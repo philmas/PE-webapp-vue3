@@ -27,8 +27,4 @@ steps:
     entrypoint: yarn
     args: ["build"]
     dir: "nuxt-app"
-  - name: node
-    entrypoint: yarn
-    args: ["start"]
-    dir: "nuxt-app"
 # [END cloudbuild_yarn_node]
