@@ -24,6 +24,9 @@ steps:
         "gcr.io/proteus-wikitest/server",
         ".",
       ]
+    env:
+      - "SUPABASE_URL=$SUPABASE_URL"
+      - "SUPABASE_KEY=$SUPABASE_KEY"
     dir: "nuxt-app"
   # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
