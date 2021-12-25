@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
-import { Post, Query } from "@/models/post";
+import { Post, Query } from "@/models/Post";
 import Button from "@/components/buttons/Button.vue";
 
 const props = defineProps({
