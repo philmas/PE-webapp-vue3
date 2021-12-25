@@ -51,19 +51,19 @@
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
-import { Post } from '@/models/post';
-import Button from '@/components/buttons/Button.vue';
+import { PropType } from "vue";
+import { Post } from "@/models/Post";
+import Button from "@/components/buttons/Button.vue";
 
 const props = defineProps({
   blog: Object as PropType<Post>,
   placeholder: {
     type: String,
-    default: 'Afbeelding uploaden',
+    default: "Afbeelding uploaden",
   },
 });
 
-const imageUrl = ref<string>('none');
+const imageUrl = ref<string>("none");
 const uploading = ref<boolean>(false);
 
 const updateImage = async (event: Event) => {
@@ -72,7 +72,7 @@ const updateImage = async (event: Event) => {
 
   // 1. get file the user wants to upload => if no file selected, return
   const file = (event.target as HTMLInputElement).files[0];
-  const fileName = 'banner';
+  const fileName = "banner";
   if (!file) {
     uploading.value = false;
     return;
@@ -81,9 +81,9 @@ const updateImage = async (event: Event) => {
   // 2. upload file to correct directory
   const storage = useStorage();
   const { error } = await storage
-    .from('blogs')
+    .from("blogs")
     .upload(`${props.blog.id}/${fileName}`, file, {
-      cacheControl: '3600',
+      cacheControl: "3600",
       upsert: true,
     });
   if (error) {
@@ -94,7 +94,7 @@ const updateImage = async (event: Event) => {
   // 4. update blog post with correct image directory
   const { error: error2 } = await props.blog.endpoint
     .update({ has_banner: true })
-    .eq('id', props.blog.id);
+    .eq("id", props.blog.id);
   if (error2) {
     uploading.value = false;
     return;
@@ -108,9 +108,9 @@ const updateImage = async (event: Event) => {
 const removeImage = async () => {
   const { error } = await props.blog.endpoint
     .update({ has_banner: false })
-    .eq('id', props.blog.id);
+    .eq("id", props.blog.id);
 
-  if (!error) imageUrl.value = 'none';
+  if (!error) imageUrl.value = "none";
 };
 
 onMounted(async () => {
