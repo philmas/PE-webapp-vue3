@@ -3,5 +3,7 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
+    "alwaysStrict": true,
+    
   }
 }
