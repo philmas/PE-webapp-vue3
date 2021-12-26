@@ -22,6 +22,8 @@ steps:
         "--network=cloudbuild",
         "-t",
         "gcr.io/proteus-wikitest/server",
+        "--build-arg=SUPABASE_URL=$_SUPABASE_URL",
+        "--build-arg=SUPABASE_KEY=$_SUPABASE_KEY",
         ".",
       ]
     env:
