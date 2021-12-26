@@ -1,9 +1,9 @@
-import type { AxiosInstance } from 'axios';
-import type { Ref } from 'vue';
-import { SupabaseClient, User } from '@supabase/supabase-js';
-import useSupabase from './composables/useSupabase';
+import type { AxiosInstance } from "axios";
+import type { Ref } from "vue";
+import { SupabaseClient, User } from "@supabase/supabase-js";
+import useSupabase from "@/composables/useSupabase";
 
-declare module '#app' {
+declare module "#app" {
   interface NuxtApp {
     $httpClient: AxiosInstance;
 
@@ -13,7 +13,7 @@ declare module '#app' {
   }
 }
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $httpClient: AxiosInstance;
 
