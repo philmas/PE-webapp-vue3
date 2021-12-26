@@ -1,5 +1,8 @@
 FROM node:14
 
+ARG SUPABASE_URL
+ARG SUPABASE_KEY
+
 WORKDIR /nuxt-app/
 
 COPY . ./

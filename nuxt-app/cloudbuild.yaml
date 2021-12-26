@@ -26,9 +26,6 @@ steps:
         "--build-arg=SUPABASE_KEY=$_SUPABASE_KEY",
         ".",
       ]
-    env:
-      - "SUPABASE_URL=$_SUPABASE_URL"
-      - "SUPABASE_KEY=$_SUPABASE_KEY"
     dir: "nuxt-app"
   # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
