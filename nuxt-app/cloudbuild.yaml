@@ -48,5 +48,5 @@ steps:
       ]
     dir: "nuxt-app"
 images:
-  - "europe-docker.pkg.dev/proteus-wikitest/server"
+  - "eu.gcr.io/proteus-wikitest/server"
 # [END cloudbuild_yarn_node]
