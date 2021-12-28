@@ -21,7 +21,7 @@ steps:
         "build",
         "--network=cloudbuild",
         "-t",
-        "europe-docker.pkg.dev/proteus-wikitest/server",
+        "eu.gcr.io/proteus-wikitest/server:latest",
         "--build-arg=SUPABASE_URL=$_SUPABASE_URL",
         "--build-arg=SUPABASE_KEY=$_SUPABASE_KEY",
         ".",
@@ -29,7 +29,7 @@ steps:
     dir: "nuxt-app"
   # push the container image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "europe-docker.pkg.de/proteus-wikitest/server"]
+    args: ["push", "eu.gcr.io/proteus-wikitest/server:latest"]
     dir: "nuxt-app"
   # Deploy container image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
@@ -39,7 +39,7 @@ steps:
         "deploy",
         "server",
         "--image",
-        "europe-docker.pkg.dev/proteus-wikitest/server",
+        "eu.gcr.io/proteus-wikitest/server:latest",
         "--region",
         "europe-west4",
         "--platform",
@@ -48,5 +48,5 @@ steps:
       ]
     dir: "nuxt-app"
 images:
-  - "eu.gcr.io/proteus-wikitest/server"
+  - "eu.gcr.io/proteus-wikitest/server:latest"
 # [END cloudbuild_yarn_node]
