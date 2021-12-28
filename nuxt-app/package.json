@@ -18,6 +18,7 @@
     "@tiptap/extension-underline": "^2.0.0-beta.22",
     "@tiptap/starter-kit": "^2.0.0-beta.163",
     "@tiptap/vue-3": "^2.0.0-beta.84",
+    "keycloak-js": "^16.1.0",
     "sass": "^1.45.0",
     "sass-loader": "^12.4.0"
   }

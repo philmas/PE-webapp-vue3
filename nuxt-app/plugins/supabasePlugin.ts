@@ -1,5 +1,5 @@
-import { defineNuxtPlugin } from '#app';
-import { createClient } from '@supabase/supabase-js';
+import { defineNuxtPlugin } from "#app";
+import { createClient } from "@supabase/supabase-js";
 
 export default defineNuxtPlugin(() => {
   const { $config } = useNuxtApp();
